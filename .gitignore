@@ -1,0 +1,5 @@
+*.sum
+.idea
+*/.DS_Store
+bin
+.DS_Store
