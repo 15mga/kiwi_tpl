@@ -1,0 +1,45 @@
+mode: prod
+log:
+  std:
+    enable: true
+    log:
+      - debug
+      - info
+      - warn
+      - error
+      - fatal
+    trace:
+      - debug
+      - info
+      - warn
+      - error
+      - fatal
+  mgo:
+    enable: false
+    uri: mongodb://127.0.0.1:27017
+    db: qiji_log
+    log:
+      - debug
+      - info
+      - warn
+      - error
+      - fatal
+    trace:
+      - debug
+      - info
+      - warn
+      - error
+      - fatal
+    ttl: 604800 #7天
+redis:
+  addr: 192.168.1.17:6379
+  user: ""
+  password: feichangliujiayi
+  db: 0
+mongo:
+#  uri: mongodb://127.0.0.1:27017
+  uri: mongodb://95eh:Xoah6wdKrcdS@tc1.95eh.com:47017
+  db: game
+game:
+  roundStartDur: 1500
+  roundOverDur: 1500

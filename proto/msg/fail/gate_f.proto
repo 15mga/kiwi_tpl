@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+import "github.com/15mga/kiwi_tool/kiwi.proto";
+
+package pb;
+option go_package = "/pb";
+option csharp_namespace = "Pb";
+
+option (kiwi.svc) = {
+  name:"gate",
+  fail:[
+    {code:11001, key:"gate_not_exist_id", msg:"id不存在"},
+    {code:11002, key:"gate_not_exist_addr", msg:"地址不存在"}
+  ]
+};

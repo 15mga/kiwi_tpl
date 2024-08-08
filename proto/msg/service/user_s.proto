@@ -1,0 +1,46 @@
+syntax = "proto3";
+
+import "github.com/15mga/kiwi_tool/kiwi.proto";
+
+package pb;
+option go_package = "/pb";
+option csharp_namespace = "Pb";
+option (kiwi.svc) = {
+  name:"user",
+  id: 2,
+  worker: {
+    mode: Active,
+    origin: Head,
+    key: "addr",
+  }
+};
+
+message UserDisconnectReq {
+  option (kiwi.code) = 500;
+  string id = 1;
+}
+
+message UserDisconnectRes {
+  option (kiwi.code) = 501;
+}
+
+message UserDisconnectedNtc {
+  option (kiwi.code) = 502;
+  string uid = 1;
+}
+
+message UserConnectedNtc {
+  option (kiwi.code) = 503;
+  string id = 1;
+}
+
+//更新用户head cache
+message UserUpdateHeadReq {
+  option (kiwi.code) = 504;
+  string id = 1; //用户id
+  bytes head = 2;
+}
+
+message UserUpdateHeadRes {
+  option (kiwi.code) = 505;
+}

@@ -1,0 +1,10 @@
+gate:
+  ip: ""
+  web: 8000
+  http: 8001
+  connCap: 4096
+  deadlineSecs: 10
+  packetLimit: 3
+  errLimit: 1015
+  keyFile: ""
+  pemFile: ""

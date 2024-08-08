@@ -1,0 +1,123 @@
+syntax = "proto3";
+
+import "github.com/15mga/kiwi_tool/kiwi.proto";
+
+package pb;
+option go_package = "/pb";
+option csharp_namespace = "Pb";
+option (kiwi.svc) = {
+  name:"user",
+};
+
+enum OnlineState {
+  Disconnected = 0; //离线
+  Connected = 1; //在线
+}
+
+message User {
+  option (kiwi.schema) = true;
+  option (kiwi.cache) = true;
+  string id = 1;
+  string password = 2;
+  int64 roleMask = 3; //角色组：1:访客，2：玩家，
+  bool ban = 4; //禁用
+  string nick = 5; //昵称
+  string addr = 6; //地址
+  string idCard = 7; //身份证
+  string realName = 8; //实名
+  string mobile = 9; //手机号
+  int64 signUpTime = 10; //注册时间
+  int64 lastSignInTime = 11; //最后登录时间
+  string lastSignInAddr = 12; //最后登录地址
+  string lastOs = 13; //最后登录使用的系统
+  OnlineState status = 15; //状态
+  string avatar = 17; //头像地址
+  string wechatUnionId = 18; //微信联合 id
+  string wechatCode = 19; //微信使用过的 code
+  string token = 20; //token
+  bytes head = 21; //会话
+  int64 lastOfflineTime = 22; //最后下线时间
+  int64 onlineDur = 29; //在线时长
+  bool test = 34; //测试账号
+  repeated string characterIds = 35;
+  option (kiwi.idx) = {
+    sparse: true,
+    fields:[
+      {
+        name: "mobile",
+      }
+    ]
+  };
+  option (kiwi.idx) = {
+    unique: true,
+    fields:[
+      {
+        name: "nick",
+      }
+    ]
+  };
+  option (kiwi.idx) = {
+    fields:[
+      {
+        name: "id_card",
+      }
+    ]
+  };
+  option (kiwi.idx) = {
+    fields:[
+      {
+        name: "sign_up_time",
+      }
+    ]
+  };
+  option (kiwi.idx) = {
+    fields:[
+      {
+        name: "last_sign_in_time",
+      }
+    ]
+  };
+  option (kiwi.idx) = {
+    fields:[
+      {
+        name: "last_sign_in_addr",
+      }
+    ]
+  };
+  option (kiwi.idx) = {
+    fields:[
+      {
+        name: "state",
+      }
+    ]
+  };
+  option (kiwi.idx) = {
+    fields:[
+      {
+        name: "wechat_union_id",
+      }
+    ]
+  };
+  option (kiwi.idx) = {
+    sparse: true,
+    fields:[
+      {
+        name: "token",
+      }
+    ]
+  };
+  option (kiwi.idx) = {
+    sparse: true,
+    fields:[
+      {
+        name: "wechat_code",
+      }
+    ]
+  };
+}
+
+message UserTest {
+  option (kiwi.schema) = true;
+  option (kiwi.cache) = true;
+  string id = 1;
+}
