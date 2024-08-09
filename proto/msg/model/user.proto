@@ -115,9 +115,3 @@ message User {
     ]
   };
 }
-
-message UserTest {
-  option (kiwi.schema) = true;
-  option (kiwi.cache) = true;
-  string id = 1;
-}

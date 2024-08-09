@@ -4,160 +4,178 @@ package user
 
 import (
 	"game/proto/pb"
-	"github.com/15mga/kiwi/util"
+	"github.com/15mga/kiwi/ds"
 	"github.com/15mga/kiwi/util/mgo"
-	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/mongo"
 )
 
-func NewUserTest() *UserTest {
-	m := &UserTest{
-		UserTest: &pb.UserTest{},
+var (
+	_SchemaFac = map[string]func() mgo.IModel{
+		SchemaUser: NewUser,
 	}
-	m.Model = util.NewModel(SchemaUserTest, 1, m.GetVal)
+)
+
+var (
+	_UserSet = ds.NewKSet[string, *User](1024, func(model *User) string {
+		return model.Id
+	})
+	_mobileSet = ds.NewKSet[string, *User](1024, func(model *User) string {
+	})
+	_nickSet = ds.NewKSet[string, *User](1024, func(model *User) string {
+	})
+	_id_cardSet = ds.NewKSet[string, *User](1024, func(model *User) string {
+	})
+	_sign_up_timeSet = ds.NewKSet[string, *User](1024, func(model *User) string {
+	})
+	_last_sign_in_timeSet = ds.NewKSet[string, *User](1024, func(model *User) string {
+	})
+	_last_sign_in_addrSet = ds.NewKSet[string, *User](1024, func(model *User) string {
+	})
+	_stateSet = ds.NewKSet[string, *User](1024, func(model *User) string {
+	})
+	_wechat_union_idSet = ds.NewKSet[string, *User](1024, func(model *User) string {
+	})
+	_tokenSet = ds.NewKSet[string, *User](1024, func(model *User) string {
+	})
+	_wechat_codeSet = ds.NewKSet[string, *User](1024, func(model *User) string {
+	})
+)
+
+func addUser(m *User) {
+	_UserSet.Add(m)
+}
+
+func GetUser(id string) *User {
+	m, ok := _UserSet.Get(id)
+	if ok {
+		return m
+	}
+	m = _SchemaFac[SchemaUser]().(*User)
+	m.Load(id)
+	addUser(m)
 	return m
 }
 
-type UserTest struct {
-	*pb.UserTest
-	*util.Model
+func LoadUser(filter any) *User {
+	m := _SchemaFac[SchemaUser]().(*User)
+	m.LoadWithFilter(filter)
+	_UserSet.Add(m)
+	return m
 }
 
-func (this *UserTest) LoadWithId(id string) error {
-	return mgo.FindOne(SchemaUserTest, bson.M{"_id": id}, &this.UserTest)
-}
-
-func (this *UserTest) Load(filter any) error {
-	return mgo.FindOne(SchemaUserTest, filter, &this.UserTest)
-}
-
-func (this *UserTest) UpdateDb() (*mongo.UpdateResult, error) {
-	update := bson.M{}
-	this.GenUpdate(update)
-	return mgo.UpdateOne(SchemaUserTest, bson.M{"_id": this.Id}, bson.M{"$set": update})
-}
-
-func (this *UserTest) GetVal(key string) any {
-	switch key {
-	default:
-		return nil
-	}
-}
-
-func NewUser() *User {
+func NewUser() mgo.IModel {
 	m := &User{
 		User: &pb.User{},
 	}
-	m.Model = util.NewModel(SchemaUser, 23, m.GetVal)
+	m.Model = mgo.NewModel(SchemaUser, 23, m.GetVal)
 	return m
 }
 
 type User struct {
 	*pb.User
-	*util.Model
+	*mgo.Model
 }
 
-func (this *User) PasswordSet(val string) {
+func (this *User) SetPassword(val string) {
 	this.Password = val
 	this.SetDirty(Password)
 }
 
-func (this *User) RoleMaskSet(val int64) {
+func (this *User) SetRoleMask(val int64) {
 	this.RoleMask = val
 	this.SetDirty(RoleMask)
 }
 
-func (this *User) BanSet(val bool) {
+func (this *User) SetBan(val bool) {
 	this.Ban = val
 	this.SetDirty(Ban)
 }
 
-func (this *User) NickSet(val string) {
+func (this *User) SetNick(val string) {
 	this.Nick = val
 	this.SetDirty(Nick)
 }
 
-func (this *User) AddrSet(val string) {
+func (this *User) SetAddr(val string) {
 	this.Addr = val
 	this.SetDirty(Addr)
 }
 
-func (this *User) IdCardSet(val string) {
+func (this *User) SetIdCard(val string) {
 	this.IdCard = val
 	this.SetDirty(IdCard)
 }
 
-func (this *User) RealNameSet(val string) {
+func (this *User) SetRealName(val string) {
 	this.RealName = val
 	this.SetDirty(RealName)
 }
 
-func (this *User) MobileSet(val string) {
+func (this *User) SetMobile(val string) {
 	this.Mobile = val
 	this.SetDirty(Mobile)
 }
 
-func (this *User) SignUpTimeSet(val int64) {
+func (this *User) SetSignUpTime(val int64) {
 	this.SignUpTime = val
 	this.SetDirty(SignUpTime)
 }
 
-func (this *User) LastSignInTimeSet(val int64) {
+func (this *User) SetLastSignInTime(val int64) {
 	this.LastSignInTime = val
 	this.SetDirty(LastSignInTime)
 }
 
-func (this *User) LastSignInAddrSet(val string) {
+func (this *User) SetLastSignInAddr(val string) {
 	this.LastSignInAddr = val
 	this.SetDirty(LastSignInAddr)
 }
 
-func (this *User) LastOsSet(val string) {
+func (this *User) SetLastOs(val string) {
 	this.LastOs = val
 	this.SetDirty(LastOs)
 }
 
-func (this *User) StatusSet(val pb.OnlineState) {
+func (this *User) SetStatus(val pb.OnlineState) {
 	this.Status = val
 	this.SetDirty(Status)
 }
 
-func (this *User) AvatarSet(val string) {
+func (this *User) SetAvatar(val string) {
 	this.Avatar = val
 	this.SetDirty(Avatar)
 }
 
-func (this *User) WechatUnionIdSet(val string) {
+func (this *User) SetWechatUnionId(val string) {
 	this.WechatUnionId = val
 	this.SetDirty(WechatUnionId)
 }
 
-func (this *User) WechatCodeSet(val string) {
+func (this *User) SetWechatCode(val string) {
 	this.WechatCode = val
 	this.SetDirty(WechatCode)
 }
 
-func (this *User) TokenSet(val string) {
+func (this *User) SetToken(val string) {
 	this.Token = val
 	this.SetDirty(Token)
 }
 
-func (this *User) HeadSet(val []byte) {
+func (this *User) SetHead(val []byte) {
 	this.Head = val
 	this.SetDirty(Head)
 }
 
-func (this *User) LastOfflineTimeSet(val int64) {
+func (this *User) SetLastOfflineTime(val int64) {
 	this.LastOfflineTime = val
 	this.SetDirty(LastOfflineTime)
 }
 
-func (this *User) OnlineDurSet(val int64) {
+func (this *User) SetOnlineDur(val int64) {
 	this.OnlineDur = val
 	this.SetDirty(OnlineDur)
 }
 
-func (this *User) TestSet(val bool) {
+func (this *User) SetTest(val bool) {
 	this.Test = val
 	this.SetDirty(Test)
 }
@@ -201,20 +219,6 @@ func (this *User) PullCharacterIds(items ...string) {
 	if dirty {
 		this.SetDirty(CharacterIds)
 	}
-}
-
-func (this *User) LoadWithId(id string) error {
-	return mgo.FindOne(SchemaUser, bson.M{"_id": id}, &this.User)
-}
-
-func (this *User) Load(filter any) error {
-	return mgo.FindOne(SchemaUser, filter, &this.User)
-}
-
-func (this *User) UpdateDb() (*mongo.UpdateResult, error) {
-	update := bson.M{}
-	this.GenUpdate(update)
-	return mgo.UpdateOne(SchemaUser, bson.M{"_id": this.Id}, bson.M{"$set": update})
 }
 
 func (this *User) GetVal(key string) any {

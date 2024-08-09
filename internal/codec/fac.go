@@ -6,167 +6,166 @@ import (
 	"game/internal/common"
 	"game/proto/pb"
 	"github.com/15mga/kiwi"
-	"github.com/15mga/kiwi/util"
 )
 
-func BindFac() {
-	kiwi.Codec().BindFac(common.Gate, GateHeartbeatReq, func() util.IMsg {
+func BindPool() {
+	kiwi.Codec().BindPool(common.Gate, GateHeartbeatReq, func() any {
 		return &pb.GateHeartbeatReq{}
 	})
-	kiwi.Codec().BindFac(common.Gate, GateHeartbeatRes, func() util.IMsg {
+	kiwi.Codec().BindPool(common.Gate, GateHeartbeatRes, func() any {
 		return &pb.GateHeartbeatRes{}
 	})
-	kiwi.Codec().BindFac(common.Gate, GateErrPus, func() util.IMsg {
+	kiwi.Codec().BindPool(common.Gate, GateErrPus, func() any {
 		return &pb.GateErrPus{}
 	})
-	kiwi.Codec().BindFac(common.Gate, GateRepeatPus, func() util.IMsg {
+	kiwi.Codec().BindPool(common.Gate, GateRepeatPus, func() any {
 		return &pb.GateRepeatPus{}
 	})
-	kiwi.Codec().BindFac(common.Gate, GateUploadFileReq, func() util.IMsg {
+	kiwi.Codec().BindPool(common.Gate, GateUploadFileReq, func() any {
 		return &pb.GateUploadFileReq{}
 	})
-	kiwi.Codec().BindFac(common.Gate, GateUploadFileRes, func() util.IMsg {
+	kiwi.Codec().BindPool(common.Gate, GateUploadFileRes, func() any {
 		return &pb.GateUploadFileRes{}
 	})
-	kiwi.Codec().BindFac(common.Gate, GateUploadWithTokenReq, func() util.IMsg {
+	kiwi.Codec().BindPool(common.Gate, GateUploadWithTokenReq, func() any {
 		return &pb.GateUploadWithTokenReq{}
 	})
-	kiwi.Codec().BindFac(common.Gate, GateUploadWithTokenRes, func() util.IMsg {
+	kiwi.Codec().BindPool(common.Gate, GateUploadWithTokenRes, func() any {
 		return &pb.GateUploadWithTokenRes{}
 	})
-	kiwi.Codec().BindFac(common.Gate, GateUploadWithTokenPus, func() util.IMsg {
+	kiwi.Codec().BindPool(common.Gate, GateUploadWithTokenPus, func() any {
 		return &pb.GateUploadWithTokenPus{}
 	})
-	kiwi.Codec().BindFac(common.Gate, GateBanAddrReq, func() util.IMsg {
+	kiwi.Codec().BindPool(common.Gate, GateBanAddrReq, func() any {
 		return &pb.GateBanAddrReq{}
 	})
-	kiwi.Codec().BindFac(common.Gate, GateBanAddrRes, func() util.IMsg {
+	kiwi.Codec().BindPool(common.Gate, GateBanAddrRes, func() any {
 		return &pb.GateBanAddrRes{}
 	})
-	kiwi.Codec().BindFac(common.Gate, GateSendToIdReq, func() util.IMsg {
+	kiwi.Codec().BindPool(common.Gate, GateSendToIdReq, func() any {
 		return &pb.GateSendToIdReq{}
 	})
-	kiwi.Codec().BindFac(common.Gate, GateSendToIdRes, func() util.IMsg {
+	kiwi.Codec().BindPool(common.Gate, GateSendToIdRes, func() any {
 		return &pb.GateSendToIdRes{}
 	})
-	kiwi.Codec().BindFac(common.Gate, GateSendToAddrReq, func() util.IMsg {
+	kiwi.Codec().BindPool(common.Gate, GateSendToAddrReq, func() any {
 		return &pb.GateSendToAddrReq{}
 	})
-	kiwi.Codec().BindFac(common.Gate, GateSendToAddrRes, func() util.IMsg {
+	kiwi.Codec().BindPool(common.Gate, GateSendToAddrRes, func() any {
 		return &pb.GateSendToAddrRes{}
 	})
-	kiwi.Codec().BindFac(common.Gate, GateSendToMultiIdReq, func() util.IMsg {
+	kiwi.Codec().BindPool(common.Gate, GateSendToMultiIdReq, func() any {
 		return &pb.GateSendToMultiIdReq{}
 	})
-	kiwi.Codec().BindFac(common.Gate, GateSendToMultiIdRes, func() util.IMsg {
+	kiwi.Codec().BindPool(common.Gate, GateSendToMultiIdRes, func() any {
 		return &pb.GateSendToMultiIdRes{}
 	})
-	kiwi.Codec().BindFac(common.Gate, GateSendToMultiAddrReq, func() util.IMsg {
+	kiwi.Codec().BindPool(common.Gate, GateSendToMultiAddrReq, func() any {
 		return &pb.GateSendToMultiAddrReq{}
 	})
-	kiwi.Codec().BindFac(common.Gate, GateSendToMultiAddrRes, func() util.IMsg {
+	kiwi.Codec().BindPool(common.Gate, GateSendToMultiAddrRes, func() any {
 		return &pb.GateSendToMultiAddrRes{}
 	})
-	kiwi.Codec().BindFac(common.Gate, GateSendToAllReq, func() util.IMsg {
+	kiwi.Codec().BindPool(common.Gate, GateSendToAllReq, func() any {
 		return &pb.GateSendToAllReq{}
 	})
-	kiwi.Codec().BindFac(common.Gate, GateSendToAllRes, func() util.IMsg {
+	kiwi.Codec().BindPool(common.Gate, GateSendToAllRes, func() any {
 		return &pb.GateSendToAllRes{}
 	})
-	kiwi.Codec().BindFac(common.Gate, GateCloseIdReq, func() util.IMsg {
+	kiwi.Codec().BindPool(common.Gate, GateCloseIdReq, func() any {
 		return &pb.GateCloseIdReq{}
 	})
-	kiwi.Codec().BindFac(common.Gate, GateCloseIdRes, func() util.IMsg {
+	kiwi.Codec().BindPool(common.Gate, GateCloseIdRes, func() any {
 		return &pb.GateCloseIdRes{}
 	})
-	kiwi.Codec().BindFac(common.Gate, GateCloseAddrReq, func() util.IMsg {
+	kiwi.Codec().BindPool(common.Gate, GateCloseAddrReq, func() any {
 		return &pb.GateCloseAddrReq{}
 	})
-	kiwi.Codec().BindFac(common.Gate, GateCloseAddrRes, func() util.IMsg {
+	kiwi.Codec().BindPool(common.Gate, GateCloseAddrRes, func() any {
 		return &pb.GateCloseAddrRes{}
 	})
-	kiwi.Codec().BindFac(common.Gate, GateUpdateReq, func() util.IMsg {
+	kiwi.Codec().BindPool(common.Gate, GateUpdateReq, func() any {
 		return &pb.GateUpdateReq{}
 	})
-	kiwi.Codec().BindFac(common.Gate, GateUpdateRes, func() util.IMsg {
+	kiwi.Codec().BindPool(common.Gate, GateUpdateRes, func() any {
 		return &pb.GateUpdateRes{}
 	})
-	kiwi.Codec().BindFac(common.Gate, GateAddrUpdateReq, func() util.IMsg {
+	kiwi.Codec().BindPool(common.Gate, GateAddrUpdateReq, func() any {
 		return &pb.GateAddrUpdateReq{}
 	})
-	kiwi.Codec().BindFac(common.Gate, GateAddrUpdateRes, func() util.IMsg {
+	kiwi.Codec().BindPool(common.Gate, GateAddrUpdateRes, func() any {
 		return &pb.GateAddrUpdateRes{}
 	})
-	kiwi.Codec().BindFac(common.Gate, GateRemoveReq, func() util.IMsg {
+	kiwi.Codec().BindPool(common.Gate, GateRemoveReq, func() any {
 		return &pb.GateRemoveReq{}
 	})
-	kiwi.Codec().BindFac(common.Gate, GateRemoveRes, func() util.IMsg {
+	kiwi.Codec().BindPool(common.Gate, GateRemoveRes, func() any {
 		return &pb.GateRemoveRes{}
 	})
-	kiwi.Codec().BindFac(common.Gate, GateAddrRemoveReq, func() util.IMsg {
+	kiwi.Codec().BindPool(common.Gate, GateAddrRemoveReq, func() any {
 		return &pb.GateAddrRemoveReq{}
 	})
-	kiwi.Codec().BindFac(common.Gate, GateAddrRemoveRes, func() util.IMsg {
+	kiwi.Codec().BindPool(common.Gate, GateAddrRemoveRes, func() any {
 		return &pb.GateAddrRemoveRes{}
 	})
-	kiwi.Codec().BindFac(common.Gate, GateGetReq, func() util.IMsg {
+	kiwi.Codec().BindPool(common.Gate, GateGetReq, func() any {
 		return &pb.GateGetReq{}
 	})
-	kiwi.Codec().BindFac(common.Gate, GateGetRes, func() util.IMsg {
+	kiwi.Codec().BindPool(common.Gate, GateGetRes, func() any {
 		return &pb.GateGetRes{}
 	})
-	kiwi.Codec().BindFac(common.Gate, GateAddrGetReq, func() util.IMsg {
+	kiwi.Codec().BindPool(common.Gate, GateAddrGetReq, func() any {
 		return &pb.GateAddrGetReq{}
 	})
-	kiwi.Codec().BindFac(common.Gate, GateAddrGetRes, func() util.IMsg {
+	kiwi.Codec().BindPool(common.Gate, GateAddrGetRes, func() any {
 		return &pb.GateAddrGetRes{}
 	})
-	kiwi.Codec().BindFac(common.User, UserSignUpReq, func() util.IMsg {
+	kiwi.Codec().BindPool(common.User, UserSignUpReq, func() any {
 		return &pb.UserSignUpReq{}
 	})
-	kiwi.Codec().BindFac(common.User, UserSignUpRes, func() util.IMsg {
+	kiwi.Codec().BindPool(common.User, UserSignUpRes, func() any {
 		return &pb.UserSignUpRes{}
 	})
-	kiwi.Codec().BindFac(common.User, UserSignInReq, func() util.IMsg {
+	kiwi.Codec().BindPool(common.User, UserSignInReq, func() any {
 		return &pb.UserSignInReq{}
 	})
-	kiwi.Codec().BindFac(common.User, UserSignInRes, func() util.IMsg {
+	kiwi.Codec().BindPool(common.User, UserSignInRes, func() any {
 		return &pb.UserSignInRes{}
 	})
-	kiwi.Codec().BindFac(common.User, UserResetPasswordReq, func() util.IMsg {
+	kiwi.Codec().BindPool(common.User, UserResetPasswordReq, func() any {
 		return &pb.UserResetPasswordReq{}
 	})
-	kiwi.Codec().BindFac(common.User, UserResetPasswordRes, func() util.IMsg {
+	kiwi.Codec().BindPool(common.User, UserResetPasswordRes, func() any {
 		return &pb.UserResetPasswordRes{}
 	})
-	kiwi.Codec().BindFac(common.User, UserSmsCodeReq, func() util.IMsg {
+	kiwi.Codec().BindPool(common.User, UserSmsCodeReq, func() any {
 		return &pb.UserSmsCodeReq{}
 	})
-	kiwi.Codec().BindFac(common.User, UserSmsCodeRes, func() util.IMsg {
+	kiwi.Codec().BindPool(common.User, UserSmsCodeRes, func() any {
 		return &pb.UserSmsCodeRes{}
 	})
-	kiwi.Codec().BindFac(common.User, UserSignOutReq, func() util.IMsg {
+	kiwi.Codec().BindPool(common.User, UserSignOutReq, func() any {
 		return &pb.UserSignOutReq{}
 	})
-	kiwi.Codec().BindFac(common.User, UserSignOutRes, func() util.IMsg {
+	kiwi.Codec().BindPool(common.User, UserSignOutRes, func() any {
 		return &pb.UserSignOutRes{}
 	})
-	kiwi.Codec().BindFac(common.User, UserDisconnectReq, func() util.IMsg {
+	kiwi.Codec().BindPool(common.User, UserDisconnectReq, func() any {
 		return &pb.UserDisconnectReq{}
 	})
-	kiwi.Codec().BindFac(common.User, UserDisconnectRes, func() util.IMsg {
+	kiwi.Codec().BindPool(common.User, UserDisconnectRes, func() any {
 		return &pb.UserDisconnectRes{}
 	})
-	kiwi.Codec().BindFac(common.User, UserDisconnectedNtc, func() util.IMsg {
+	kiwi.Codec().BindPool(common.User, UserDisconnectedNtc, func() any {
 		return &pb.UserDisconnectedNtc{}
 	})
-	kiwi.Codec().BindFac(common.User, UserConnectedNtc, func() util.IMsg {
+	kiwi.Codec().BindPool(common.User, UserConnectedNtc, func() any {
 		return &pb.UserConnectedNtc{}
 	})
-	kiwi.Codec().BindFac(common.User, UserUpdateHeadReq, func() util.IMsg {
+	kiwi.Codec().BindPool(common.User, UserUpdateHeadReq, func() any {
 		return &pb.UserUpdateHeadReq{}
 	})
-	kiwi.Codec().BindFac(common.User, UserUpdateHeadRes, func() util.IMsg {
+	kiwi.Codec().BindPool(common.User, UserUpdateHeadRes, func() any {
 		return &pb.UserUpdateHeadRes{}
 	})
 }

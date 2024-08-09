@@ -10,8 +10,7 @@ import (
 )
 
 const (
-	SchemaUserTest = "user_test"
-	SchemaUser     = "user"
+	SchemaUser = "user"
 )
 
 const (
@@ -38,17 +37,10 @@ const (
 	Token           = "token"           //token
 	WechatCode      = "wechat_code"     //微信使用过的 code
 	WechatUnionId   = "wechat_union_id" //微信联合 id
-
-	UserTestId = "_id"
 )
 
 func initColl() {
-	mgo.InitColl(SchemaUserTest, UserTestIdx)
 	mgo.InitColl(SchemaUser, UserIdx)
-}
-
-func UserTestIdx() []mongo.IndexModel {
-	return []mongo.IndexModel{}
 }
 
 func UserIdx() []mongo.IndexModel {
