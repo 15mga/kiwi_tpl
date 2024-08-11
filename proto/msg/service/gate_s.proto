@@ -16,142 +16,142 @@ option (kiwi.svc) = {
 };
 
 message GateBanAddrReq {
-  option (kiwi.code) = 500;
+  option (kiwi.method) = 500;
   string addr = 1;
 }
 
 message GateBanAddrRes {
-  option (kiwi.code) = 501;
+  option (kiwi.method) = 501;
 }
 
 message GateSendToIdReq {
-  option (kiwi.code) = 502;
+  option (kiwi.method) = 502;
   string id = 1;
   uint32 svcCode = 2;
   bytes payload = 3;
 }
 
 message GateSendToIdRes {
-  option (kiwi.code) = 503;
+  option (kiwi.method) = 503;
 }
 
 message GateSendToAddrReq {
-  option (kiwi.code) = 504;
+  option (kiwi.method) = 504;
   string addr = 1;
   uint32 svcCode = 2;
   bytes payload = 3;
 }
 
 message GateSendToAddrRes {
-  option (kiwi.code) = 505;
+  option (kiwi.method) = 505;
 }
 
 message GateSendToMultiIdReq {
-  option (kiwi.code) = 506;
+  option (kiwi.method) = 506;
   bytes payload = 1;
 }
 
 message GateSendToMultiIdRes {
-  option (kiwi.code) = 507;
+  option (kiwi.method) = 507;
   map<string, bool> result = 1;
 }
 
 message GateSendToMultiAddrReq {
-  option (kiwi.code) = 508;
+  option (kiwi.method) = 508;
   bytes payload = 1;
 }
 
 message GateSendToMultiAddrRes {
-  option (kiwi.code) = 509;
+  option (kiwi.method) = 509;
   map<string, bool> result = 1;
 }
 
 message GateSendToAllReq {
-  option (kiwi.code) = 510;
+  option (kiwi.method) = 510;
   uint32 svcCode = 1;
   bytes payload = 2;
 }
 
 message GateSendToAllRes {
-  option (kiwi.code) = 511;
+  option (kiwi.method) = 511;
 }
 
 message GateCloseIdReq {
-  option (kiwi.code) = 512;
+  option (kiwi.method) = 512;
   string id = 1;
 }
 
 message GateCloseIdRes {
-  option (kiwi.code) = 513;
+  option (kiwi.method) = 513;
 }
 
 message GateCloseAddrReq {
-  option (kiwi.code) = 514;
+  option (kiwi.method) = 514;
   string addr = 1;
 }
 
 message GateCloseAddrRes {
-  option (kiwi.code) = 515;
+  option (kiwi.method) = 515;
 }
 
 message GateUpdateReq {
-  option (kiwi.code) = 516;
+  option (kiwi.method) = 516;
   string id = 1;
   bytes head = 2;
 }
 
 message GateUpdateRes {
-  option (kiwi.code) = 517;
+  option (kiwi.method) = 517;
 }
 
 message GateAddrUpdateReq {
-  option (kiwi.code) = 518;
+  option (kiwi.method) = 518;
   string addr = 1;
   bytes head = 2;
 }
 
 message GateAddrUpdateRes {
-  option (kiwi.code) = 519;
+  option (kiwi.method) = 519;
 }
 
 message GateRemoveReq {
-  option (kiwi.code) = 520;
+  option (kiwi.method) = 520;
   string id = 1;
   repeated string head = 2;
 }
 
 message GateRemoveRes {
-  option (kiwi.code) = 521;
+  option (kiwi.method) = 521;
 }
 
 message GateAddrRemoveReq {
-  option (kiwi.code) = 522;
+  option (kiwi.method) = 522;
   string addr = 1;
   repeated string head = 2;
 }
 
 message GateAddrRemoveRes {
-  option (kiwi.code) = 523;
+  option (kiwi.method) = 523;
 }
 
 message GateGetReq {
-  option (kiwi.code) = 524;
+  option (kiwi.method) = 524;
   string id = 1;
   bool close = 2; //关闭重复链接
 }
 
 message GateGetRes {
-  option (kiwi.code) = 525;
+  option (kiwi.method) = 525;
   bytes head = 1;
 }
 
 message GateAddrGetReq {
-  option (kiwi.code) = 526;
+  option (kiwi.method) = 526;
   string addr = 1;
   bool close = 2; //关闭重复链接
 }
 
 message GateAddrGetRes {
-  option (kiwi.code) = 527;
+  option (kiwi.method) = 527;
   bytes head = 1;
 }

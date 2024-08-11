@@ -72,4 +72,4 @@ require (
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
 
-replace github.com/15mga/kiwi => ../../../github.com/15mga/kiwi
+replace github.com/15mga/kiwi => ../kiwi

@@ -12,7 +12,7 @@ option (kiwi.svc) = {
 //注册
 message UserSignUpReq {
   option (kiwi.role) = "guest";
-  option (kiwi.code) = 0;
+  option (kiwi.method) = 0;
   string mobile = 1; //手机号
   string password = 2; //密码
   string code = 3; //短信验证码
@@ -22,13 +22,13 @@ message UserSignUpReq {
 
 //注册
 message UserSignUpRes {
-  option (kiwi.code) = 1;
+  option (kiwi.method) = 1;
 }
 
 //登录
 message UserSignInReq {
   option (kiwi.role) = "guest";
-  option (kiwi.code) = 2;
+  option (kiwi.method) = 2;
   string mobile = 1;
   string password = 2;
   string os = 3;
@@ -36,14 +36,14 @@ message UserSignInReq {
 
 //登录
 message UserSignInRes {
-  option (kiwi.code) = 3;
+  option (kiwi.method) = 3;
   string token = 1;
 }
 
 //重置密码
 message UserResetPasswordReq {
   option (kiwi.role) = "guest";
-  option (kiwi.code) = 4;
+  option (kiwi.method) = 4;
   string mobile = 1; //手机号
   string password = 2; //密码
   string code = 3; //短信验证码
@@ -51,29 +51,29 @@ message UserResetPasswordReq {
 
 //重置密码
 message UserResetPasswordRes {
-  option (kiwi.code) = 5;
+  option (kiwi.method) = 5;
   string token = 1;
 }
 
 //短信验证码
 message UserSmsCodeReq {
   option (kiwi.role) = "guest";
-  option (kiwi.code) = 6;
+  option (kiwi.method) = 6;
   string mobile = 1; //手机号
 }
 
 //短信验证码
 message UserSmsCodeRes {
-  option (kiwi.code) = 7;
+  option (kiwi.method) = 7;
 }
 
 //登出请求
 message UserSignOutReq {
-  option (kiwi.code) = 8;
+  option (kiwi.method) = 8;
   option (kiwi.role) = "player";
 }
 
 //登出响应
 message UserSignOutRes {
-  option (kiwi.code) = 9;
+  option (kiwi.method) = 9;
 }

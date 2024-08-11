@@ -4,9 +4,7 @@ package user
 
 import (
 	"github.com/15mga/kiwi/util/mgo"
-	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
-	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 const (
@@ -14,28 +12,34 @@ const (
 )
 
 const (
+	TestAge  = "age"
+	TestName = "name"
+
 	Id              = "_id"
-	Addr            = "addr"   //地址
-	Avatar          = "avatar" //头像地址
-	Ban             = "ban"    //禁用
-	CharacterIds    = "character_ids"
+	Addr            = "addr"              //地址
+	Avatar          = "avatar"            //头像地址
+	Ban             = "ban"               //禁用
 	Head            = "head"              //会话
 	IdCard          = "id_card"           //身份证
 	LastOfflineTime = "last_offline_time" //最后下线时间
 	LastOs          = "last_os"           //最后登录使用的系统
-	LastSignInAddr  = "last_sign_in_addr" //最后登录地址
+	LastSignInIp    = "last_sign_in_ip"   //最后登录地址
 	LastSignInTime  = "last_sign_in_time" //最后登录时间
 	Mobile          = "mobile"            //手机号
 	Nick            = "nick"              //昵称
 	OnlineDur       = "online_dur"        //在线时长
 	Password        = "password"
-	RealName        = "real_name"       //实名
-	RoleMask        = "role_mask"       //角色组：1:访客，2：玩家，
-	SignUpTime      = "sign_up_time"    //注册时间
-	Status          = "status"          //状态
-	Test            = "test"            //测试账号
+	RealName        = "real_name"    //实名
+	RoleMask        = "role_mask"    //角色组：1:访客，2：玩家，
+	SignUpTime      = "sign_up_time" //注册时间
+	State           = "state"        //状态
+	Test            = "test"         //测试账号
+	TestBool        = "test_bool"
+	TestData        = "test_data"
+	TestData2       = "test_data2"
+	TestI32         = "test_i32"
+	TestString      = "test_string"
 	Token           = "token"           //token
-	WechatCode      = "wechat_code"     //微信使用过的 code
 	WechatUnionId   = "wechat_union_id" //微信联合 id
 )
 
@@ -44,64 +48,5 @@ func initColl() {
 }
 
 func UserIdx() []mongo.IndexModel {
-	return []mongo.IndexModel{
-		{
-			Keys: bson.D{
-				{"mobile", 1},
-			},
-			Options: options.Index().
-				SetSparse(true),
-		},
-		{
-			Keys: bson.D{
-				{"nick", 1},
-			},
-			Options: options.Index().
-				SetUnique(true),
-		},
-		{
-			Keys: bson.D{
-				{"id_card", 1},
-			},
-		},
-		{
-			Keys: bson.D{
-				{"sign_up_time", 1},
-			},
-		},
-		{
-			Keys: bson.D{
-				{"last_sign_in_time", 1},
-			},
-		},
-		{
-			Keys: bson.D{
-				{"last_sign_in_addr", 1},
-			},
-		},
-		{
-			Keys: bson.D{
-				{"state", 1},
-			},
-		},
-		{
-			Keys: bson.D{
-				{"wechat_union_id", 1},
-			},
-		},
-		{
-			Keys: bson.D{
-				{"token", 1},
-			},
-			Options: options.Index().
-				SetSparse(true),
-		},
-		{
-			Keys: bson.D{
-				{"wechat_code", 1},
-			},
-			Options: options.Index().
-				SetSparse(true),
-		},
-	}
+	return []mongo.IndexModel{}
 }

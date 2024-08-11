@@ -16,31 +16,31 @@ option (kiwi.svc) = {
 };
 
 message UserDisconnectReq {
-  option (kiwi.code) = 500;
+  option (kiwi.method) = 500;
   string id = 1;
 }
 
 message UserDisconnectRes {
-  option (kiwi.code) = 501;
+  option (kiwi.method) = 501;
 }
 
 message UserDisconnectedNtc {
-  option (kiwi.code) = 502;
+  option (kiwi.method) = 502;
   string uid = 1;
 }
 
 message UserConnectedNtc {
-  option (kiwi.code) = 503;
+  option (kiwi.method) = 503;
   string id = 1;
 }
 
 //更新用户head cache
 message UserUpdateHeadReq {
-  option (kiwi.code) = 504;
+  option (kiwi.method) = 504;
   string id = 1; //用户id
   bytes head = 2;
 }
 
 message UserUpdateHeadRes {
-  option (kiwi.code) = 505;
+  option (kiwi.method) = 505;
 }

@@ -4,61 +4,124 @@ package user
 
 import (
 	"game/proto/pb"
-	"github.com/15mga/kiwi/ds"
 	"github.com/15mga/kiwi/util/mgo"
+	"go.mongodb.org/mongo-driver/bson"
 )
 
-var (
-	_SchemaFac = map[string]func() mgo.IModel{
-		SchemaUser: NewUser,
-	}
-)
-
-var (
-	_UserSet = ds.NewKSet[string, *User](1024, func(model *User) string {
-		return model.Id
-	})
-	_mobileSet = ds.NewKSet[string, *User](1024, func(model *User) string {
-	})
-	_nickSet = ds.NewKSet[string, *User](1024, func(model *User) string {
-	})
-	_id_cardSet = ds.NewKSet[string, *User](1024, func(model *User) string {
-	})
-	_sign_up_timeSet = ds.NewKSet[string, *User](1024, func(model *User) string {
-	})
-	_last_sign_in_timeSet = ds.NewKSet[string, *User](1024, func(model *User) string {
-	})
-	_last_sign_in_addrSet = ds.NewKSet[string, *User](1024, func(model *User) string {
-	})
-	_stateSet = ds.NewKSet[string, *User](1024, func(model *User) string {
-	})
-	_wechat_union_idSet = ds.NewKSet[string, *User](1024, func(model *User) string {
-	})
-	_tokenSet = ds.NewKSet[string, *User](1024, func(model *User) string {
-	})
-	_wechat_codeSet = ds.NewKSet[string, *User](1024, func(model *User) string {
-	})
-)
-
-func addUser(m *User) {
-	_UserSet.Add(m)
+func InitModels() {
+	initModelFac()
+	initEvict()
 }
 
-func GetUser(id string) *User {
-	m, ok := _UserSet.Get(id)
+var _ModelFac map[string]func() mgo.IModel
+
+func initModelFac() {
+	_ModelFac = map[string]func() mgo.IModel{
+		SchemaUser: NewUser,
+	}
+}
+
+func initEvict() {
+	mgo.BindEvict(SchemaUser, onUserEvict)
+}
+
+var (
+	_UserIdMap      = make(map[string]struct{})
+	_UserNickToId   = make(map[string]string)
+	_UserMobileToId = make(map[string]string)
+	_UserTokenToId  = make(map[string]string)
+)
+
+func StoreAllUsers() {
+	for id := range _UserIdMap {
+		m, ok := mgo.Get[*User](SchemaUser, id)
+		if !ok {
+			continue
+		}
+		m.Store()
+	}
+}
+
+func setUser(m *User) {
+	mgo.Set(m)
+	_UserNickToId[m.Nick] = m.Id
+	_UserMobileToId[m.Mobile] = m.Id
+	_UserTokenToId[m.Token] = m.Id
+}
+
+func DelUser(id string) {
+	m, ok := mgo.Get[*User](SchemaUser, id)
+	if !ok {
+		return
+	}
+	_ = m.Store()
+	mgo.Del(SchemaUser, id)
+	delUserMap(m)
+}
+
+func onUserEvict(model mgo.IModel) {
+	m := model.(*User)
+	_ = m.Store()
+	delUserMap(m)
+}
+
+func delUserMap(m *User) {
+	delete(_UserIdMap, m.GetId())
+	delete(_UserNickToId, m.Nick)
+	delete(_UserMobileToId, m.Mobile)
+	delete(_UserTokenToId, m.Token)
+}
+
+func GetUserWithId(id string) *User {
+	m, ok := mgo.Get[*User](SchemaUser, id)
 	if ok {
 		return m
 	}
-	m = _SchemaFac[SchemaUser]().(*User)
+	m = _ModelFac[SchemaUser]().(*User)
 	m.Load(id)
-	addUser(m)
+	setUser(m)
 	return m
 }
 
-func LoadUser(filter any) *User {
-	m := _SchemaFac[SchemaUser]().(*User)
-	m.LoadWithFilter(filter)
-	_UserSet.Add(m)
+func GetUserWithNick(nick string) *User {
+	id, ok := _UserNickToId[nick]
+	if ok {
+		m, ok := mgo.Get[*User](SchemaUser, id)
+		if ok {
+			return m
+		}
+	}
+	m := _ModelFac[SchemaUser]().(*User)
+	m.LoadWithFilter(bson.M{Nick: nick})
+	setUser(m)
+	return m
+}
+
+func GetUserWithMobile(mobile string) *User {
+	id, ok := _UserMobileToId[mobile]
+	if ok {
+		m, ok := mgo.Get[*User](SchemaUser, id)
+		if ok {
+			return m
+		}
+	}
+	m := _ModelFac[SchemaUser]().(*User)
+	m.LoadWithFilter(bson.M{Mobile: mobile})
+	setUser(m)
+	return m
+}
+
+func GetUserWithToken(token string) *User {
+	id, ok := _UserTokenToId[token]
+	if ok {
+		m, ok := mgo.Get[*User](SchemaUser, id)
+		if ok {
+			return m
+		}
+	}
+	m := _ModelFac[SchemaUser]().(*User)
+	m.LoadWithFilter(bson.M{Token: token})
+	setUser(m)
 	return m
 }
 
@@ -66,13 +129,18 @@ func NewUser() mgo.IModel {
 	m := &User{
 		User: &pb.User{},
 	}
-	m.Model = mgo.NewModel(SchemaUser, 23, m.GetVal)
+	m.Model = mgo.NewModel(SchemaUser, 26, m.GetVal)
 	return m
 }
 
 type User struct {
 	*pb.User
 	*mgo.Model
+}
+
+func (this *User) SetId(val string) {
+	this.Id = val
+	this.SetDirty(Id)
 }
 
 func (this *User) SetPassword(val string) {
@@ -125,9 +193,9 @@ func (this *User) SetLastSignInTime(val int64) {
 	this.SetDirty(LastSignInTime)
 }
 
-func (this *User) SetLastSignInAddr(val string) {
-	this.LastSignInAddr = val
-	this.SetDirty(LastSignInAddr)
+func (this *User) SetLastSignInIp(val string) {
+	this.LastSignInIp = val
+	this.SetDirty(LastSignInIp)
 }
 
 func (this *User) SetLastOs(val string) {
@@ -135,9 +203,9 @@ func (this *User) SetLastOs(val string) {
 	this.SetDirty(LastOs)
 }
 
-func (this *User) SetStatus(val pb.OnlineState) {
-	this.Status = val
-	this.SetDirty(Status)
+func (this *User) SetState(val pb.OnlineState) {
+	this.State = val
+	this.SetDirty(State)
 }
 
 func (this *User) SetAvatar(val string) {
@@ -148,11 +216,6 @@ func (this *User) SetAvatar(val string) {
 func (this *User) SetWechatUnionId(val string) {
 	this.WechatUnionId = val
 	this.SetDirty(WechatUnionId)
-}
-
-func (this *User) SetWechatCode(val string) {
-	this.WechatCode = val
-	this.SetDirty(WechatCode)
 }
 
 func (this *User) SetToken(val string) {
@@ -180,94 +243,215 @@ func (this *User) SetTest(val bool) {
 	this.SetDirty(Test)
 }
 
-func (this *User) SetCharacterIds(val []string) {
-	this.CharacterIds = val
-	this.SetDirty(CharacterIds)
+func (this *User) SetTestBool(val []bool) {
+	this.TestBool = val
+	this.SetDirty(TestBool)
 }
 
-func (this *User) PushCharacterIds(items ...string) {
-	this.CharacterIds = append(this.CharacterIds, items...)
-	this.SetDirty(CharacterIds)
+func (this *User) PushTestBool(items ...bool) {
+	this.TestBool = append(this.TestBool, items...)
+	this.SetDirty(TestBool)
 }
 
-func (this *User) AddToSetCharacterIds(items ...string) {
+func (this *User) AddToSetTestBool(items ...bool) {
 	for _, item := range items {
-		for _, v := range this.CharacterIds {
+		for _, v := range this.TestBool {
 			if v == item {
 				return
 			}
 		}
-		this.CharacterIds = append(this.CharacterIds, item)
+		this.TestBool = append(this.TestBool, item)
 	}
-	this.SetDirty(CharacterIds)
+	this.SetDirty(TestBool)
 }
 
-func (this *User) PullCharacterIds(items ...string) {
-	if this.CharacterIds == nil || len(this.CharacterIds) == 0 {
+func (this *User) PullTestBool(items ...bool) {
+	if this.TestBool == nil || len(this.TestBool) == 0 {
 		return
 	}
 	dirty := false
 	for _, item := range items {
-		for i, v := range this.CharacterIds {
+		for i, v := range this.TestBool {
 			if v == item {
-				this.CharacterIds = append(this.CharacterIds[:i], this.CharacterIds[i+1:]...)
+				this.TestBool = append(this.TestBool[:i], this.TestBool[i+1:]...)
 				dirty = true
 				break
 			}
 		}
 	}
 	if dirty {
-		this.SetDirty(CharacterIds)
+		this.SetDirty(TestBool)
+	}
+}
+
+func (this *User) SetTestI32(val []int32) {
+	this.TestI32 = val
+	this.SetDirty(TestI32)
+}
+
+func (this *User) PushTestI32(items ...int32) {
+	this.TestI32 = append(this.TestI32, items...)
+	this.SetDirty(TestI32)
+}
+
+func (this *User) AddToSetTestI32(items ...int32) {
+	for _, item := range items {
+		for _, v := range this.TestI32 {
+			if v == item {
+				return
+			}
+		}
+		this.TestI32 = append(this.TestI32, item)
+	}
+	this.SetDirty(TestI32)
+}
+
+func (this *User) PullTestI32(items ...int32) {
+	if this.TestI32 == nil || len(this.TestI32) == 0 {
+		return
+	}
+	dirty := false
+	for _, item := range items {
+		for i, v := range this.TestI32 {
+			if v == item {
+				this.TestI32 = append(this.TestI32[:i], this.TestI32[i+1:]...)
+				dirty = true
+				break
+			}
+		}
+	}
+	if dirty {
+		this.SetDirty(TestI32)
+	}
+}
+
+func (this *User) SetTestString(val []string) {
+	this.TestString = val
+	this.SetDirty(TestString)
+}
+
+func (this *User) PushTestString(items ...string) {
+	this.TestString = append(this.TestString, items...)
+	this.SetDirty(TestString)
+}
+
+func (this *User) AddToSetTestString(items ...string) {
+	for _, item := range items {
+		for _, v := range this.TestString {
+			if v == item {
+				return
+			}
+		}
+		this.TestString = append(this.TestString, item)
+	}
+	this.SetDirty(TestString)
+}
+
+func (this *User) PullTestString(items ...string) {
+	if this.TestString == nil || len(this.TestString) == 0 {
+		return
+	}
+	dirty := false
+	for _, item := range items {
+		for i, v := range this.TestString {
+			if v == item {
+				this.TestString = append(this.TestString[:i], this.TestString[i+1:]...)
+				dirty = true
+				break
+			}
+		}
+	}
+	if dirty {
+		this.SetDirty(TestString)
+	}
+}
+
+func (this *User) SetTestData(val *pb.Test) {
+	this.TestData = val
+	this.SetDirty(TestData)
+}
+
+func (this *User) SetTestData2(val []*pb.Test) {
+	this.TestData2 = val
+	this.SetDirty(TestData2)
+}
+
+func (this *User) PushTestData2(items ...*pb.Test) {
+	this.TestData2 = append(this.TestData2, items...)
+	this.SetDirty(TestData2)
+}
+
+func (this *User) AddToSetTestData2(items ...*pb.Test) {
+	for _, item := range items {
+		for _, v := range this.TestData2 {
+			if v == item {
+				return
+			}
+		}
+		this.TestData2 = append(this.TestData2, item)
+	}
+	this.SetDirty(TestData2)
+}
+
+func (this *User) PullTestData2(items ...*pb.Test) {
+	if this.TestData2 == nil || len(this.TestData2) == 0 {
+		return
+	}
+	dirty := false
+	for _, item := range items {
+		for i, v := range this.TestData2 {
+			if v == item {
+				this.TestData2 = append(this.TestData2[:i], this.TestData2[i+1:]...)
+				dirty = true
+				break
+			}
+		}
+	}
+	if dirty {
+		this.SetDirty(TestData2)
 	}
 }
 
 func (this *User) GetVal(key string) any {
 	switch key {
-	case Password:
-		return this.Password
-	case RoleMask:
-		return this.RoleMask
-	case Ban:
-		return this.Ban
-	case Nick:
-		return this.Nick
-	case Addr:
-		return this.Addr
-	case IdCard:
-		return this.IdCard
-	case RealName:
-		return this.RealName
-	case Mobile:
-		return this.Mobile
-	case SignUpTime:
-		return this.SignUpTime
-	case LastSignInTime:
-		return this.LastSignInTime
-	case LastSignInAddr:
-		return this.LastSignInAddr
-	case LastOs:
-		return this.LastOs
-	case Status:
-		return this.Status
-	case Avatar:
-		return this.Avatar
-	case WechatUnionId:
-		return this.WechatUnionId
-	case WechatCode:
-		return this.WechatCode
-	case Token:
-		return this.Token
-	case Head:
-		return this.Head
-	case LastOfflineTime:
-		return this.LastOfflineTime
-	case OnlineDur:
-		return this.OnlineDur
-	case Test:
-		return this.Test
-	case CharacterIds:
-		return this.CharacterIds
 	default:
 		return nil
 	}
+}
+
+func (this *User) Cost() int64 {
+	var cost int64 = 0
+	cost += int64(len(this.Id))
+	cost += int64(len(this.Password))
+	cost += 8 //RoleMask int64
+	cost += 1 //Ban bool
+	cost += int64(len(this.Nick))
+	cost += int64(len(this.Addr))
+	cost += int64(len(this.IdCard))
+	cost += int64(len(this.RealName))
+	cost += int64(len(this.Mobile))
+	cost += 8 //SignUpTime int64
+	cost += 8 //LastSignInTime int64
+	cost += int64(len(this.LastSignInIp))
+	cost += int64(len(this.LastOs))
+	cost += 4 //State enum
+	cost += int64(len(this.Avatar))
+	cost += int64(len(this.WechatUnionId))
+	cost += int64(len(this.Token))
+	cost += int64(len(this.Head))
+	cost += 8 //LastOfflineTime int64
+	cost += 8 //OnlineDur int64
+	cost += 1 //Test bool
+	cost += int64(len(this.TestBool))
+	cost += 4 * int64(len(this.TestI32))
+	for _, item := range this.TestString {
+		cost += int64(len(item))
+	}
+	cost += int64(len(this.TestData.Name))
+	cost += 4 //Age int32
+	for _, item := range this.TestData2 {
+		cost += int64(len(item.Name))
+		cost += 4 //Age int32
+	}
+	return cost
 }

@@ -12,6 +12,10 @@ import (
 	"time"
 )
 
+func (s *Svc) BeforeShutdown() {
+	StoreAllUsers()
+}
+
 func (s *Svc) OnUserSignUp(pkt kiwi.IRcvRequest, req *pb.UserSignUpReq, res *pb.UserSignUpRes) {
 	addr, _ := util.MGet[string](pkt.Head(), common.HdGateAddr)
 	_, err := mgo.InsertOne(SchemaUser, &pb.User{
