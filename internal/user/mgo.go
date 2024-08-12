@@ -4,7 +4,9 @@ package user
 
 import (
 	"github.com/15mga/kiwi/util/mgo"
+	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 const (
@@ -30,10 +32,9 @@ const (
 	OnlineDur       = "online_dur"        //在线时长
 	Password        = "password"
 	RealName        = "real_name"    //实名
-	RoleMask        = "role_mask"    //角色组：1:访客，2：玩家，
+	RoleMask        = "role_mask"    //角色组遮罩
 	SignUpTime      = "sign_up_time" //注册时间
 	State           = "state"        //状态
-	Test            = "test"         //测试账号
 	TestBool        = "test_bool"
 	TestData        = "test_data"
 	TestData2       = "test_data2"
@@ -48,5 +49,55 @@ func initColl() {
 }
 
 func UserIdx() []mongo.IndexModel {
-	return []mongo.IndexModel{}
+	return []mongo.IndexModel{
+		{
+			Keys: bson.D{
+				{"nick", 1},
+			},
+			Options: options.Index().SetUnique(true),
+		},
+		{
+			Keys: bson.D{
+				{"mobile", 1},
+			},
+			Options: options.Index().SetUnique(true),
+		},
+		{
+			Keys: bson.D{
+				{"wechat_union_id", 1},
+			},
+			Options: options.Index().SetUnique(true),
+		},
+		{
+			Keys: bson.D{
+				{"token", 1},
+			},
+			Options: options.Index().SetUnique(true),
+		},
+		{
+			Keys: bson.D{
+				{"ban", 1},
+			},
+		},
+		{
+			Keys: bson.D{
+				{"sign_up_time", 1},
+			},
+		},
+		{
+			Keys: bson.D{
+				{"last_sign_in_time", 1},
+			},
+		},
+		{
+			Keys: bson.D{
+				{"last_sign_in_ip", 1},
+			},
+		},
+		{
+			Keys: bson.D{
+				{"state", 1},
+			},
+		},
+	}
 }

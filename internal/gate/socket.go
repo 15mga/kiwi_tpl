@@ -30,7 +30,7 @@ func Disconnected(agent kiwi.IAgent, err *util.Err) {
 	head := util.M{}
 	agent.CopyHead(head)
 	id, _ := util.MGet[string](head, common.HdUserId)
-	_svc.Req(0, head, &pb.UserDisconnectReq{
+	_svc.AsyncReq(0, head, &pb.UserDisconnectReq{
 		Id: id,
 	}, nil, nil)
 }
@@ -75,29 +75,29 @@ var (
 type request struct {
 	tid  int64
 	svc  kiwi.TSvc
-	code kiwi.TCode
+	code kiwi.TMethod
 	json bool
 	addr string
 }
 
-func (r *request) Request(svc kiwi.TSvc, code kiwi.TCode, head util.M, payload []byte) {
+func (r *request) Request(svc kiwi.TSvc, code kiwi.TMethod, head util.M, payload []byte) {
 	r.svc = svc
 	r.code = code
 	r.addr, _ = util.MGet[string](head, common.HdGateAddr)
-	r.tid = _svc.ReqBytes(0, svc, code, head, true, payload, r.OnErr, r.OnOk)
+	r.tid = _svc.AsyncReqBytes(0, svc, code, head, true, payload, r.OnErr, r.OnOk)
 }
 
-func (r *request) RequestNode(nodeId int64, svc kiwi.TSvc, code kiwi.TCode, head util.M, payload []byte) {
+func (r *request) RequestNode(nodeId int64, svc kiwi.TSvc, code kiwi.TMethod, head util.M, payload []byte) {
 	r.svc = svc
 	r.code = code
 	r.addr, _ = util.MGet[string](head, common.HdGateAddr)
-	r.tid = _svc.ReqNodeBytes(0, nodeId, svc, code, head, true, payload, r.OnErr, r.OnOk)
+	r.tid = _svc.AsyncReqNodeBytes(0, nodeId, svc, code, head, true, payload, r.OnErr, r.OnOk)
 }
 
 func (r *request) OnOk(payload []byte) {
 	defer _requestPool.Put(r)
-	resCode, _ := kiwi.Codec().ReqToResCode(r.svc, r.code)
-	pkt, e := common.PackUserOk(kiwi.MergeSvcCode(r.svc, resCode), payload)
+	resCode, _ := kiwi.Codec().ReqToResMethod(r.svc, r.code)
+	pkt, e := common.PackUserOk(kiwi.MergeSvcMethod(r.svc, resCode), payload)
 	if e != nil {
 		kiwi.Error(e)
 		return
@@ -108,8 +108,8 @@ func (r *request) OnOk(payload []byte) {
 
 func (r *request) OnErr(errCode uint16) {
 	defer _requestPool.Put(r)
-	resCode, _ := kiwi.Codec().ReqToResCode(r.svc, r.code)
-	pkt, e := common.PackUserFail(kiwi.MergeSvcCode(common.Gate, codec.GateErrPus), kiwi.MergeSvcCode(r.svc, resCode), errCode)
+	resCode, _ := kiwi.Codec().ReqToResMethod(r.svc, r.code)
+	pkt, e := common.PackUserFail(kiwi.MergeSvcMethod(common.Gate, codec.GateErrPus), kiwi.MergeSvcMethod(r.svc, resCode), errCode)
 	if e != nil {
 		kiwi.Error(e)
 		return

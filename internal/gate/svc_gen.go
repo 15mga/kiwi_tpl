@@ -15,7 +15,7 @@ var (
 func New(ver string) kiwi.IService {
 	_svc = &Svc{
 		svc: svc{
-			Service: core.NewService(common.Gate, ver),
+			Service: core.NewService(common.Gate, ver%!s(MISSING)),
 		}}
 	return _svc
 }

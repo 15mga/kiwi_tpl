@@ -67,7 +67,7 @@ func (s *svc) Dispose() {
 
 func (s *svc) Req(req util.IMsg) *util.Err {
 	kiwi.Debug("request", util.M{string(req.ProtoReflect().Descriptor().Name()): req})
-	svc, code := kiwi.Codec().MsgToSvcCode(req)
+	svc, code := kiwi.Codec().MsgToSvcMethod(req)
 	bytes, err := common.PackUserReq(svc, code, req)
 	if err != nil {
 		return err
@@ -81,19 +81,19 @@ func (s *svc) inGateHeartbeatReq(msg graph.IMsg) *util.Err {
 }
 
 func (s *svc) onGateHeartbeatRes(msg util.IMsg) (point string, data any) {
-	sc := kiwi.MergeSvcCode(kiwi.Codec().MsgToSvcCode(msg))
+	sc := kiwi.MergeSvcCode(kiwi.Codec().MsgToSvcMethod(msg))
 	s.client.Graph().Data().Set(strconv.Itoa(int(sc)), msg)
 	return "GateHeartbeat", nil
 }
 
 func (s *svc) onGateErrPus(msg util.IMsg) (point string, data any) {
-	sc := kiwi.MergeSvcCode(kiwi.Codec().MsgToSvcCode(msg))
+	sc := kiwi.MergeSvcCode(kiwi.Codec().MsgToSvcMethod(msg))
 	s.client.Graph().Data().Set(strconv.Itoa(int(sc)), msg)
 	return "", nil
 }
 
 func (s *svc) onGateRepeatPus(msg util.IMsg) (point string, data any) {
-	sc := kiwi.MergeSvcCode(kiwi.Codec().MsgToSvcCode(msg))
+	sc := kiwi.MergeSvcCode(kiwi.Codec().MsgToSvcMethod(msg))
 	s.client.Graph().Data().Set(strconv.Itoa(int(sc)), msg)
 	return "", nil
 }
@@ -104,7 +104,7 @@ func (s *svc) inGateUploadFileReq(msg graph.IMsg) *util.Err {
 }
 
 func (s *svc) onGateUploadFileRes(msg util.IMsg) (point string, data any) {
-	sc := kiwi.MergeSvcCode(kiwi.Codec().MsgToSvcCode(msg))
+	sc := kiwi.MergeSvcCode(kiwi.Codec().MsgToSvcMethod(msg))
 	s.client.Graph().Data().Set(strconv.Itoa(int(sc)), msg)
 	return "GateUploadFile", nil
 }
@@ -115,13 +115,13 @@ func (s *svc) inGateUploadWithTokenReq(msg graph.IMsg) *util.Err {
 }
 
 func (s *svc) onGateUploadWithTokenRes(msg util.IMsg) (point string, data any) {
-	sc := kiwi.MergeSvcCode(kiwi.Codec().MsgToSvcCode(msg))
+	sc := kiwi.MergeSvcCode(kiwi.Codec().MsgToSvcMethod(msg))
 	s.client.Graph().Data().Set(strconv.Itoa(int(sc)), msg)
 	return "GateUploadWithToken", nil
 }
 
 func (s *svc) onGateUploadWithTokenPus(msg util.IMsg) (point string, data any) {
-	sc := kiwi.MergeSvcCode(kiwi.Codec().MsgToSvcCode(msg))
+	sc := kiwi.MergeSvcCode(kiwi.Codec().MsgToSvcMethod(msg))
 	s.client.Graph().Data().Set(strconv.Itoa(int(sc)), msg)
 	return "", nil
 }
@@ -132,7 +132,7 @@ func (s *svc) inGateBanAddrReq(msg graph.IMsg) *util.Err {
 }
 
 func (s *svc) onGateBanAddrRes(msg util.IMsg) (point string, data any) {
-	sc := kiwi.MergeSvcCode(kiwi.Codec().MsgToSvcCode(msg))
+	sc := kiwi.MergeSvcCode(kiwi.Codec().MsgToSvcMethod(msg))
 	s.client.Graph().Data().Set(strconv.Itoa(int(sc)), msg)
 	return "GateBanAddr", nil
 }
@@ -143,7 +143,7 @@ func (s *svc) inGateSendToIdReq(msg graph.IMsg) *util.Err {
 }
 
 func (s *svc) onGateSendToIdRes(msg util.IMsg) (point string, data any) {
-	sc := kiwi.MergeSvcCode(kiwi.Codec().MsgToSvcCode(msg))
+	sc := kiwi.MergeSvcCode(kiwi.Codec().MsgToSvcMethod(msg))
 	s.client.Graph().Data().Set(strconv.Itoa(int(sc)), msg)
 	return "GateSendToId", nil
 }
@@ -154,7 +154,7 @@ func (s *svc) inGateSendToAddrReq(msg graph.IMsg) *util.Err {
 }
 
 func (s *svc) onGateSendToAddrRes(msg util.IMsg) (point string, data any) {
-	sc := kiwi.MergeSvcCode(kiwi.Codec().MsgToSvcCode(msg))
+	sc := kiwi.MergeSvcCode(kiwi.Codec().MsgToSvcMethod(msg))
 	s.client.Graph().Data().Set(strconv.Itoa(int(sc)), msg)
 	return "GateSendToAddr", nil
 }
@@ -165,7 +165,7 @@ func (s *svc) inGateSendToMultiIdReq(msg graph.IMsg) *util.Err {
 }
 
 func (s *svc) onGateSendToMultiIdRes(msg util.IMsg) (point string, data any) {
-	sc := kiwi.MergeSvcCode(kiwi.Codec().MsgToSvcCode(msg))
+	sc := kiwi.MergeSvcCode(kiwi.Codec().MsgToSvcMethod(msg))
 	s.client.Graph().Data().Set(strconv.Itoa(int(sc)), msg)
 	return "GateSendToMultiId", nil
 }
@@ -176,7 +176,7 @@ func (s *svc) inGateSendToMultiAddrReq(msg graph.IMsg) *util.Err {
 }
 
 func (s *svc) onGateSendToMultiAddrRes(msg util.IMsg) (point string, data any) {
-	sc := kiwi.MergeSvcCode(kiwi.Codec().MsgToSvcCode(msg))
+	sc := kiwi.MergeSvcCode(kiwi.Codec().MsgToSvcMethod(msg))
 	s.client.Graph().Data().Set(strconv.Itoa(int(sc)), msg)
 	return "GateSendToMultiAddr", nil
 }
@@ -187,7 +187,7 @@ func (s *svc) inGateSendToAllReq(msg graph.IMsg) *util.Err {
 }
 
 func (s *svc) onGateSendToAllRes(msg util.IMsg) (point string, data any) {
-	sc := kiwi.MergeSvcCode(kiwi.Codec().MsgToSvcCode(msg))
+	sc := kiwi.MergeSvcCode(kiwi.Codec().MsgToSvcMethod(msg))
 	s.client.Graph().Data().Set(strconv.Itoa(int(sc)), msg)
 	return "GateSendToAll", nil
 }
@@ -198,7 +198,7 @@ func (s *svc) inGateCloseIdReq(msg graph.IMsg) *util.Err {
 }
 
 func (s *svc) onGateCloseIdRes(msg util.IMsg) (point string, data any) {
-	sc := kiwi.MergeSvcCode(kiwi.Codec().MsgToSvcCode(msg))
+	sc := kiwi.MergeSvcCode(kiwi.Codec().MsgToSvcMethod(msg))
 	s.client.Graph().Data().Set(strconv.Itoa(int(sc)), msg)
 	return "GateCloseId", nil
 }
@@ -209,7 +209,7 @@ func (s *svc) inGateCloseAddrReq(msg graph.IMsg) *util.Err {
 }
 
 func (s *svc) onGateCloseAddrRes(msg util.IMsg) (point string, data any) {
-	sc := kiwi.MergeSvcCode(kiwi.Codec().MsgToSvcCode(msg))
+	sc := kiwi.MergeSvcCode(kiwi.Codec().MsgToSvcMethod(msg))
 	s.client.Graph().Data().Set(strconv.Itoa(int(sc)), msg)
 	return "GateCloseAddr", nil
 }
@@ -220,7 +220,7 @@ func (s *svc) inGateUpdateReq(msg graph.IMsg) *util.Err {
 }
 
 func (s *svc) onGateUpdateRes(msg util.IMsg) (point string, data any) {
-	sc := kiwi.MergeSvcCode(kiwi.Codec().MsgToSvcCode(msg))
+	sc := kiwi.MergeSvcCode(kiwi.Codec().MsgToSvcMethod(msg))
 	s.client.Graph().Data().Set(strconv.Itoa(int(sc)), msg)
 	return "GateUpdate", nil
 }
@@ -231,7 +231,7 @@ func (s *svc) inGateAddrUpdateReq(msg graph.IMsg) *util.Err {
 }
 
 func (s *svc) onGateAddrUpdateRes(msg util.IMsg) (point string, data any) {
-	sc := kiwi.MergeSvcCode(kiwi.Codec().MsgToSvcCode(msg))
+	sc := kiwi.MergeSvcCode(kiwi.Codec().MsgToSvcMethod(msg))
 	s.client.Graph().Data().Set(strconv.Itoa(int(sc)), msg)
 	return "GateAddrUpdate", nil
 }
@@ -242,7 +242,7 @@ func (s *svc) inGateRemoveReq(msg graph.IMsg) *util.Err {
 }
 
 func (s *svc) onGateRemoveRes(msg util.IMsg) (point string, data any) {
-	sc := kiwi.MergeSvcCode(kiwi.Codec().MsgToSvcCode(msg))
+	sc := kiwi.MergeSvcCode(kiwi.Codec().MsgToSvcMethod(msg))
 	s.client.Graph().Data().Set(strconv.Itoa(int(sc)), msg)
 	return "GateRemove", nil
 }
@@ -253,7 +253,7 @@ func (s *svc) inGateAddrRemoveReq(msg graph.IMsg) *util.Err {
 }
 
 func (s *svc) onGateAddrRemoveRes(msg util.IMsg) (point string, data any) {
-	sc := kiwi.MergeSvcCode(kiwi.Codec().MsgToSvcCode(msg))
+	sc := kiwi.MergeSvcCode(kiwi.Codec().MsgToSvcMethod(msg))
 	s.client.Graph().Data().Set(strconv.Itoa(int(sc)), msg)
 	return "GateAddrRemove", nil
 }
@@ -264,7 +264,7 @@ func (s *svc) inGateGetReq(msg graph.IMsg) *util.Err {
 }
 
 func (s *svc) onGateGetRes(msg util.IMsg) (point string, data any) {
-	sc := kiwi.MergeSvcCode(kiwi.Codec().MsgToSvcCode(msg))
+	sc := kiwi.MergeSvcCode(kiwi.Codec().MsgToSvcMethod(msg))
 	s.client.Graph().Data().Set(strconv.Itoa(int(sc)), msg)
 	return "GateGet", nil
 }
@@ -275,7 +275,7 @@ func (s *svc) inGateAddrGetReq(msg graph.IMsg) *util.Err {
 }
 
 func (s *svc) onGateAddrGetRes(msg util.IMsg) (point string, data any) {
-	sc := kiwi.MergeSvcCode(kiwi.Codec().MsgToSvcCode(msg))
+	sc := kiwi.MergeSvcCode(kiwi.Codec().MsgToSvcMethod(msg))
 	s.client.Graph().Data().Set(strconv.Itoa(int(sc)), msg)
 	return "GateAddrGet", nil
 }

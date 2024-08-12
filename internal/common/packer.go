@@ -6,14 +6,14 @@ import (
 	"github.com/15mga/kiwi/util"
 )
 
-func PackUserReq(svc kiwi.TSvc, code kiwi.TCode, msg util.IMsg) ([]byte, *util.Err) {
+func PackUserReq(svc kiwi.TSvc, code kiwi.TMethod, msg util.IMsg) ([]byte, *util.Err) {
 	bytes, err := util.JsonMarshal(msg)
 	if err != nil {
 		return nil, err
 	}
 	var buffer util.ByteBuffer
 	buffer.InitCap(2 + len(bytes))
-	sc := kiwi.MergeSvcCode(svc, code)
+	sc := kiwi.MergeSvcMethod(svc, code)
 	buffer.WUint32(sc)
 	_, e := buffer.Write(bytes)
 	if e != nil {
@@ -24,7 +24,7 @@ func PackUserReq(svc kiwi.TSvc, code kiwi.TCode, msg util.IMsg) ([]byte, *util.E
 	return buffer.All(), nil
 }
 
-func UnpackUserReq(bytes []byte) (svc kiwi.TSvc, code kiwi.TCode, payload []byte, err *util.Err) {
+func UnpackUserReq(bytes []byte) (svc kiwi.TSvc, code kiwi.TMethod, payload []byte, err *util.Err) {
 	var buffer util.ByteBuffer
 	buffer.InitBytes(bytes)
 	sc, err := buffer.RUint32()
@@ -36,7 +36,7 @@ func UnpackUserReq(bytes []byte) (svc kiwi.TSvc, code kiwi.TCode, payload []byte
 	return
 }
 
-func PackUserOk(resCode kiwi.TSvcCode, payload []byte) ([]byte, *util.Err) {
+func PackUserOk(resCode kiwi.TSvcMethod, payload []byte) ([]byte, *util.Err) {
 	var buffer util.ByteBuffer
 	buffer.InitCap(len(payload) + 2)
 	buffer.WUint32(resCode)
@@ -49,7 +49,7 @@ func PackUserOk(resCode kiwi.TSvcCode, payload []byte) ([]byte, *util.Err) {
 	return buffer.All(), nil
 }
 
-func UnpackUserOk(bytes []byte) (svc kiwi.TSvc, code kiwi.TCode, msg util.IMsg, err *util.Err) {
+func UnpackUserOk(bytes []byte) (svc kiwi.TSvc, code kiwi.TMethod, msg util.IMsg, err *util.Err) {
 	var buffer util.ByteBuffer
 	buffer.InitBytes(bytes)
 	var resCode uint32
@@ -63,7 +63,7 @@ func UnpackUserOk(bytes []byte) (svc kiwi.TSvc, code kiwi.TCode, msg util.IMsg, 
 	return
 }
 
-func PackUserFail(failMsgCode kiwi.TSvcCode, resSvcCode kiwi.TSvcCode, errCode uint16) ([]byte, *util.Err) {
+func PackUserFail(failMsgCode kiwi.TSvcMethod, resSvcCode kiwi.TSvcMethod, errCode uint16) ([]byte, *util.Err) {
 	bytes, err := util.JsonMarshal(&pb.GateErrPus{
 		MsgCode: int32(resSvcCode),
 		ErrCode: int32(errCode),
@@ -74,6 +74,6 @@ func PackUserFail(failMsgCode kiwi.TSvcCode, resSvcCode kiwi.TSvcCode, errCode u
 	return PackUserOk(failMsgCode, bytes)
 }
 
-func PackUserPus(svc kiwi.TSvc, code kiwi.TCode, ntc []byte) ([]byte, *util.Err) {
-	return PackUserOk(kiwi.MergeSvcCode(svc, code), ntc)
+func PackUserPus(svc kiwi.TSvc, code kiwi.TMethod, ntc []byte) ([]byte, *util.Err) {
+	return PackUserOk(kiwi.MergeSvcMethod(svc, code), ntc)
 }

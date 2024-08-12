@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+import "github.com/15mga/kiwi_tool/kiwi.proto";
+
+package pb;
+option go_package = "/pb";
+option csharp_namespace = "Pb";
+option (kiwi.svc) = {
+  name:"group",
+  id: 3,
+  worker: {
+    mode: Active,
+    origin: Head,
+    key: "group_id",
+  },
+  dependencies:[
+    "gate",
+    "user"
+  ]
+};

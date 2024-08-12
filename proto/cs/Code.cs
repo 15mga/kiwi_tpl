@@ -21,6 +21,7 @@ namespace Pb
 			{typeof(UserResetPasswordReq), 2004},
 			{typeof(UserSmsCodeReq), 2006},
 			{typeof(UserSignOutReq), 2008},
+			{typeof(GroupNewReq), 3000},
 		};
 
 		public static readonly Dictionary<ushort, Func<byte[], IMessage>> CodeToMsg = new()

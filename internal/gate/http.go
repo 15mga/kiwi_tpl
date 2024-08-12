@@ -62,7 +62,7 @@ func HttpDisconnected(head util.M) {
 	if !ok {
 		return
 	}
-	_svc.Req(0, head, &pb.UserDisconnectReq{
+	_svc.AsyncReq(0, head, &pb.UserDisconnectReq{
 		Id: id,
 	}, nil, nil)
 }
@@ -107,11 +107,11 @@ func HttpReceiver(head util.M, w http.ResponseWriter, r *http.Request) {
 	codeStr := r.PathValue("code")
 	codeInt, err := strconv.Atoi(codeStr)
 	if err != nil {
-		httpResErr(w, util.EcWrongCode)
+		httpResErr(w, util.EcWrongMethod)
 		return
 	}
 	svc := kiwi.TSvc(svcInt)
-	code := kiwi.TCode(codeInt)
+	code := kiwi.TMethod(codeInt)
 
 	roleMask, _ := util.MGet[int64](head, common.HdMask)
 	ok := kiwi.Gate().Authenticate(roleMask, svc, code)
@@ -130,7 +130,7 @@ func HttpReceiver(head util.M, w http.ResponseWriter, r *http.Request) {
 
 	failCh := make(chan uint16, 1)
 	okCh := make(chan []byte, 1)
-	_svc.ReqBytes(0, svc, code, head, true, payload, func(code uint16) {
+	_svc.AsyncReqBytes(0, svc, code, head, true, payload, func(code uint16) {
 		failCh <- code
 	}, func(bytes []byte) {
 		okCh <- bytes
@@ -140,7 +140,7 @@ func HttpReceiver(head util.M, w http.ResponseWriter, r *http.Request) {
 	case c := <-failCh:
 		res.Code = c
 	case b := <-okCh:
-		resCode, err := kiwi.Codec().ReqToResCode(svc, code)
+		resCode, err := kiwi.Codec().ReqToResMethod(svc, code)
 		if err != nil {
 			httpResErr(w, util.EcServiceErr)
 			return

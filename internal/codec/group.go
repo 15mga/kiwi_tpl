@@ -7,6 +7,5 @@ import (
 )
 
 const (
-	TestPingPongReq kiwi.TMethod = 0
-	TestPingPongRes kiwi.TMethod = 1
+	GroupNewReq kiwi.TCode = 0
 )

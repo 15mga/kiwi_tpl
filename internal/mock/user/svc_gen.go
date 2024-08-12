@@ -44,7 +44,7 @@ func (s *svc) Dispose() {
 
 func (s *svc) Req(req util.IMsg) *util.Err {
 	kiwi.Debug("request", util.M{string(req.ProtoReflect().Descriptor().Name()): req})
-	svc, code := kiwi.Codec().MsgToSvcCode(req)
+	svc, code := kiwi.Codec().MsgToSvcMethod(req)
 	bytes, err := common.PackUserReq(svc, code, req)
 	if err != nil {
 		return err
@@ -58,7 +58,7 @@ func (s *svc) inUserSignUpReq(msg graph.IMsg) *util.Err {
 }
 
 func (s *svc) onUserSignUpRes(msg util.IMsg) (point string, data any) {
-	sc := kiwi.MergeSvcCode(kiwi.Codec().MsgToSvcCode(msg))
+	sc := kiwi.MergeSvcCode(kiwi.Codec().MsgToSvcMethod(msg))
 	s.client.Graph().Data().Set(strconv.Itoa(int(sc)), msg)
 	return "UserSignUp", nil
 }
@@ -69,7 +69,7 @@ func (s *svc) inUserSignInReq(msg graph.IMsg) *util.Err {
 }
 
 func (s *svc) onUserSignInRes(msg util.IMsg) (point string, data any) {
-	sc := kiwi.MergeSvcCode(kiwi.Codec().MsgToSvcCode(msg))
+	sc := kiwi.MergeSvcCode(kiwi.Codec().MsgToSvcMethod(msg))
 	s.client.Graph().Data().Set(strconv.Itoa(int(sc)), msg)
 	return "UserSignIn", nil
 }
@@ -80,7 +80,7 @@ func (s *svc) inUserResetPasswordReq(msg graph.IMsg) *util.Err {
 }
 
 func (s *svc) onUserResetPasswordRes(msg util.IMsg) (point string, data any) {
-	sc := kiwi.MergeSvcCode(kiwi.Codec().MsgToSvcCode(msg))
+	sc := kiwi.MergeSvcCode(kiwi.Codec().MsgToSvcMethod(msg))
 	s.client.Graph().Data().Set(strconv.Itoa(int(sc)), msg)
 	return "UserResetPassword", nil
 }
@@ -91,7 +91,7 @@ func (s *svc) inUserSmsCodeReq(msg graph.IMsg) *util.Err {
 }
 
 func (s *svc) onUserSmsCodeRes(msg util.IMsg) (point string, data any) {
-	sc := kiwi.MergeSvcCode(kiwi.Codec().MsgToSvcCode(msg))
+	sc := kiwi.MergeSvcCode(kiwi.Codec().MsgToSvcMethod(msg))
 	s.client.Graph().Data().Set(strconv.Itoa(int(sc)), msg)
 	return "UserSmsCode", nil
 }
@@ -102,7 +102,7 @@ func (s *svc) inUserSignOutReq(msg graph.IMsg) *util.Err {
 }
 
 func (s *svc) onUserSignOutRes(msg util.IMsg) (point string, data any) {
-	sc := kiwi.MergeSvcCode(kiwi.Codec().MsgToSvcCode(msg))
+	sc := kiwi.MergeSvcCode(kiwi.Codec().MsgToSvcMethod(msg))
 	s.client.Graph().Data().Set(strconv.Itoa(int(sc)), msg)
 	return "UserSignOut", nil
 }
@@ -113,7 +113,7 @@ func (s *svc) inUserDisconnectReq(msg graph.IMsg) *util.Err {
 }
 
 func (s *svc) onUserDisconnectRes(msg util.IMsg) (point string, data any) {
-	sc := kiwi.MergeSvcCode(kiwi.Codec().MsgToSvcCode(msg))
+	sc := kiwi.MergeSvcCode(kiwi.Codec().MsgToSvcMethod(msg))
 	s.client.Graph().Data().Set(strconv.Itoa(int(sc)), msg)
 	return "UserDisconnect", nil
 }
@@ -124,7 +124,7 @@ func (s *svc) inUserUpdateHeadReq(msg graph.IMsg) *util.Err {
 }
 
 func (s *svc) onUserUpdateHeadRes(msg util.IMsg) (point string, data any) {
-	sc := kiwi.MergeSvcCode(kiwi.Codec().MsgToSvcCode(msg))
+	sc := kiwi.MergeSvcCode(kiwi.Codec().MsgToSvcMethod(msg))
 	s.client.Graph().Data().Set(strconv.Itoa(int(sc)), msg)
 	return "UserUpdateHead", nil
 }

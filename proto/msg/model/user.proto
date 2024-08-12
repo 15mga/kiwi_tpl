@@ -18,7 +18,7 @@ message User {
   option (kiwi.schema) = true;
   string id = 1 [(kiwi.cache)=true];
   string password = 2;
-  int64 roleMask = 3; //角色组：1:访客，2：玩家，
+  int64 roleMask = 3; //角色组遮罩
   bool ban = 4; //禁用
   string nick = 5 [(kiwi.cache)=true]; //昵称
   string addr = 6; //地址
@@ -28,20 +28,54 @@ message User {
   int64 signUpTime = 10; //注册时间
   int64 lastSignInTime = 11; //最后登录时间
   string lastSignInIp = 12; //最后登录地址
-  string lastOs = 13; //最后登录使用的系统
+  int64 lastOfflineTime = 13; //最后下线时间
+  string lastOs = 14; //最后登录使用的系统
   OnlineState state = 15; //状态
-  string avatar = 17; //头像地址
-  string wechatUnionId = 18; //微信联合 id
-  string token = 19 [(kiwi.cache)=true]; //token
-  bytes head = 20; //会话
-  int64 lastOfflineTime = 21; //最后下线时间
-  int64 onlineDur = 22; //在线时长
-  bool test = 23; //测试账号
+  string avatar = 16; //头像地址
+  string wechatUnionId = 17 [(kiwi.cache)=true]; //微信联合 id
+  string token = 18 [(kiwi.cache)=true]; //token
+  bytes head = 19; //会话
+  int64 onlineDur = 20; //在线时长
   repeated bool testBool = 30;
   repeated int32 testI32 = 31;
   repeated string testString = 32;
   Test testData = 33;
   repeated Test testData2 = 34;
+  option (kiwi.idx) = {
+    fields:[
+      {
+        name: "ban"
+      }
+    ]
+  };
+  option (kiwi.idx) = {
+    fields:[
+      {
+        name: "sign_up_time"
+      }
+    ]
+  };
+  option (kiwi.idx) = {
+    fields:[
+      {
+        name: "last_sign_in_time"
+      }
+    ]
+  };
+  option (kiwi.idx) = {
+    fields:[
+      {
+        name: "last_sign_in_ip"
+      }
+    ]
+  };
+  option (kiwi.idx) = {
+    fields:[
+      {
+        name: "state"
+      }
+    ]
+  };
 }
 
 message Test {

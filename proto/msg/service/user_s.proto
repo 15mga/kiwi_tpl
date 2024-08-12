@@ -12,7 +12,10 @@ option (kiwi.svc) = {
     mode: Active,
     origin: Head,
     key: "addr",
-  }
+  },
+  dependencies:[
+    "gate"
+  ]
 };
 
 message UserDisconnectReq {

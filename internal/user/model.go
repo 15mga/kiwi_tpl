@@ -26,10 +26,11 @@ func initEvict() {
 }
 
 var (
-	_UserIdMap      = make(map[string]struct{})
-	_UserNickToId   = make(map[string]string)
-	_UserMobileToId = make(map[string]string)
-	_UserTokenToId  = make(map[string]string)
+	_UserIdMap             = make(map[string]struct{})
+	_UserNickToId          = make(map[string]string)
+	_UserMobileToId        = make(map[string]string)
+	_UserWechatUnionIdToId = make(map[string]string)
+	_UserTokenToId         = make(map[string]string)
 )
 
 func StoreAllUsers() {
@@ -46,6 +47,7 @@ func setUser(m *User) {
 	mgo.Set(m)
 	_UserNickToId[m.Nick] = m.Id
 	_UserMobileToId[m.Mobile] = m.Id
+	_UserWechatUnionIdToId[m.WechatUnionId] = m.Id
 	_UserTokenToId[m.Token] = m.Id
 }
 
@@ -69,6 +71,7 @@ func delUserMap(m *User) {
 	delete(_UserIdMap, m.GetId())
 	delete(_UserNickToId, m.Nick)
 	delete(_UserMobileToId, m.Mobile)
+	delete(_UserWechatUnionIdToId, m.WechatUnionId)
 	delete(_UserTokenToId, m.Token)
 }
 
@@ -111,6 +114,20 @@ func GetUserWithMobile(mobile string) *User {
 	return m
 }
 
+func GetUserWithWechatUnionId(wechatUnionId string) *User {
+	id, ok := _UserWechatUnionIdToId[wechatUnionId]
+	if ok {
+		m, ok := mgo.Get[*User](SchemaUser, id)
+		if ok {
+			return m
+		}
+	}
+	m := _ModelFac[SchemaUser]().(*User)
+	m.LoadWithFilter(bson.M{WechatUnionId: wechatUnionId})
+	setUser(m)
+	return m
+}
+
 func GetUserWithToken(token string) *User {
 	id, ok := _UserTokenToId[token]
 	if ok {
@@ -129,7 +146,7 @@ func NewUser() mgo.IModel {
 	m := &User{
 		User: &pb.User{},
 	}
-	m.Model = mgo.NewModel(SchemaUser, 26, m.GetVal)
+	m.Model = mgo.NewModel(SchemaUser, 25, m.GetVal)
 	return m
 }
 
@@ -198,6 +215,11 @@ func (this *User) SetLastSignInIp(val string) {
 	this.SetDirty(LastSignInIp)
 }
 
+func (this *User) SetLastOfflineTime(val int64) {
+	this.LastOfflineTime = val
+	this.SetDirty(LastOfflineTime)
+}
+
 func (this *User) SetLastOs(val string) {
 	this.LastOs = val
 	this.SetDirty(LastOs)
@@ -228,19 +250,9 @@ func (this *User) SetHead(val []byte) {
 	this.SetDirty(Head)
 }
 
-func (this *User) SetLastOfflineTime(val int64) {
-	this.LastOfflineTime = val
-	this.SetDirty(LastOfflineTime)
-}
-
 func (this *User) SetOnlineDur(val int64) {
 	this.OnlineDur = val
 	this.SetDirty(OnlineDur)
-}
-
-func (this *User) SetTest(val bool) {
-	this.Test = val
-	this.SetDirty(Test)
 }
 
 func (this *User) SetTestBool(val []bool) {
@@ -433,15 +445,14 @@ func (this *User) Cost() int64 {
 	cost += 8 //SignUpTime int64
 	cost += 8 //LastSignInTime int64
 	cost += int64(len(this.LastSignInIp))
+	cost += 8 //LastOfflineTime int64
 	cost += int64(len(this.LastOs))
 	cost += 4 //State enum
 	cost += int64(len(this.Avatar))
 	cost += int64(len(this.WechatUnionId))
 	cost += int64(len(this.Token))
 	cost += int64(len(this.Head))
-	cost += 8 //LastOfflineTime int64
 	cost += 8 //OnlineDur int64
-	cost += 1 //Test bool
 	cost += int64(len(this.TestBool))
 	cost += 4 * int64(len(this.TestI32))
 	for _, item := range this.TestString {
