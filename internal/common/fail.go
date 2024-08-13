@@ -2,26 +2,39 @@
 
 package common
 
-// gate
+// gate 1
 const (
 	//id不存在
-	EcGateNotExistId = 11001
+	EcGateNotExistId = 1000
 	//地址不存在
-	EcGateNotExistAddr = 11002
+	EcGateNotExistAddr = 1001
 )
 
-// user
+// user 2
 const (
 	//手机号错误
-	EcMobileWrong = 0
+	EcMobileWrong = 2000
 	//密码错误
-	EcPasswordWrong = 1
+	EcPasswordWrong = 2001
 	//手机号已存在
-	EcMobileExist = 2
+	EcMobileExist = 2002
 	//手机号已存在
-	EcNickExist = 3
+	EcNickExist = 2003
 	//验证码错误
-	EcSmsWrong = 4
+	EcSmsWrong = 2004
 	//账号或密码错误
-	EcWrongMobileOrPassword = 5
+	EcWrongMobileOrPassword = 2005
 )
+
+func init() {
+	util.SetErrCodesToStrMap(map[util.TErrCode]string{
+		1000: "gate not exist id",
+		1001: "gate not exist addr",
+		2000: "mobile wrong",
+		2001: "password wrong",
+		2002: "mobile exist",
+		2003: "nick exist",
+		2004: "sms wrong",
+		2005: "wrong mobile or password",
+	})
+}

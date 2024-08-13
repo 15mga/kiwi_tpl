@@ -9,11 +9,11 @@ option csharp_namespace = "Pb";
 option (kiwi.svc) = {
   name:"user",
   fail: [
-    {code:0, key:"mobile_wrong", msg:"手机号错误"},
-    {code:1, key:"password_wrong", msg:"密码错误"},
-    {code:2, key:"mobile_exist", msg:"手机号已存在"},
-    {code:3, key:"nick_exist", msg:"手机号已存在"},
-    {code:4, key:"sms_wrong", msg:"验证码错误"},
-    {code:5, key:"wrong_mobile_or_password", msg:"账号或密码错误"}
+    {code:2000, error:"mobile wrong", comment:"手机号错误"},
+    {code:2001, error:"password wrong", comment:"密码错误"},
+    {code:2002, error:"mobile exist", comment:"手机号已存在"},
+    {code:2003, error:"nick exist", comment:"手机号已存在"},
+    {code:2004, error:"sms wrong", comment:"验证码错误"},
+    {code:2005, error:"wrong mobile or password", comment:"账号或密码错误"}
   ]
 };

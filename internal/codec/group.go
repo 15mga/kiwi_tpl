@@ -8,4 +8,5 @@ import (
 
 const (
 	GroupNewReq kiwi.TCode = 0
+	GroupNewRes kiwi.TCode = 1
 )

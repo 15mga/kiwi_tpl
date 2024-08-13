@@ -172,4 +172,7 @@ func BindPool() {
 	kiwi.Codec().BindPool(common.Group, GroupNewReq, func() util.IMsg {
 		return &pb.GroupNewReq{}
 	})
+	kiwi.Codec().BindPool(common.Group, GroupNewRes, func() util.IMsg {
+		return &pb.GroupNewRes{}
+	})
 }

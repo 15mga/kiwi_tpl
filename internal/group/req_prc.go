@@ -13,6 +13,9 @@ import (
 
 func registerReq() {
 	kiwi.Router().BindReq(common.Group, codec.GroupNewReq, func(req kiwi.IRcvRequest) {
+		if _svc.IsShutdown() {
+			return
+		}
 		req.SetReceiver(_svc)
 		key, _ := util.MGet[string](req.Head(), "group_id")
 		core.ActivePrcReq[*pb.GroupNewReq](req, key, _svc.OnGroupNew)

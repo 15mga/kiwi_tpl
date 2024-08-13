@@ -13,36 +13,57 @@ import (
 
 func registerReq() {
 	kiwi.Router().BindReq(common.User, codec.UserSignUpReq, func(req kiwi.IRcvRequest) {
+		if _svc.IsShutdown() {
+			return
+		}
 		req.SetReceiver(_svc)
 		key, _ := util.MGet[string](req.Head(), "addr")
 		core.ActivePrcReq[*pb.UserSignUpReq](req, key, _svc.OnUserSignUp)
 	})
 	kiwi.Router().BindReq(common.User, codec.UserSignInReq, func(req kiwi.IRcvRequest) {
+		if _svc.IsShutdown() {
+			return
+		}
 		req.SetReceiver(_svc)
 		key, _ := util.MGet[string](req.Head(), "addr")
 		core.ActivePrcReq[*pb.UserSignInReq](req, key, _svc.OnUserSignIn)
 	})
 	kiwi.Router().BindReq(common.User, codec.UserResetPasswordReq, func(req kiwi.IRcvRequest) {
+		if _svc.IsShutdown() {
+			return
+		}
 		req.SetReceiver(_svc)
 		key, _ := util.MGet[string](req.Head(), "addr")
 		core.ActivePrcReq[*pb.UserResetPasswordReq](req, key, _svc.OnUserResetPassword)
 	})
 	kiwi.Router().BindReq(common.User, codec.UserSmsCodeReq, func(req kiwi.IRcvRequest) {
+		if _svc.IsShutdown() {
+			return
+		}
 		req.SetReceiver(_svc)
 		key, _ := util.MGet[string](req.Head(), "addr")
 		core.ActivePrcReq[*pb.UserSmsCodeReq](req, key, _svc.OnUserSmsCode)
 	})
 	kiwi.Router().BindReq(common.User, codec.UserSignOutReq, func(req kiwi.IRcvRequest) {
+		if _svc.IsShutdown() {
+			return
+		}
 		req.SetReceiver(_svc)
 		key, _ := util.MGet[string](req.Head(), "addr")
 		core.ActivePrcReq[*pb.UserSignOutReq](req, key, _svc.OnUserSignOut)
 	})
 	kiwi.Router().BindReq(common.User, codec.UserDisconnectReq, func(req kiwi.IRcvRequest) {
+		if _svc.IsShutdown() {
+			return
+		}
 		req.SetReceiver(_svc)
 		key, _ := util.MGet[string](req.Head(), "addr")
 		core.ActivePrcReq[*pb.UserDisconnectReq](req, key, _svc.OnUserDisconnect)
 	})
 	kiwi.Router().BindReq(common.User, codec.UserUpdateHeadReq, func(req kiwi.IRcvRequest) {
+		if _svc.IsShutdown() {
+			return
+		}
 		req.SetReceiver(_svc)
 		key, _ := util.MGet[string](req.Head(), "addr")
 		core.ActivePrcReq[*pb.UserUpdateHeadReq](req, key, _svc.OnUserUpdateHead)

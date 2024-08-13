@@ -22,10 +22,12 @@ func New(ver string) kiwi.IService {
 	return _svc
 }
 
+// id: 2 name: user
 type Svc struct {
 	svc
 }
 
+// id: 2 name: user
 type svc struct {
 	core.Service
 }

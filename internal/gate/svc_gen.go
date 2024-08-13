@@ -15,15 +15,17 @@ var (
 func New(ver string) kiwi.IService {
 	_svc = &Svc{
 		svc: svc{
-			Service: core.NewService(common.Gate, ver%!s(MISSING)),
+			Service: core.NewService(common.Gate, ver),
 		}}
 	return _svc
 }
 
+// id: 1 name: gate
 type Svc struct {
 	svc
 }
 
+// id: 1 name: gate
 type svc struct {
 	core.Service
 }

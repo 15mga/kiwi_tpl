@@ -24,12 +24,13 @@ type svc struct {
 func InitClient(client *mock.Client) {
 	s := &Svc{svc{client: client}}
 	s.client.BindPointMsg("group", "GroupNew", s.inGroupNewReq)
+	s.client.BindNetMsg(&pb.GroupNewRes{}, s.onGroupNewRes)
 }
 
 func (s *svc) Dispose() {
 }
 
-func (s *svc) Req(req util.IMsg) *util.Err {
+func (s *svc) AsyncReq(req util.IMsg) *util.Err {
 	kiwi.Debug("request", util.M{string(req.ProtoReflect().Descriptor().Name()): req})
 	svc, code := kiwi.Codec().MsgToSvcMethod(req)
 	bytes, err := common.PackUserReq(svc, code, req)
@@ -41,5 +42,11 @@ func (s *svc) Req(req util.IMsg) *util.Err {
 
 func (s *svc) inGroupNewReq(msg graph.IMsg) *util.Err {
 	req := s.client.GetRequest(common.Group, codec.GroupNewReq)
-	return s.Req(req)
+	return s.AsyncReq(req)
+}
+
+func (s *svc) onGroupNewRes(msg util.IMsg) (point string, data any) {
+	sc := kiwi.MergeSvcCode(kiwi.Codec().MsgToSvcMethod(msg))
+	s.client.Graph().Data().Set(strconv.Itoa(int(sc)), msg)
+	return "GroupNew", nil
 }

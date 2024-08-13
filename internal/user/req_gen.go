@@ -8,6 +8,18 @@ import (
 	"github.com/15mga/kiwi/util"
 )
 
+func (s *svc) OnUserSignOut(pkt kiwi.IRcvRequest, req *pb.UserSignOutReq, res *pb.UserSignOutRes) {
+	pkt.Err2(util.EcNotImplement, util.M{"req": req})
+}
+
+func (s *svc) OnUserDisconnect(pkt kiwi.IRcvRequest, req *pb.UserDisconnectReq, res *pb.UserDisconnectRes) {
+	pkt.Err2(util.EcNotImplement, util.M{"req": req})
+}
+
+func (s *svc) OnUserUpdateHead(pkt kiwi.IRcvRequest, req *pb.UserUpdateHeadReq, res *pb.UserUpdateHeadRes) {
+	pkt.Err2(util.EcNotImplement, util.M{"req": req})
+}
+
 func (s *svc) OnUserSignUp(pkt kiwi.IRcvRequest, req *pb.UserSignUpReq, res *pb.UserSignUpRes) {
 	pkt.Err2(util.EcNotImplement, util.M{"req": req})
 }
@@ -21,17 +33,5 @@ func (s *svc) OnUserResetPassword(pkt kiwi.IRcvRequest, req *pb.UserResetPasswor
 }
 
 func (s *svc) OnUserSmsCode(pkt kiwi.IRcvRequest, req *pb.UserSmsCodeReq, res *pb.UserSmsCodeRes) {
-	pkt.Err2(util.EcNotImplement, util.M{"req": req})
-}
-
-func (s *svc) OnUserSignOut(pkt kiwi.IRcvRequest, req *pb.UserSignOutReq, res *pb.UserSignOutRes) {
-	pkt.Err2(util.EcNotImplement, util.M{"req": req})
-}
-
-func (s *svc) OnUserDisconnect(pkt kiwi.IRcvRequest, req *pb.UserDisconnectReq, res *pb.UserDisconnectRes) {
-	pkt.Err2(util.EcNotImplement, util.M{"req": req})
-}
-
-func (s *svc) OnUserUpdateHead(pkt kiwi.IRcvRequest, req *pb.UserUpdateHeadReq, res *pb.UserUpdateHeadRes) {
 	pkt.Err2(util.EcNotImplement, util.M{"req": req})
 }

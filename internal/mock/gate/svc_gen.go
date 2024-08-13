@@ -65,7 +65,7 @@ func InitClient(client *mock.Client) {
 func (s *svc) Dispose() {
 }
 
-func (s *svc) Req(req util.IMsg) *util.Err {
+func (s *svc) AsyncReq(req util.IMsg) *util.Err {
 	kiwi.Debug("request", util.M{string(req.ProtoReflect().Descriptor().Name()): req})
 	svc, code := kiwi.Codec().MsgToSvcMethod(req)
 	bytes, err := common.PackUserReq(svc, code, req)
@@ -77,7 +77,7 @@ func (s *svc) Req(req util.IMsg) *util.Err {
 
 func (s *svc) inGateHeartbeatReq(msg graph.IMsg) *util.Err {
 	req := s.client.GetRequest(common.Gate, codec.GateHeartbeatReq)
-	return s.Req(req)
+	return s.AsyncReq(req)
 }
 
 func (s *svc) onGateHeartbeatRes(msg util.IMsg) (point string, data any) {
@@ -100,7 +100,7 @@ func (s *svc) onGateRepeatPus(msg util.IMsg) (point string, data any) {
 
 func (s *svc) inGateUploadFileReq(msg graph.IMsg) *util.Err {
 	req := s.client.GetRequest(common.Gate, codec.GateUploadFileReq)
-	return s.Req(req)
+	return s.AsyncReq(req)
 }
 
 func (s *svc) onGateUploadFileRes(msg util.IMsg) (point string, data any) {
@@ -111,7 +111,7 @@ func (s *svc) onGateUploadFileRes(msg util.IMsg) (point string, data any) {
 
 func (s *svc) inGateUploadWithTokenReq(msg graph.IMsg) *util.Err {
 	req := s.client.GetRequest(common.Gate, codec.GateUploadWithTokenReq)
-	return s.Req(req)
+	return s.AsyncReq(req)
 }
 
 func (s *svc) onGateUploadWithTokenRes(msg util.IMsg) (point string, data any) {
@@ -128,7 +128,7 @@ func (s *svc) onGateUploadWithTokenPus(msg util.IMsg) (point string, data any) {
 
 func (s *svc) inGateBanAddrReq(msg graph.IMsg) *util.Err {
 	req := s.client.GetRequest(common.Gate, codec.GateBanAddrReq)
-	return s.Req(req)
+	return s.AsyncReq(req)
 }
 
 func (s *svc) onGateBanAddrRes(msg util.IMsg) (point string, data any) {
@@ -139,7 +139,7 @@ func (s *svc) onGateBanAddrRes(msg util.IMsg) (point string, data any) {
 
 func (s *svc) inGateSendToIdReq(msg graph.IMsg) *util.Err {
 	req := s.client.GetRequest(common.Gate, codec.GateSendToIdReq)
-	return s.Req(req)
+	return s.AsyncReq(req)
 }
 
 func (s *svc) onGateSendToIdRes(msg util.IMsg) (point string, data any) {
@@ -150,7 +150,7 @@ func (s *svc) onGateSendToIdRes(msg util.IMsg) (point string, data any) {
 
 func (s *svc) inGateSendToAddrReq(msg graph.IMsg) *util.Err {
 	req := s.client.GetRequest(common.Gate, codec.GateSendToAddrReq)
-	return s.Req(req)
+	return s.AsyncReq(req)
 }
 
 func (s *svc) onGateSendToAddrRes(msg util.IMsg) (point string, data any) {
@@ -161,7 +161,7 @@ func (s *svc) onGateSendToAddrRes(msg util.IMsg) (point string, data any) {
 
 func (s *svc) inGateSendToMultiIdReq(msg graph.IMsg) *util.Err {
 	req := s.client.GetRequest(common.Gate, codec.GateSendToMultiIdReq)
-	return s.Req(req)
+	return s.AsyncReq(req)
 }
 
 func (s *svc) onGateSendToMultiIdRes(msg util.IMsg) (point string, data any) {
@@ -172,7 +172,7 @@ func (s *svc) onGateSendToMultiIdRes(msg util.IMsg) (point string, data any) {
 
 func (s *svc) inGateSendToMultiAddrReq(msg graph.IMsg) *util.Err {
 	req := s.client.GetRequest(common.Gate, codec.GateSendToMultiAddrReq)
-	return s.Req(req)
+	return s.AsyncReq(req)
 }
 
 func (s *svc) onGateSendToMultiAddrRes(msg util.IMsg) (point string, data any) {
@@ -183,7 +183,7 @@ func (s *svc) onGateSendToMultiAddrRes(msg util.IMsg) (point string, data any) {
 
 func (s *svc) inGateSendToAllReq(msg graph.IMsg) *util.Err {
 	req := s.client.GetRequest(common.Gate, codec.GateSendToAllReq)
-	return s.Req(req)
+	return s.AsyncReq(req)
 }
 
 func (s *svc) onGateSendToAllRes(msg util.IMsg) (point string, data any) {
@@ -194,7 +194,7 @@ func (s *svc) onGateSendToAllRes(msg util.IMsg) (point string, data any) {
 
 func (s *svc) inGateCloseIdReq(msg graph.IMsg) *util.Err {
 	req := s.client.GetRequest(common.Gate, codec.GateCloseIdReq)
-	return s.Req(req)
+	return s.AsyncReq(req)
 }
 
 func (s *svc) onGateCloseIdRes(msg util.IMsg) (point string, data any) {
@@ -205,7 +205,7 @@ func (s *svc) onGateCloseIdRes(msg util.IMsg) (point string, data any) {
 
 func (s *svc) inGateCloseAddrReq(msg graph.IMsg) *util.Err {
 	req := s.client.GetRequest(common.Gate, codec.GateCloseAddrReq)
-	return s.Req(req)
+	return s.AsyncReq(req)
 }
 
 func (s *svc) onGateCloseAddrRes(msg util.IMsg) (point string, data any) {
@@ -216,7 +216,7 @@ func (s *svc) onGateCloseAddrRes(msg util.IMsg) (point string, data any) {
 
 func (s *svc) inGateUpdateReq(msg graph.IMsg) *util.Err {
 	req := s.client.GetRequest(common.Gate, codec.GateUpdateReq)
-	return s.Req(req)
+	return s.AsyncReq(req)
 }
 
 func (s *svc) onGateUpdateRes(msg util.IMsg) (point string, data any) {
@@ -227,7 +227,7 @@ func (s *svc) onGateUpdateRes(msg util.IMsg) (point string, data any) {
 
 func (s *svc) inGateAddrUpdateReq(msg graph.IMsg) *util.Err {
 	req := s.client.GetRequest(common.Gate, codec.GateAddrUpdateReq)
-	return s.Req(req)
+	return s.AsyncReq(req)
 }
 
 func (s *svc) onGateAddrUpdateRes(msg util.IMsg) (point string, data any) {
@@ -238,7 +238,7 @@ func (s *svc) onGateAddrUpdateRes(msg util.IMsg) (point string, data any) {
 
 func (s *svc) inGateRemoveReq(msg graph.IMsg) *util.Err {
 	req := s.client.GetRequest(common.Gate, codec.GateRemoveReq)
-	return s.Req(req)
+	return s.AsyncReq(req)
 }
 
 func (s *svc) onGateRemoveRes(msg util.IMsg) (point string, data any) {
@@ -249,7 +249,7 @@ func (s *svc) onGateRemoveRes(msg util.IMsg) (point string, data any) {
 
 func (s *svc) inGateAddrRemoveReq(msg graph.IMsg) *util.Err {
 	req := s.client.GetRequest(common.Gate, codec.GateAddrRemoveReq)
-	return s.Req(req)
+	return s.AsyncReq(req)
 }
 
 func (s *svc) onGateAddrRemoveRes(msg util.IMsg) (point string, data any) {
@@ -260,7 +260,7 @@ func (s *svc) onGateAddrRemoveRes(msg util.IMsg) (point string, data any) {
 
 func (s *svc) inGateGetReq(msg graph.IMsg) *util.Err {
 	req := s.client.GetRequest(common.Gate, codec.GateGetReq)
-	return s.Req(req)
+	return s.AsyncReq(req)
 }
 
 func (s *svc) onGateGetRes(msg util.IMsg) (point string, data any) {
@@ -271,7 +271,7 @@ func (s *svc) onGateGetRes(msg util.IMsg) (point string, data any) {
 
 func (s *svc) inGateAddrGetReq(msg graph.IMsg) *util.Err {
 	req := s.client.GetRequest(common.Gate, codec.GateAddrGetReq)
-	return s.Req(req)
+	return s.AsyncReq(req)
 }
 
 func (s *svc) onGateAddrGetRes(msg util.IMsg) (point string, data any) {

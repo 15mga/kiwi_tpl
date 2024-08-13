@@ -13,3 +13,7 @@ message GroupNewReq {
   option (kiwi.method) = 0;
   option (kiwi.role) = "player";
 }
+
+message GroupNewRes {
+  option (kiwi.method) = 1;
+}

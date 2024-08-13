@@ -37,6 +37,7 @@ namespace Pb
 			{2005, UserResetPasswordRes.Parser.ParseFrom},
 			{2007, UserSmsCodeRes.Parser.ParseFrom},
 			{2009, UserSignOutRes.Parser.ParseFrom},
+			{3001, GroupNewRes.Parser.ParseFrom},
 		};
 
 		public static readonly Dictionary<ushort, ushort> ReqToRes = new()
@@ -49,6 +50,7 @@ namespace Pb
 			{2004, 2005},
 			{2006, 2007},
 			{2008, 2009},
+			{3000, 3001},
 		};
 	}
 }

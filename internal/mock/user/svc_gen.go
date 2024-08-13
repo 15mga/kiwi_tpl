@@ -42,7 +42,7 @@ func InitClient(client *mock.Client) {
 func (s *svc) Dispose() {
 }
 
-func (s *svc) Req(req util.IMsg) *util.Err {
+func (s *svc) AsyncReq(req util.IMsg) *util.Err {
 	kiwi.Debug("request", util.M{string(req.ProtoReflect().Descriptor().Name()): req})
 	svc, code := kiwi.Codec().MsgToSvcMethod(req)
 	bytes, err := common.PackUserReq(svc, code, req)
@@ -54,7 +54,7 @@ func (s *svc) Req(req util.IMsg) *util.Err {
 
 func (s *svc) inUserSignUpReq(msg graph.IMsg) *util.Err {
 	req := s.client.GetRequest(common.User, codec.UserSignUpReq)
-	return s.Req(req)
+	return s.AsyncReq(req)
 }
 
 func (s *svc) onUserSignUpRes(msg util.IMsg) (point string, data any) {
@@ -65,7 +65,7 @@ func (s *svc) onUserSignUpRes(msg util.IMsg) (point string, data any) {
 
 func (s *svc) inUserSignInReq(msg graph.IMsg) *util.Err {
 	req := s.client.GetRequest(common.User, codec.UserSignInReq)
-	return s.Req(req)
+	return s.AsyncReq(req)
 }
 
 func (s *svc) onUserSignInRes(msg util.IMsg) (point string, data any) {
@@ -76,7 +76,7 @@ func (s *svc) onUserSignInRes(msg util.IMsg) (point string, data any) {
 
 func (s *svc) inUserResetPasswordReq(msg graph.IMsg) *util.Err {
 	req := s.client.GetRequest(common.User, codec.UserResetPasswordReq)
-	return s.Req(req)
+	return s.AsyncReq(req)
 }
 
 func (s *svc) onUserResetPasswordRes(msg util.IMsg) (point string, data any) {
@@ -87,7 +87,7 @@ func (s *svc) onUserResetPasswordRes(msg util.IMsg) (point string, data any) {
 
 func (s *svc) inUserSmsCodeReq(msg graph.IMsg) *util.Err {
 	req := s.client.GetRequest(common.User, codec.UserSmsCodeReq)
-	return s.Req(req)
+	return s.AsyncReq(req)
 }
 
 func (s *svc) onUserSmsCodeRes(msg util.IMsg) (point string, data any) {
@@ -98,7 +98,7 @@ func (s *svc) onUserSmsCodeRes(msg util.IMsg) (point string, data any) {
 
 func (s *svc) inUserSignOutReq(msg graph.IMsg) *util.Err {
 	req := s.client.GetRequest(common.User, codec.UserSignOutReq)
-	return s.Req(req)
+	return s.AsyncReq(req)
 }
 
 func (s *svc) onUserSignOutRes(msg util.IMsg) (point string, data any) {
@@ -109,7 +109,7 @@ func (s *svc) onUserSignOutRes(msg util.IMsg) (point string, data any) {
 
 func (s *svc) inUserDisconnectReq(msg graph.IMsg) *util.Err {
 	req := s.client.GetRequest(common.User, codec.UserDisconnectReq)
-	return s.Req(req)
+	return s.AsyncReq(req)
 }
 
 func (s *svc) onUserDisconnectRes(msg util.IMsg) (point string, data any) {
@@ -120,7 +120,7 @@ func (s *svc) onUserDisconnectRes(msg util.IMsg) (point string, data any) {
 
 func (s *svc) inUserUpdateHeadReq(msg graph.IMsg) *util.Err {
 	req := s.client.GetRequest(common.User, codec.UserUpdateHeadReq)
-	return s.Req(req)
+	return s.AsyncReq(req)
 }
 
 func (s *svc) onUserUpdateHeadRes(msg util.IMsg) (point string, data any) {

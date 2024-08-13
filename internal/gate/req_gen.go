@@ -8,55 +8,7 @@ import (
 	"github.com/15mga/kiwi/util"
 )
 
-func (s *svc) OnGateHeartbeat(pkt kiwi.IRcvRequest, req *pb.GateHeartbeatReq, res *pb.GateHeartbeatRes) {
-	pkt.Err2(util.EcNotImplement, util.M{"req": req})
-}
-
-func (s *svc) OnGateUploadFile(pkt kiwi.IRcvRequest, req *pb.GateUploadFileReq, res *pb.GateUploadFileRes) {
-	pkt.Err2(util.EcNotImplement, util.M{"req": req})
-}
-
 func (s *svc) OnGateUploadWithToken(pkt kiwi.IRcvRequest, req *pb.GateUploadWithTokenReq, res *pb.GateUploadWithTokenRes) {
-	pkt.Err2(util.EcNotImplement, util.M{"req": req})
-}
-
-func (s *svc) OnGateBanAddr(pkt kiwi.IRcvRequest, req *pb.GateBanAddrReq, res *pb.GateBanAddrRes) {
-	pkt.Err2(util.EcNotImplement, util.M{"req": req})
-}
-
-func (s *svc) OnGateSendToId(pkt kiwi.IRcvRequest, req *pb.GateSendToIdReq, res *pb.GateSendToIdRes) {
-	pkt.Err2(util.EcNotImplement, util.M{"req": req})
-}
-
-func (s *svc) OnGateSendToAddr(pkt kiwi.IRcvRequest, req *pb.GateSendToAddrReq, res *pb.GateSendToAddrRes) {
-	pkt.Err2(util.EcNotImplement, util.M{"req": req})
-}
-
-func (s *svc) OnGateSendToMultiId(pkt kiwi.IRcvRequest, req *pb.GateSendToMultiIdReq, res *pb.GateSendToMultiIdRes) {
-	pkt.Err2(util.EcNotImplement, util.M{"req": req})
-}
-
-func (s *svc) OnGateSendToMultiAddr(pkt kiwi.IRcvRequest, req *pb.GateSendToMultiAddrReq, res *pb.GateSendToMultiAddrRes) {
-	pkt.Err2(util.EcNotImplement, util.M{"req": req})
-}
-
-func (s *svc) OnGateSendToAll(pkt kiwi.IRcvRequest, req *pb.GateSendToAllReq, res *pb.GateSendToAllRes) {
-	pkt.Err2(util.EcNotImplement, util.M{"req": req})
-}
-
-func (s *svc) OnGateCloseId(pkt kiwi.IRcvRequest, req *pb.GateCloseIdReq, res *pb.GateCloseIdRes) {
-	pkt.Err2(util.EcNotImplement, util.M{"req": req})
-}
-
-func (s *svc) OnGateCloseAddr(pkt kiwi.IRcvRequest, req *pb.GateCloseAddrReq, res *pb.GateCloseAddrRes) {
-	pkt.Err2(util.EcNotImplement, util.M{"req": req})
-}
-
-func (s *svc) OnGateUpdate(pkt kiwi.IRcvRequest, req *pb.GateUpdateReq, res *pb.GateUpdateRes) {
-	pkt.Err2(util.EcNotImplement, util.M{"req": req})
-}
-
-func (s *svc) OnGateAddrUpdate(pkt kiwi.IRcvRequest, req *pb.GateAddrUpdateReq, res *pb.GateAddrUpdateRes) {
 	pkt.Err2(util.EcNotImplement, util.M{"req": req})
 }
 
@@ -68,10 +20,58 @@ func (s *svc) OnGateAddrRemove(pkt kiwi.IRcvRequest, req *pb.GateAddrRemoveReq, 
 	pkt.Err2(util.EcNotImplement, util.M{"req": req})
 }
 
+func (s *svc) OnGateAddrGet(pkt kiwi.IRcvRequest, req *pb.GateAddrGetReq, res *pb.GateAddrGetRes) {
+	pkt.Err2(util.EcNotImplement, util.M{"req": req})
+}
+
+func (s *svc) OnGateBanAddr(pkt kiwi.IRcvRequest, req *pb.GateBanAddrReq, res *pb.GateBanAddrRes) {
+	pkt.Err2(util.EcNotImplement, util.M{"req": req})
+}
+
+func (s *svc) OnGateSendToMultiId(pkt kiwi.IRcvRequest, req *pb.GateSendToMultiIdReq, res *pb.GateSendToMultiIdRes) {
+	pkt.Err2(util.EcNotImplement, util.M{"req": req})
+}
+
+func (s *svc) OnGateSendToAll(pkt kiwi.IRcvRequest, req *pb.GateSendToAllReq, res *pb.GateSendToAllRes) {
+	pkt.Err2(util.EcNotImplement, util.M{"req": req})
+}
+
+func (s *svc) OnGateUpdate(pkt kiwi.IRcvRequest, req *pb.GateUpdateReq, res *pb.GateUpdateRes) {
+	pkt.Err2(util.EcNotImplement, util.M{"req": req})
+}
+
 func (s *svc) OnGateGet(pkt kiwi.IRcvRequest, req *pb.GateGetReq, res *pb.GateGetRes) {
 	pkt.Err2(util.EcNotImplement, util.M{"req": req})
 }
 
-func (s *svc) OnGateAddrGet(pkt kiwi.IRcvRequest, req *pb.GateAddrGetReq, res *pb.GateAddrGetRes) {
+func (s *svc) OnGateHeartbeat(pkt kiwi.IRcvRequest, req *pb.GateHeartbeatReq, res *pb.GateHeartbeatRes) {
+	pkt.Err2(util.EcNotImplement, util.M{"req": req})
+}
+
+func (s *svc) OnGateSendToId(pkt kiwi.IRcvRequest, req *pb.GateSendToIdReq, res *pb.GateSendToIdRes) {
+	pkt.Err2(util.EcNotImplement, util.M{"req": req})
+}
+
+func (s *svc) OnGateSendToMultiAddr(pkt kiwi.IRcvRequest, req *pb.GateSendToMultiAddrReq, res *pb.GateSendToMultiAddrRes) {
+	pkt.Err2(util.EcNotImplement, util.M{"req": req})
+}
+
+func (s *svc) OnGateCloseId(pkt kiwi.IRcvRequest, req *pb.GateCloseIdReq, res *pb.GateCloseIdRes) {
+	pkt.Err2(util.EcNotImplement, util.M{"req": req})
+}
+
+func (s *svc) OnGateUploadFile(pkt kiwi.IRcvRequest, req *pb.GateUploadFileReq, res *pb.GateUploadFileRes) {
+	pkt.Err2(util.EcNotImplement, util.M{"req": req})
+}
+
+func (s *svc) OnGateSendToAddr(pkt kiwi.IRcvRequest, req *pb.GateSendToAddrReq, res *pb.GateSendToAddrRes) {
+	pkt.Err2(util.EcNotImplement, util.M{"req": req})
+}
+
+func (s *svc) OnGateCloseAddr(pkt kiwi.IRcvRequest, req *pb.GateCloseAddrReq, res *pb.GateCloseAddrRes) {
+	pkt.Err2(util.EcNotImplement, util.M{"req": req})
+}
+
+func (s *svc) OnGateAddrUpdate(pkt kiwi.IRcvRequest, req *pb.GateAddrUpdateReq, res *pb.GateAddrUpdateRes) {
 	pkt.Err2(util.EcNotImplement, util.M{"req": req})
 }

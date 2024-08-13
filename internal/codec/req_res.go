@@ -32,4 +32,5 @@ func BindReqToRes() {
 	kiwi.Codec().BindReqToRes(common.User, UserSignOutReq, UserSignOutRes)
 	kiwi.Codec().BindReqToRes(common.User, UserDisconnectReq, UserDisconnectRes)
 	kiwi.Codec().BindReqToRes(common.User, UserUpdateHeadReq, UserUpdateHeadRes)
+	kiwi.Codec().BindReqToRes(common.Group, GroupNewReq, GroupNewRes)
 }
