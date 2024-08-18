@@ -8,30 +8,54 @@ import (
 
 const (
 	//注册
-	UserSignUpReq kiwi.TCode = 0
+	UserSignUpWithMobileReq kiwi.TMethod = 0
 	//注册
-	UserSignUpRes kiwi.TCode = 1
+	UserSignUpWithMobileRes kiwi.TMethod = 1
 	//登录
-	UserSignInReq kiwi.TCode = 2
+	UserSignInWithMobileReq kiwi.TMethod = 2
 	//登录
-	UserSignInRes kiwi.TCode = 3
+	UserSignInWithMobileRes kiwi.TMethod = 3
 	//重置密码
-	UserResetPasswordReq kiwi.TCode = 4
+	UserResetPasswordWithMobileReq kiwi.TMethod = 4
 	//重置密码
-	UserResetPasswordRes kiwi.TCode = 5
+	UserResetPasswordWithMobileRes kiwi.TMethod = 5
 	//短信验证码
-	UserSmsCodeReq kiwi.TCode = 6
+	UserCodeWithMobileReq kiwi.TMethod = 6
+	UserCodeWithMobileRes kiwi.TMethod = 7
+	//注册
+	UserSignUpWithEmailReq kiwi.TMethod = 8
+	//注册
+	UserSignUpWithEmailRes kiwi.TMethod = 9
+	//登录
+	UserSignInWithEmailReq kiwi.TMethod = 10
+	//登录
+	UserSignInWithEmailRes kiwi.TMethod = 11
+	//重置密码
+	UserResetPasswordWithEmailReq kiwi.TMethod = 12
+	//重置密码
+	UserResetPasswordWithEmailRes kiwi.TMethod = 13
 	//短信验证码
-	UserSmsCodeRes kiwi.TCode = 7
-	//登出请求
-	UserSignOutReq kiwi.TCode = 8
-	//登出响应
-	UserSignOutRes      kiwi.TCode = 9
-	UserDisconnectReq   kiwi.TCode = 500
-	UserDisconnectRes   kiwi.TCode = 501
-	UserDisconnectedNtc kiwi.TCode = 502
-	UserConnectedNtc    kiwi.TCode = 503
+	UserCodeWithEmailReq kiwi.TMethod = 14
+	UserCodeWithEmailRes kiwi.TMethod = 15
+	//登录
+	UserSignInWithWechatReq kiwi.TMethod = 16
+	//登录
+	UserSignInWithWechatRes kiwi.TMethod = 17
+	UserNewReq              kiwi.TMethod = 18
+	UserNewRes              kiwi.TMethod = 19
+	UserSignInReq           kiwi.TMethod = 20
+	UserSignInRes           kiwi.TMethod = 21
+	//登出
+	UserSignOutReq      kiwi.TMethod = 22
+	UserSignOutRes      kiwi.TMethod = 23
+	UserReconnectReq    kiwi.TMethod = 24
+	UserReconnectRes    kiwi.TMethod = 25
+	UserRepeatSignInPus kiwi.TMethod = 26
+	UserDisconnectReq   kiwi.TMethod = 500
+	UserDisconnectRes   kiwi.TMethod = 501
+	UserDisconnectedNtc kiwi.TMethod = 502
+	UserConnectedNtc    kiwi.TMethod = 503
 	//更新用户head cache
-	UserUpdateHeadReq kiwi.TCode = 504
-	UserUpdateHeadRes kiwi.TCode = 505
+	UserUpdateHeadReq kiwi.TMethod = 504
+	UserUpdateHeadRes kiwi.TMethod = 505
 )

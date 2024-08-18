@@ -1,6 +1,7 @@
 syntax = "proto3";
 
 import "github.com/15mga/kiwi_tool/kiwi.proto";
+import "model/user.proto";
 
 package pb;
 option go_package = "/pb";
@@ -10,70 +11,171 @@ option (kiwi.svc) = {
 };
 
 //注册
-message UserSignUpReq {
+message UserSignUpWithMobileReq {
   option (kiwi.role) = "guest";
   option (kiwi.method) = 0;
   string mobile = 1; //手机号
   string password = 2; //密码
-  string code = 3; //短信验证码
-  string nick = 4; //昵称
-  string avatar = 5; //头像
+  string code = 3; //验证码
 }
 
 //注册
-message UserSignUpRes {
+message UserSignUpWithMobileRes {
   option (kiwi.method) = 1;
 }
 
 //登录
-message UserSignInReq {
+message UserSignInWithMobileReq {
   option (kiwi.role) = "guest";
   option (kiwi.method) = 2;
   string mobile = 1;
   string password = 2;
-  string os = 3;
 }
 
 //登录
-message UserSignInRes {
+message UserSignInWithMobileRes {
   option (kiwi.method) = 3;
-  string token = 1;
+  bool existUser = 1;
 }
 
 //重置密码
-message UserResetPasswordReq {
+message UserResetPasswordWithMobileReq {
   option (kiwi.role) = "guest";
   option (kiwi.method) = 4;
   string mobile = 1; //手机号
-  string password = 2; //密码
-  string code = 3; //短信验证码
+  string oldPassword = 2; //密码
+  string newPassword = 3;
+  string code = 4; //短信验证码
 }
 
 //重置密码
-message UserResetPasswordRes {
+message UserResetPasswordWithMobileRes {
   option (kiwi.method) = 5;
-  string token = 1;
 }
 
 //短信验证码
-message UserSmsCodeReq {
+message UserCodeWithMobileReq {
   option (kiwi.role) = "guest";
   option (kiwi.method) = 6;
   string mobile = 1; //手机号
 }
 
-//短信验证码
-message UserSmsCodeRes {
+message UserCodeWithMobileRes {
   option (kiwi.method) = 7;
+  string code = 1; //测试用返回
 }
 
-//登出请求
-message UserSignOutReq {
+//注册
+message UserSignUpWithEmailReq {
+  option (kiwi.role) = "guest";
   option (kiwi.method) = 8;
+  string email = 1; //手机号
+  string password = 2; //密码
+  string code = 3; //验证码
+}
+
+//注册
+message UserSignUpWithEmailRes {
+  option (kiwi.method) = 9;
+}
+
+//登录
+message UserSignInWithEmailReq {
+  option (kiwi.role) = "guest";
+  option (kiwi.method) = 10;
+  string email = 1;
+  string password = 2;
+}
+
+//登录
+message UserSignInWithEmailRes {
+  option (kiwi.method) = 11;
+  bool existUser = 1;
+}
+
+//重置密码
+message UserResetPasswordWithEmailReq {
+  option (kiwi.role) = "guest";
+  option (kiwi.method) = 12;
+  string email = 1; //手机号
+  string oldPassword = 2;
+  string newPassword = 3;
+  string code = 4; //短信验证码
+}
+
+//重置密码
+message UserResetPasswordWithEmailRes {
+  option (kiwi.method) = 13;
+}
+
+//短信验证码
+message UserCodeWithEmailReq {
+  option (kiwi.role) = "guest";
+  option (kiwi.method) = 14;
+  string email = 1; //手机号
+}
+
+message UserCodeWithEmailRes {
+  option (kiwi.method) = 15;
+  string code = 1; //测试用返回
+}
+
+//登录
+message UserSignInWithWechatReq {
+  option (kiwi.role) = "guest";
+  option (kiwi.method) = 16;
+  string code = 1;
+}
+
+//登录
+message UserSignInWithWechatRes {
+  option (kiwi.method) = 17;
+  bool existUser = 1;
+}
+
+message UserNewReq {
+  option (kiwi.method) = 18;
+  option (kiwi.role) = "player";
+  User user = 1;
+}
+
+message UserNewRes {
+  option (kiwi.method) = 19;
+}
+
+message UserSignInReq {
+  option (kiwi.method) = 20;
+  option (kiwi.role) = "player";
+  string os = 2;
+}
+
+message UserSignInRes {
+  option (kiwi.method) = 21;
+  User user = 1;
+  string token = 2;
+}
+
+//登出
+message UserSignOutReq {
+  option (kiwi.method) = 22;
   option (kiwi.role) = "player";
 }
 
-//登出响应
 message UserSignOutRes {
-  option (kiwi.method) = 9;
+  option (kiwi.method) = 23;
+}
+
+message UserReconnectReq {
+  option (kiwi.method) = 24;
+  option (kiwi.role) = "player";
+  string token = 1;
+}
+
+message UserReconnectRes {
+  option (kiwi.method) = 25;
+  bool hasUser = 1;
+}
+
+message UserRepeatSignInPus {
+  option (kiwi.method) = 26;
 }

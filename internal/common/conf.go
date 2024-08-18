@@ -20,6 +20,7 @@ type Config struct {
 	Redis RedisConf
 	Mongo MgoConf
 	Gate  GateConf
+	User  UserConf
 }
 
 type LogConfig struct {
@@ -68,6 +69,34 @@ type GateConf struct {
 	ErrLimit     uint16
 	KeyFile      string
 	PemFile      string
+}
+
+type UserConf struct {
+	Sms    UserSmsConf
+	Smtp   SmtpConf
+	Wechat WechatConf
+}
+
+type UserSmsConf struct {
+	Debug bool
+	Code  string
+}
+
+type SmtpConf struct {
+	Host     string
+	Port     int
+	Subject  string
+	Body     string
+	Email    string
+	Password string
+	Debug    bool
+	Test     string
+}
+
+type WechatConf struct {
+	Url       string
+	AppId     string
+	AppSecret string
 }
 
 func LoadConf(conf any, confFolder string, svc ...kiwi.TSvc) {

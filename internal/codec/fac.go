@@ -19,24 +19,6 @@ func BindPool() {
 	kiwi.Codec().BindPool(common.Gate, GateErrPus, func() util.IMsg {
 		return &pb.GateErrPus{}
 	})
-	kiwi.Codec().BindPool(common.Gate, GateRepeatPus, func() util.IMsg {
-		return &pb.GateRepeatPus{}
-	})
-	kiwi.Codec().BindPool(common.Gate, GateUploadFileReq, func() util.IMsg {
-		return &pb.GateUploadFileReq{}
-	})
-	kiwi.Codec().BindPool(common.Gate, GateUploadFileRes, func() util.IMsg {
-		return &pb.GateUploadFileRes{}
-	})
-	kiwi.Codec().BindPool(common.Gate, GateUploadWithTokenReq, func() util.IMsg {
-		return &pb.GateUploadWithTokenReq{}
-	})
-	kiwi.Codec().BindPool(common.Gate, GateUploadWithTokenRes, func() util.IMsg {
-		return &pb.GateUploadWithTokenRes{}
-	})
-	kiwi.Codec().BindPool(common.Gate, GateUploadWithTokenPus, func() util.IMsg {
-		return &pb.GateUploadWithTokenPus{}
-	})
 	kiwi.Codec().BindPool(common.Gate, GateBanAddrReq, func() util.IMsg {
 		return &pb.GateBanAddrReq{}
 	})
@@ -121,11 +103,65 @@ func BindPool() {
 	kiwi.Codec().BindPool(common.Gate, GateAddrGetRes, func() util.IMsg {
 		return &pb.GateAddrGetRes{}
 	})
-	kiwi.Codec().BindPool(common.User, UserSignUpReq, func() util.IMsg {
-		return &pb.UserSignUpReq{}
+	kiwi.Codec().BindPool(common.User, UserSignUpWithMobileReq, func() util.IMsg {
+		return &pb.UserSignUpWithMobileReq{}
 	})
-	kiwi.Codec().BindPool(common.User, UserSignUpRes, func() util.IMsg {
-		return &pb.UserSignUpRes{}
+	kiwi.Codec().BindPool(common.User, UserSignUpWithMobileRes, func() util.IMsg {
+		return &pb.UserSignUpWithMobileRes{}
+	})
+	kiwi.Codec().BindPool(common.User, UserSignInWithMobileReq, func() util.IMsg {
+		return &pb.UserSignInWithMobileReq{}
+	})
+	kiwi.Codec().BindPool(common.User, UserSignInWithMobileRes, func() util.IMsg {
+		return &pb.UserSignInWithMobileRes{}
+	})
+	kiwi.Codec().BindPool(common.User, UserResetPasswordWithMobileReq, func() util.IMsg {
+		return &pb.UserResetPasswordWithMobileReq{}
+	})
+	kiwi.Codec().BindPool(common.User, UserResetPasswordWithMobileRes, func() util.IMsg {
+		return &pb.UserResetPasswordWithMobileRes{}
+	})
+	kiwi.Codec().BindPool(common.User, UserCodeWithMobileReq, func() util.IMsg {
+		return &pb.UserCodeWithMobileReq{}
+	})
+	kiwi.Codec().BindPool(common.User, UserCodeWithMobileRes, func() util.IMsg {
+		return &pb.UserCodeWithMobileRes{}
+	})
+	kiwi.Codec().BindPool(common.User, UserSignUpWithEmailReq, func() util.IMsg {
+		return &pb.UserSignUpWithEmailReq{}
+	})
+	kiwi.Codec().BindPool(common.User, UserSignUpWithEmailRes, func() util.IMsg {
+		return &pb.UserSignUpWithEmailRes{}
+	})
+	kiwi.Codec().BindPool(common.User, UserSignInWithEmailReq, func() util.IMsg {
+		return &pb.UserSignInWithEmailReq{}
+	})
+	kiwi.Codec().BindPool(common.User, UserSignInWithEmailRes, func() util.IMsg {
+		return &pb.UserSignInWithEmailRes{}
+	})
+	kiwi.Codec().BindPool(common.User, UserResetPasswordWithEmailReq, func() util.IMsg {
+		return &pb.UserResetPasswordWithEmailReq{}
+	})
+	kiwi.Codec().BindPool(common.User, UserResetPasswordWithEmailRes, func() util.IMsg {
+		return &pb.UserResetPasswordWithEmailRes{}
+	})
+	kiwi.Codec().BindPool(common.User, UserCodeWithEmailReq, func() util.IMsg {
+		return &pb.UserCodeWithEmailReq{}
+	})
+	kiwi.Codec().BindPool(common.User, UserCodeWithEmailRes, func() util.IMsg {
+		return &pb.UserCodeWithEmailRes{}
+	})
+	kiwi.Codec().BindPool(common.User, UserSignInWithWechatReq, func() util.IMsg {
+		return &pb.UserSignInWithWechatReq{}
+	})
+	kiwi.Codec().BindPool(common.User, UserSignInWithWechatRes, func() util.IMsg {
+		return &pb.UserSignInWithWechatRes{}
+	})
+	kiwi.Codec().BindPool(common.User, UserNewReq, func() util.IMsg {
+		return &pb.UserNewReq{}
+	})
+	kiwi.Codec().BindPool(common.User, UserNewRes, func() util.IMsg {
+		return &pb.UserNewRes{}
 	})
 	kiwi.Codec().BindPool(common.User, UserSignInReq, func() util.IMsg {
 		return &pb.UserSignInReq{}
@@ -133,23 +169,20 @@ func BindPool() {
 	kiwi.Codec().BindPool(common.User, UserSignInRes, func() util.IMsg {
 		return &pb.UserSignInRes{}
 	})
-	kiwi.Codec().BindPool(common.User, UserResetPasswordReq, func() util.IMsg {
-		return &pb.UserResetPasswordReq{}
-	})
-	kiwi.Codec().BindPool(common.User, UserResetPasswordRes, func() util.IMsg {
-		return &pb.UserResetPasswordRes{}
-	})
-	kiwi.Codec().BindPool(common.User, UserSmsCodeReq, func() util.IMsg {
-		return &pb.UserSmsCodeReq{}
-	})
-	kiwi.Codec().BindPool(common.User, UserSmsCodeRes, func() util.IMsg {
-		return &pb.UserSmsCodeRes{}
-	})
 	kiwi.Codec().BindPool(common.User, UserSignOutReq, func() util.IMsg {
 		return &pb.UserSignOutReq{}
 	})
 	kiwi.Codec().BindPool(common.User, UserSignOutRes, func() util.IMsg {
 		return &pb.UserSignOutRes{}
+	})
+	kiwi.Codec().BindPool(common.User, UserReconnectReq, func() util.IMsg {
+		return &pb.UserReconnectReq{}
+	})
+	kiwi.Codec().BindPool(common.User, UserReconnectRes, func() util.IMsg {
+		return &pb.UserReconnectRes{}
+	})
+	kiwi.Codec().BindPool(common.User, UserRepeatSignInPus, func() util.IMsg {
+		return &pb.UserRepeatSignInPus{}
 	})
 	kiwi.Codec().BindPool(common.User, UserDisconnectReq, func() util.IMsg {
 		return &pb.UserDisconnectReq{}

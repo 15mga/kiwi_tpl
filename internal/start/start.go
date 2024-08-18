@@ -10,14 +10,13 @@ import (
 	"github.com/15mga/kiwi/log"
 	"github.com/15mga/kiwi/network"
 	"github.com/15mga/kiwi/util"
-	"github.com/15mga/kiwi/util/cache"
-	"github.com/allegro/bigcache/v3"
+	"github.com/15mga/kiwi/util/mgo"
+	"github.com/dgraph-io/ristretto"
 	"github.com/gorilla/websocket"
 	jsoniter "github.com/json-iterator/go"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"net/http"
 	"os"
-	"time"
 )
 
 func Start(ver string, svc ...kiwi.TSvc) {
@@ -95,18 +94,15 @@ func Start(ver string, svc ...kiwi.TSvc) {
 		core.SetNode(),
 		core.SetBefore(func() {
 			codec.BindReqToRes()
-			codec.BindFac()
+			codec.BindPool()
 		}),
 		core.SetAfter(func() {
 			common.StartDiscovery()
-			cache.InitCache(bigcache.Config{
-				Shards:             1024,
-				LifeWindow:         30 * time.Minute,
-				CleanWindow:        5 * time.Minute,
-				MaxEntriesInWindow: 1000 * 10 * 60,
-				MaxEntrySize:       500,
-				Verbose:            true,
-				HardMaxCacheSize:   8192,
+			mgo.InitCache(&ristretto.Config{
+				NumCounters: 1e7,     // 10 million counters
+				MaxCost:     1 << 30, //1GB
+				BufferItems: 64,
+				Metrics:     true,
 			})
 		}),
 	}
@@ -147,7 +143,7 @@ func Start(ver string, svc ...kiwi.TSvc) {
 		opts = append(opts, core.SetGate(gateOptions...))
 	}
 
-	core.Start(opts...)
+	core.Default(opts...)
 
 	kiwi.WaitExit()
 }

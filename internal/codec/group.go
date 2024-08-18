@@ -7,6 +7,6 @@ import (
 )
 
 const (
-	GroupNewReq kiwi.TCode = 0
-	GroupNewRes kiwi.TCode = 1
+	GroupNewReq kiwi.TMethod = 0
+	GroupNewRes kiwi.TMethod = 1
 )

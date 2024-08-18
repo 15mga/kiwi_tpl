@@ -23,16 +23,33 @@ type svc struct {
 
 func InitClient(client *mock.Client) {
 	s := &Svc{svc{client: client}}
-	s.client.BindPointMsg("user", "UserSignUp", s.inUserSignUpReq)
-	s.client.BindNetMsg(&pb.UserSignUpRes{}, s.onUserSignUpRes)
+	s.client.BindPointMsg("user", "UserSignUpWithMobile", s.inUserSignUpWithMobileReq)
+	s.client.BindNetMsg(&pb.UserSignUpWithMobileRes{}, s.onUserSignUpWithMobileRes)
+	s.client.BindPointMsg("user", "UserSignInWithMobile", s.inUserSignInWithMobileReq)
+	s.client.BindNetMsg(&pb.UserSignInWithMobileRes{}, s.onUserSignInWithMobileRes)
+	s.client.BindPointMsg("user", "UserResetPasswordWithMobile", s.inUserResetPasswordWithMobileReq)
+	s.client.BindNetMsg(&pb.UserResetPasswordWithMobileRes{}, s.onUserResetPasswordWithMobileRes)
+	s.client.BindPointMsg("user", "UserCodeWithMobile", s.inUserCodeWithMobileReq)
+	s.client.BindNetMsg(&pb.UserCodeWithMobileRes{}, s.onUserCodeWithMobileRes)
+	s.client.BindPointMsg("user", "UserSignUpWithEmail", s.inUserSignUpWithEmailReq)
+	s.client.BindNetMsg(&pb.UserSignUpWithEmailRes{}, s.onUserSignUpWithEmailRes)
+	s.client.BindPointMsg("user", "UserSignInWithEmail", s.inUserSignInWithEmailReq)
+	s.client.BindNetMsg(&pb.UserSignInWithEmailRes{}, s.onUserSignInWithEmailRes)
+	s.client.BindPointMsg("user", "UserResetPasswordWithEmail", s.inUserResetPasswordWithEmailReq)
+	s.client.BindNetMsg(&pb.UserResetPasswordWithEmailRes{}, s.onUserResetPasswordWithEmailRes)
+	s.client.BindPointMsg("user", "UserCodeWithEmail", s.inUserCodeWithEmailReq)
+	s.client.BindNetMsg(&pb.UserCodeWithEmailRes{}, s.onUserCodeWithEmailRes)
+	s.client.BindPointMsg("user", "UserSignInWithWechat", s.inUserSignInWithWechatReq)
+	s.client.BindNetMsg(&pb.UserSignInWithWechatRes{}, s.onUserSignInWithWechatRes)
+	s.client.BindPointMsg("user", "UserNew", s.inUserNewReq)
+	s.client.BindNetMsg(&pb.UserNewRes{}, s.onUserNewRes)
 	s.client.BindPointMsg("user", "UserSignIn", s.inUserSignInReq)
 	s.client.BindNetMsg(&pb.UserSignInRes{}, s.onUserSignInRes)
-	s.client.BindPointMsg("user", "UserResetPassword", s.inUserResetPasswordReq)
-	s.client.BindNetMsg(&pb.UserResetPasswordRes{}, s.onUserResetPasswordRes)
-	s.client.BindPointMsg("user", "UserSmsCode", s.inUserSmsCodeReq)
-	s.client.BindNetMsg(&pb.UserSmsCodeRes{}, s.onUserSmsCodeRes)
 	s.client.BindPointMsg("user", "UserSignOut", s.inUserSignOutReq)
 	s.client.BindNetMsg(&pb.UserSignOutRes{}, s.onUserSignOutRes)
+	s.client.BindPointMsg("user", "UserReconnect", s.inUserReconnectReq)
+	s.client.BindNetMsg(&pb.UserReconnectRes{}, s.onUserReconnectRes)
+	s.client.BindNetMsg(&pb.UserRepeatSignInPus{}, s.onUserRepeatSignInPus)
 	s.client.BindPointMsg("user", "UserDisconnect", s.inUserDisconnectReq)
 	s.client.BindNetMsg(&pb.UserDisconnectRes{}, s.onUserDisconnectRes)
 	s.client.BindPointMsg("user", "UserUpdateHead", s.inUserUpdateHeadReq)
@@ -52,15 +69,114 @@ func (s *svc) AsyncReq(req util.IMsg) *util.Err {
 	return s.client.Dialer().Agent().Send(bytes)
 }
 
-func (s *svc) inUserSignUpReq(msg graph.IMsg) *util.Err {
-	req := s.client.GetRequest(common.User, codec.UserSignUpReq)
+func (s *svc) inUserSignUpWithMobileReq(msg graph.IMsg) *util.Err {
+	req := s.client.GetRequest(common.User, codec.UserSignUpWithMobileReq)
 	return s.AsyncReq(req)
 }
 
-func (s *svc) onUserSignUpRes(msg util.IMsg) (point string, data any) {
+func (s *svc) onUserSignUpWithMobileRes(msg util.IMsg) (point string, data any) {
 	sc := kiwi.MergeSvcCode(kiwi.Codec().MsgToSvcMethod(msg))
 	s.client.Graph().Data().Set(strconv.Itoa(int(sc)), msg)
-	return "UserSignUp", nil
+	return "UserSignUpWithMobile", nil
+}
+
+func (s *svc) inUserSignInWithMobileReq(msg graph.IMsg) *util.Err {
+	req := s.client.GetRequest(common.User, codec.UserSignInWithMobileReq)
+	return s.AsyncReq(req)
+}
+
+func (s *svc) onUserSignInWithMobileRes(msg util.IMsg) (point string, data any) {
+	sc := kiwi.MergeSvcCode(kiwi.Codec().MsgToSvcMethod(msg))
+	s.client.Graph().Data().Set(strconv.Itoa(int(sc)), msg)
+	return "UserSignInWithMobile", nil
+}
+
+func (s *svc) inUserResetPasswordWithMobileReq(msg graph.IMsg) *util.Err {
+	req := s.client.GetRequest(common.User, codec.UserResetPasswordWithMobileReq)
+	return s.AsyncReq(req)
+}
+
+func (s *svc) onUserResetPasswordWithMobileRes(msg util.IMsg) (point string, data any) {
+	sc := kiwi.MergeSvcCode(kiwi.Codec().MsgToSvcMethod(msg))
+	s.client.Graph().Data().Set(strconv.Itoa(int(sc)), msg)
+	return "UserResetPasswordWithMobile", nil
+}
+
+func (s *svc) inUserCodeWithMobileReq(msg graph.IMsg) *util.Err {
+	req := s.client.GetRequest(common.User, codec.UserCodeWithMobileReq)
+	return s.AsyncReq(req)
+}
+
+func (s *svc) onUserCodeWithMobileRes(msg util.IMsg) (point string, data any) {
+	sc := kiwi.MergeSvcCode(kiwi.Codec().MsgToSvcMethod(msg))
+	s.client.Graph().Data().Set(strconv.Itoa(int(sc)), msg)
+	return "UserCodeWithMobile", nil
+}
+
+func (s *svc) inUserSignUpWithEmailReq(msg graph.IMsg) *util.Err {
+	req := s.client.GetRequest(common.User, codec.UserSignUpWithEmailReq)
+	return s.AsyncReq(req)
+}
+
+func (s *svc) onUserSignUpWithEmailRes(msg util.IMsg) (point string, data any) {
+	sc := kiwi.MergeSvcCode(kiwi.Codec().MsgToSvcMethod(msg))
+	s.client.Graph().Data().Set(strconv.Itoa(int(sc)), msg)
+	return "UserSignUpWithEmail", nil
+}
+
+func (s *svc) inUserSignInWithEmailReq(msg graph.IMsg) *util.Err {
+	req := s.client.GetRequest(common.User, codec.UserSignInWithEmailReq)
+	return s.AsyncReq(req)
+}
+
+func (s *svc) onUserSignInWithEmailRes(msg util.IMsg) (point string, data any) {
+	sc := kiwi.MergeSvcCode(kiwi.Codec().MsgToSvcMethod(msg))
+	s.client.Graph().Data().Set(strconv.Itoa(int(sc)), msg)
+	return "UserSignInWithEmail", nil
+}
+
+func (s *svc) inUserResetPasswordWithEmailReq(msg graph.IMsg) *util.Err {
+	req := s.client.GetRequest(common.User, codec.UserResetPasswordWithEmailReq)
+	return s.AsyncReq(req)
+}
+
+func (s *svc) onUserResetPasswordWithEmailRes(msg util.IMsg) (point string, data any) {
+	sc := kiwi.MergeSvcCode(kiwi.Codec().MsgToSvcMethod(msg))
+	s.client.Graph().Data().Set(strconv.Itoa(int(sc)), msg)
+	return "UserResetPasswordWithEmail", nil
+}
+
+func (s *svc) inUserCodeWithEmailReq(msg graph.IMsg) *util.Err {
+	req := s.client.GetRequest(common.User, codec.UserCodeWithEmailReq)
+	return s.AsyncReq(req)
+}
+
+func (s *svc) onUserCodeWithEmailRes(msg util.IMsg) (point string, data any) {
+	sc := kiwi.MergeSvcCode(kiwi.Codec().MsgToSvcMethod(msg))
+	s.client.Graph().Data().Set(strconv.Itoa(int(sc)), msg)
+	return "UserCodeWithEmail", nil
+}
+
+func (s *svc) inUserSignInWithWechatReq(msg graph.IMsg) *util.Err {
+	req := s.client.GetRequest(common.User, codec.UserSignInWithWechatReq)
+	return s.AsyncReq(req)
+}
+
+func (s *svc) onUserSignInWithWechatRes(msg util.IMsg) (point string, data any) {
+	sc := kiwi.MergeSvcCode(kiwi.Codec().MsgToSvcMethod(msg))
+	s.client.Graph().Data().Set(strconv.Itoa(int(sc)), msg)
+	return "UserSignInWithWechat", nil
+}
+
+func (s *svc) inUserNewReq(msg graph.IMsg) *util.Err {
+	req := s.client.GetRequest(common.User, codec.UserNewReq)
+	return s.AsyncReq(req)
+}
+
+func (s *svc) onUserNewRes(msg util.IMsg) (point string, data any) {
+	sc := kiwi.MergeSvcCode(kiwi.Codec().MsgToSvcMethod(msg))
+	s.client.Graph().Data().Set(strconv.Itoa(int(sc)), msg)
+	return "UserNew", nil
 }
 
 func (s *svc) inUserSignInReq(msg graph.IMsg) *util.Err {
@@ -74,28 +190,6 @@ func (s *svc) onUserSignInRes(msg util.IMsg) (point string, data any) {
 	return "UserSignIn", nil
 }
 
-func (s *svc) inUserResetPasswordReq(msg graph.IMsg) *util.Err {
-	req := s.client.GetRequest(common.User, codec.UserResetPasswordReq)
-	return s.AsyncReq(req)
-}
-
-func (s *svc) onUserResetPasswordRes(msg util.IMsg) (point string, data any) {
-	sc := kiwi.MergeSvcCode(kiwi.Codec().MsgToSvcMethod(msg))
-	s.client.Graph().Data().Set(strconv.Itoa(int(sc)), msg)
-	return "UserResetPassword", nil
-}
-
-func (s *svc) inUserSmsCodeReq(msg graph.IMsg) *util.Err {
-	req := s.client.GetRequest(common.User, codec.UserSmsCodeReq)
-	return s.AsyncReq(req)
-}
-
-func (s *svc) onUserSmsCodeRes(msg util.IMsg) (point string, data any) {
-	sc := kiwi.MergeSvcCode(kiwi.Codec().MsgToSvcMethod(msg))
-	s.client.Graph().Data().Set(strconv.Itoa(int(sc)), msg)
-	return "UserSmsCode", nil
-}
-
 func (s *svc) inUserSignOutReq(msg graph.IMsg) *util.Err {
 	req := s.client.GetRequest(common.User, codec.UserSignOutReq)
 	return s.AsyncReq(req)
@@ -105,6 +199,23 @@ func (s *svc) onUserSignOutRes(msg util.IMsg) (point string, data any) {
 	sc := kiwi.MergeSvcCode(kiwi.Codec().MsgToSvcMethod(msg))
 	s.client.Graph().Data().Set(strconv.Itoa(int(sc)), msg)
 	return "UserSignOut", nil
+}
+
+func (s *svc) inUserReconnectReq(msg graph.IMsg) *util.Err {
+	req := s.client.GetRequest(common.User, codec.UserReconnectReq)
+	return s.AsyncReq(req)
+}
+
+func (s *svc) onUserReconnectRes(msg util.IMsg) (point string, data any) {
+	sc := kiwi.MergeSvcCode(kiwi.Codec().MsgToSvcMethod(msg))
+	s.client.Graph().Data().Set(strconv.Itoa(int(sc)), msg)
+	return "UserReconnect", nil
+}
+
+func (s *svc) onUserRepeatSignInPus(msg util.IMsg) (point string, data any) {
+	sc := kiwi.MergeSvcCode(kiwi.Codec().MsgToSvcMethod(msg))
+	s.client.Graph().Data().Set(strconv.Itoa(int(sc)), msg)
+	return "", nil
 }
 
 func (s *svc) inUserDisconnectReq(msg graph.IMsg) *util.Err {

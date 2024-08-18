@@ -8,7 +8,7 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 )
 
-func InitModels() {
+func initModels() {
 	initModelFac()
 	initEvict()
 }
@@ -17,20 +17,359 @@ var _ModelFac map[string]func() mgo.IModel
 
 func initModelFac() {
 	_ModelFac = map[string]func() mgo.IModel{
-		SchemaUser: NewUser,
+		SchemaMobileAccount: NewMobileAccount,
+		SchemaEmailAccount:  NewEmailAccount,
+		SchemaWechatAccount: NewWechatAccount,
+		SchemaUser:          NewUser,
 	}
 }
 
 func initEvict() {
+	mgo.BindEvict(SchemaMobileAccount, onMobileAccountEvict)
+	mgo.BindEvict(SchemaEmailAccount, onEmailAccountEvict)
+	mgo.BindEvict(SchemaWechatAccount, onWechatAccountEvict)
 	mgo.BindEvict(SchemaUser, onUserEvict)
 }
 
 var (
-	_UserIdMap             = make(map[string]struct{})
-	_UserNickToId          = make(map[string]string)
-	_UserMobileToId        = make(map[string]string)
-	_UserWechatUnionIdToId = make(map[string]string)
-	_UserTokenToId         = make(map[string]string)
+	_MobileAccountIdMap = make(map[string]struct{})
+)
+
+func StoreAllMobileAccounts() {
+	for id := range _MobileAccountIdMap {
+		m, ok := mgo.Get[*MobileAccount](SchemaMobileAccount, id)
+		if !ok {
+			continue
+		}
+		m.Store()
+	}
+}
+
+func SetMobileAccount(m *MobileAccount) {
+	mgo.Set(m)
+}
+
+func DelMobileAccount(id string) {
+	m, ok := mgo.Get[*MobileAccount](SchemaMobileAccount, id)
+	if !ok {
+		return
+	}
+	_ = m.Store()
+	mgo.Del(SchemaMobileAccount, id)
+	delMobileAccountMap(m)
+}
+
+func onMobileAccountEvict(model mgo.IModel) {
+	m := model.(*MobileAccount)
+	_ = m.Store()
+	delMobileAccountMap(m)
+}
+
+func delMobileAccountMap(m *MobileAccount) {
+	delete(_MobileAccountIdMap, m.GetId())
+}
+
+func GetMobileAccountWithId(id string) (*MobileAccount, error) {
+	m, ok := mgo.Get[*MobileAccount](SchemaMobileAccount, id)
+	if ok {
+		return m, nil
+	}
+	m = _ModelFac[SchemaMobileAccount]().(*MobileAccount)
+	err := m.Load(id, m.MobileAccount)
+	if err != nil {
+		return nil, err
+	}
+	SetMobileAccount(m)
+	return m, nil
+}
+
+type MobileAccount struct {
+	*pb.MobileAccount
+	*mgo.Model
+}
+
+func (this *MobileAccount) SetPassword(val string) {
+	this.Password = val
+	this.SetDirty(MobileAccountPassword)
+}
+
+func (this *MobileAccount) SetUserId(val string) {
+	this.UserId = val
+	this.SetDirty(MobileAccountUserId)
+}
+
+func NewMobileAccount() mgo.IModel {
+	m := &MobileAccount{
+		MobileAccount: &pb.MobileAccount{},
+	}
+	m.Model = mgo.NewModel(SchemaMobileAccount, 3, m.GetVal)
+	return m
+}
+
+func InsertMobileAccount(data *pb.MobileAccount) (*MobileAccount, error) {
+	if data.Id == "" {
+		return nil, mgo.ErrNoId
+	}
+	_, e := mgo.InsertOne(SchemaMobileAccount, data)
+	if e != nil {
+		return nil, e
+	}
+	m := NewMobileAccountWithData(data)
+	SetMobileAccount(m)
+	return m, nil
+}
+
+func NewMobileAccountWithData(data *pb.MobileAccount) *MobileAccount {
+	m := &MobileAccount{
+		MobileAccount: data,
+	}
+	m.Model = mgo.NewModel(SchemaMobileAccount, 3, m.GetVal)
+	m.SetDirty(
+		MobileAccountPassword,
+		MobileAccountUserId,
+	)
+	return m
+}
+
+func (this *MobileAccount) GetVal(key string) any {
+	switch key {
+	default:
+		return nil
+	}
+}
+
+func (this *MobileAccount) Cost() int64 {
+	var cost int64 = 0
+	cost += int64(len(this.Password))
+	cost += int64(len(this.UserId))
+	return cost
+}
+
+var (
+	_EmailAccountIdMap = make(map[string]struct{})
+)
+
+func StoreAllEmailAccounts() {
+	for id := range _EmailAccountIdMap {
+		m, ok := mgo.Get[*EmailAccount](SchemaEmailAccount, id)
+		if !ok {
+			continue
+		}
+		m.Store()
+	}
+}
+
+func SetEmailAccount(m *EmailAccount) {
+	mgo.Set(m)
+}
+
+func DelEmailAccount(id string) {
+	m, ok := mgo.Get[*EmailAccount](SchemaEmailAccount, id)
+	if !ok {
+		return
+	}
+	_ = m.Store()
+	mgo.Del(SchemaEmailAccount, id)
+	delEmailAccountMap(m)
+}
+
+func onEmailAccountEvict(model mgo.IModel) {
+	m := model.(*EmailAccount)
+	_ = m.Store()
+	delEmailAccountMap(m)
+}
+
+func delEmailAccountMap(m *EmailAccount) {
+	delete(_EmailAccountIdMap, m.GetId())
+}
+
+func GetEmailAccountWithId(id string) (*EmailAccount, error) {
+	m, ok := mgo.Get[*EmailAccount](SchemaEmailAccount, id)
+	if ok {
+		return m, nil
+	}
+	m = _ModelFac[SchemaEmailAccount]().(*EmailAccount)
+	err := m.Load(id, m.EmailAccount)
+	if err != nil {
+		return nil, err
+	}
+	SetEmailAccount(m)
+	return m, nil
+}
+
+type EmailAccount struct {
+	*pb.EmailAccount
+	*mgo.Model
+}
+
+func (this *EmailAccount) SetPassword(val string) {
+	this.Password = val
+	this.SetDirty(EmailAccountPassword)
+}
+
+func (this *EmailAccount) SetUserId(val string) {
+	this.UserId = val
+	this.SetDirty(EmailAccountUserId)
+}
+
+func NewEmailAccount() mgo.IModel {
+	m := &EmailAccount{
+		EmailAccount: &pb.EmailAccount{},
+	}
+	m.Model = mgo.NewModel(SchemaEmailAccount, 3, m.GetVal)
+	return m
+}
+
+func InsertEmailAccount(data *pb.EmailAccount) (*EmailAccount, error) {
+	if data.Id == "" {
+		return nil, mgo.ErrNoId
+	}
+	_, e := mgo.InsertOne(SchemaEmailAccount, data)
+	if e != nil {
+		return nil, e
+	}
+	m := NewEmailAccountWithData(data)
+	SetEmailAccount(m)
+	return m, nil
+}
+
+func NewEmailAccountWithData(data *pb.EmailAccount) *EmailAccount {
+	m := &EmailAccount{
+		EmailAccount: data,
+	}
+	m.Model = mgo.NewModel(SchemaEmailAccount, 3, m.GetVal)
+	m.SetDirty(
+		EmailAccountPassword,
+		EmailAccountUserId,
+	)
+	return m
+}
+
+func (this *EmailAccount) GetVal(key string) any {
+	switch key {
+	default:
+		return nil
+	}
+}
+
+func (this *EmailAccount) Cost() int64 {
+	var cost int64 = 0
+	cost += int64(len(this.Password))
+	cost += int64(len(this.UserId))
+	return cost
+}
+
+var (
+	_WechatAccountIdMap = make(map[string]struct{})
+)
+
+func StoreAllWechatAccounts() {
+	for id := range _WechatAccountIdMap {
+		m, ok := mgo.Get[*WechatAccount](SchemaWechatAccount, id)
+		if !ok {
+			continue
+		}
+		m.Store()
+	}
+}
+
+func SetWechatAccount(m *WechatAccount) {
+	mgo.Set(m)
+}
+
+func DelWechatAccount(id string) {
+	m, ok := mgo.Get[*WechatAccount](SchemaWechatAccount, id)
+	if !ok {
+		return
+	}
+	_ = m.Store()
+	mgo.Del(SchemaWechatAccount, id)
+	delWechatAccountMap(m)
+}
+
+func onWechatAccountEvict(model mgo.IModel) {
+	m := model.(*WechatAccount)
+	_ = m.Store()
+	delWechatAccountMap(m)
+}
+
+func delWechatAccountMap(m *WechatAccount) {
+	delete(_WechatAccountIdMap, m.GetId())
+}
+
+func GetWechatAccountWithId(id string) (*WechatAccount, error) {
+	m, ok := mgo.Get[*WechatAccount](SchemaWechatAccount, id)
+	if ok {
+		return m, nil
+	}
+	m = _ModelFac[SchemaWechatAccount]().(*WechatAccount)
+	err := m.Load(id, m.WechatAccount)
+	if err != nil {
+		return nil, err
+	}
+	SetWechatAccount(m)
+	return m, nil
+}
+
+type WechatAccount struct {
+	*pb.WechatAccount
+	*mgo.Model
+}
+
+func (this *WechatAccount) SetUserId(val string) {
+	this.UserId = val
+	this.SetDirty(WechatAccountUserId)
+}
+
+func NewWechatAccount() mgo.IModel {
+	m := &WechatAccount{
+		WechatAccount: &pb.WechatAccount{},
+	}
+	m.Model = mgo.NewModel(SchemaWechatAccount, 2, m.GetVal)
+	return m
+}
+
+func InsertWechatAccount(data *pb.WechatAccount) (*WechatAccount, error) {
+	if data.Id == "" {
+		return nil, mgo.ErrNoId
+	}
+	_, e := mgo.InsertOne(SchemaWechatAccount, data)
+	if e != nil {
+		return nil, e
+	}
+	m := NewWechatAccountWithData(data)
+	SetWechatAccount(m)
+	return m, nil
+}
+
+func NewWechatAccountWithData(data *pb.WechatAccount) *WechatAccount {
+	m := &WechatAccount{
+		WechatAccount: data,
+	}
+	m.Model = mgo.NewModel(SchemaWechatAccount, 2, m.GetVal)
+	m.SetDirty(
+		WechatAccountUserId,
+	)
+	return m
+}
+
+func (this *WechatAccount) GetVal(key string) any {
+	switch key {
+	default:
+		return nil
+	}
+}
+
+func (this *WechatAccount) Cost() int64 {
+	var cost int64 = 0
+	cost += int64(len(this.UserId))
+	return cost
+}
+
+var (
+	_UserIdMap     = make(map[string]struct{})
+	_UserNickToId  = make(map[string]string)
+	_UserTokenToId = make(map[string]string)
 )
 
 func StoreAllUsers() {
@@ -43,11 +382,9 @@ func StoreAllUsers() {
 	}
 }
 
-func setUser(m *User) {
+func SetUser(m *User) {
 	mgo.Set(m)
 	_UserNickToId[m.Nick] = m.Id
-	_UserMobileToId[m.Mobile] = m.Id
-	_UserWechatUnionIdToId[m.WechatUnionId] = m.Id
 	_UserTokenToId[m.Token] = m.Id
 }
 
@@ -70,99 +407,60 @@ func onUserEvict(model mgo.IModel) {
 func delUserMap(m *User) {
 	delete(_UserIdMap, m.GetId())
 	delete(_UserNickToId, m.Nick)
-	delete(_UserMobileToId, m.Mobile)
-	delete(_UserWechatUnionIdToId, m.WechatUnionId)
 	delete(_UserTokenToId, m.Token)
 }
 
-func GetUserWithId(id string) *User {
+func GetUserWithId(id string) (*User, error) {
 	m, ok := mgo.Get[*User](SchemaUser, id)
 	if ok {
-		return m
+		return m, nil
 	}
 	m = _ModelFac[SchemaUser]().(*User)
-	m.Load(id)
-	setUser(m)
-	return m
+	err := m.Load(id, m.User)
+	if err != nil {
+		return nil, err
+	}
+	SetUser(m)
+	return m, nil
 }
 
-func GetUserWithNick(nick string) *User {
+func GetUserWithNick(nick string) (*User, error) {
 	id, ok := _UserNickToId[nick]
 	if ok {
 		m, ok := mgo.Get[*User](SchemaUser, id)
 		if ok {
-			return m
+			return m, nil
 		}
 	}
 	m := _ModelFac[SchemaUser]().(*User)
-	m.LoadWithFilter(bson.M{Nick: nick})
-	setUser(m)
-	return m
-}
-
-func GetUserWithMobile(mobile string) *User {
-	id, ok := _UserMobileToId[mobile]
-	if ok {
-		m, ok := mgo.Get[*User](SchemaUser, id)
-		if ok {
-			return m
-		}
+	err := m.LoadWithFilter(bson.M{Nick: nick})
+	if err != nil {
+		return nil, err
 	}
-	m := _ModelFac[SchemaUser]().(*User)
-	m.LoadWithFilter(bson.M{Mobile: mobile})
-	setUser(m)
-	return m
+	SetUser(m)
+	return m, nil
 }
 
-func GetUserWithWechatUnionId(wechatUnionId string) *User {
-	id, ok := _UserWechatUnionIdToId[wechatUnionId]
-	if ok {
-		m, ok := mgo.Get[*User](SchemaUser, id)
-		if ok {
-			return m
-		}
-	}
-	m := _ModelFac[SchemaUser]().(*User)
-	m.LoadWithFilter(bson.M{WechatUnionId: wechatUnionId})
-	setUser(m)
-	return m
-}
-
-func GetUserWithToken(token string) *User {
+func GetUserWithToken(token string) (*User, error) {
 	id, ok := _UserTokenToId[token]
 	if ok {
 		m, ok := mgo.Get[*User](SchemaUser, id)
 		if ok {
-			return m
+			return m, nil
 		}
 	}
 	m := _ModelFac[SchemaUser]().(*User)
-	m.LoadWithFilter(bson.M{Token: token})
-	setUser(m)
-	return m
-}
-
-func NewUser() mgo.IModel {
-	m := &User{
-		User: &pb.User{},
+	err := m.LoadWithFilter(bson.M{Token: token})
+	if err != nil {
+		return nil, err
 	}
-	m.Model = mgo.NewModel(SchemaUser, 25, m.GetVal)
-	return m
+	SetUser(m)
+	return m, nil
 }
 
 type User struct {
 	*pb.User
 	*mgo.Model
-}
-
-func (this *User) SetId(val string) {
-	this.Id = val
-	this.SetDirty(Id)
-}
-
-func (this *User) SetPassword(val string) {
-	this.Password = val
-	this.SetDirty(Password)
 }
 
 func (this *User) SetRoleMask(val int64) {
@@ -180,11 +478,6 @@ func (this *User) SetNick(val string) {
 	this.SetDirty(Nick)
 }
 
-func (this *User) SetAddr(val string) {
-	this.Addr = val
-	this.SetDirty(Addr)
-}
-
 func (this *User) SetIdCard(val string) {
 	this.IdCard = val
 	this.SetDirty(IdCard)
@@ -195,14 +488,9 @@ func (this *User) SetRealName(val string) {
 	this.SetDirty(RealName)
 }
 
-func (this *User) SetMobile(val string) {
-	this.Mobile = val
-	this.SetDirty(Mobile)
-}
-
-func (this *User) SetSignUpTime(val int64) {
-	this.SignUpTime = val
-	this.SetDirty(SignUpTime)
+func (this *User) SetCreateTime(val int64) {
+	this.CreateTime = val
+	this.SetDirty(CreateTime)
 }
 
 func (this *User) SetLastSignInTime(val int64) {
@@ -210,9 +498,9 @@ func (this *User) SetLastSignInTime(val int64) {
 	this.SetDirty(LastSignInTime)
 }
 
-func (this *User) SetLastSignInIp(val string) {
-	this.LastSignInIp = val
-	this.SetDirty(LastSignInIp)
+func (this *User) SetLastSignInAddr(val string) {
+	this.LastSignInAddr = val
+	this.SetDirty(LastSignInAddr)
 }
 
 func (this *User) SetLastOfflineTime(val int64) {
@@ -235,11 +523,6 @@ func (this *User) SetAvatar(val string) {
 	this.SetDirty(Avatar)
 }
 
-func (this *User) SetWechatUnionId(val string) {
-	this.WechatUnionId = val
-	this.SetDirty(WechatUnionId)
-}
-
 func (this *User) SetToken(val string) {
 	this.Token = val
 	this.SetDirty(Token)
@@ -255,173 +538,50 @@ func (this *User) SetOnlineDur(val int64) {
 	this.SetDirty(OnlineDur)
 }
 
-func (this *User) SetTestBool(val []bool) {
-	this.TestBool = val
-	this.SetDirty(TestBool)
+func NewUser() mgo.IModel {
+	m := &User{
+		User: &pb.User{},
+	}
+	m.Model = mgo.NewModel(SchemaUser, 16, m.GetVal)
+	return m
 }
 
-func (this *User) PushTestBool(items ...bool) {
-	this.TestBool = append(this.TestBool, items...)
-	this.SetDirty(TestBool)
+func InsertUser(data *pb.User) (*User, error) {
+	if data.Id == "" {
+		return nil, mgo.ErrNoId
+	}
+	_, e := mgo.InsertOne(SchemaUser, data)
+	if e != nil {
+		return nil, e
+	}
+	m := NewUserWithData(data)
+	SetUser(m)
+	return m, nil
 }
 
-func (this *User) AddToSetTestBool(items ...bool) {
-	for _, item := range items {
-		for _, v := range this.TestBool {
-			if v == item {
-				return
-			}
-		}
-		this.TestBool = append(this.TestBool, item)
+func NewUserWithData(data *pb.User) *User {
+	m := &User{
+		User: data,
 	}
-	this.SetDirty(TestBool)
-}
-
-func (this *User) PullTestBool(items ...bool) {
-	if this.TestBool == nil || len(this.TestBool) == 0 {
-		return
-	}
-	dirty := false
-	for _, item := range items {
-		for i, v := range this.TestBool {
-			if v == item {
-				this.TestBool = append(this.TestBool[:i], this.TestBool[i+1:]...)
-				dirty = true
-				break
-			}
-		}
-	}
-	if dirty {
-		this.SetDirty(TestBool)
-	}
-}
-
-func (this *User) SetTestI32(val []int32) {
-	this.TestI32 = val
-	this.SetDirty(TestI32)
-}
-
-func (this *User) PushTestI32(items ...int32) {
-	this.TestI32 = append(this.TestI32, items...)
-	this.SetDirty(TestI32)
-}
-
-func (this *User) AddToSetTestI32(items ...int32) {
-	for _, item := range items {
-		for _, v := range this.TestI32 {
-			if v == item {
-				return
-			}
-		}
-		this.TestI32 = append(this.TestI32, item)
-	}
-	this.SetDirty(TestI32)
-}
-
-func (this *User) PullTestI32(items ...int32) {
-	if this.TestI32 == nil || len(this.TestI32) == 0 {
-		return
-	}
-	dirty := false
-	for _, item := range items {
-		for i, v := range this.TestI32 {
-			if v == item {
-				this.TestI32 = append(this.TestI32[:i], this.TestI32[i+1:]...)
-				dirty = true
-				break
-			}
-		}
-	}
-	if dirty {
-		this.SetDirty(TestI32)
-	}
-}
-
-func (this *User) SetTestString(val []string) {
-	this.TestString = val
-	this.SetDirty(TestString)
-}
-
-func (this *User) PushTestString(items ...string) {
-	this.TestString = append(this.TestString, items...)
-	this.SetDirty(TestString)
-}
-
-func (this *User) AddToSetTestString(items ...string) {
-	for _, item := range items {
-		for _, v := range this.TestString {
-			if v == item {
-				return
-			}
-		}
-		this.TestString = append(this.TestString, item)
-	}
-	this.SetDirty(TestString)
-}
-
-func (this *User) PullTestString(items ...string) {
-	if this.TestString == nil || len(this.TestString) == 0 {
-		return
-	}
-	dirty := false
-	for _, item := range items {
-		for i, v := range this.TestString {
-			if v == item {
-				this.TestString = append(this.TestString[:i], this.TestString[i+1:]...)
-				dirty = true
-				break
-			}
-		}
-	}
-	if dirty {
-		this.SetDirty(TestString)
-	}
-}
-
-func (this *User) SetTestData(val *pb.Test) {
-	this.TestData = val
-	this.SetDirty(TestData)
-}
-
-func (this *User) SetTestData2(val []*pb.Test) {
-	this.TestData2 = val
-	this.SetDirty(TestData2)
-}
-
-func (this *User) PushTestData2(items ...*pb.Test) {
-	this.TestData2 = append(this.TestData2, items...)
-	this.SetDirty(TestData2)
-}
-
-func (this *User) AddToSetTestData2(items ...*pb.Test) {
-	for _, item := range items {
-		for _, v := range this.TestData2 {
-			if v == item {
-				return
-			}
-		}
-		this.TestData2 = append(this.TestData2, item)
-	}
-	this.SetDirty(TestData2)
-}
-
-func (this *User) PullTestData2(items ...*pb.Test) {
-	if this.TestData2 == nil || len(this.TestData2) == 0 {
-		return
-	}
-	dirty := false
-	for _, item := range items {
-		for i, v := range this.TestData2 {
-			if v == item {
-				this.TestData2 = append(this.TestData2[:i], this.TestData2[i+1:]...)
-				dirty = true
-				break
-			}
-		}
-	}
-	if dirty {
-		this.SetDirty(TestData2)
-	}
+	m.Model = mgo.NewModel(SchemaUser, 16, m.GetVal)
+	m.SetDirty(
+		RoleMask,
+		Ban,
+		Nick,
+		IdCard,
+		RealName,
+		CreateTime,
+		LastSignInTime,
+		LastSignInAddr,
+		LastOfflineTime,
+		LastOs,
+		State,
+		Avatar,
+		Token,
+		Head,
+		OnlineDur,
+	)
+	return m
 }
 
 func (this *User) GetVal(key string) any {
@@ -433,36 +593,20 @@ func (this *User) GetVal(key string) any {
 
 func (this *User) Cost() int64 {
 	var cost int64 = 0
-	cost += int64(len(this.Id))
-	cost += int64(len(this.Password))
 	cost += 8 //RoleMask int64
 	cost += 1 //Ban bool
 	cost += int64(len(this.Nick))
-	cost += int64(len(this.Addr))
 	cost += int64(len(this.IdCard))
 	cost += int64(len(this.RealName))
-	cost += int64(len(this.Mobile))
-	cost += 8 //SignUpTime int64
+	cost += 8 //CreateTime int64
 	cost += 8 //LastSignInTime int64
-	cost += int64(len(this.LastSignInIp))
+	cost += int64(len(this.LastSignInAddr))
 	cost += 8 //LastOfflineTime int64
 	cost += int64(len(this.LastOs))
 	cost += 4 //State enum
 	cost += int64(len(this.Avatar))
-	cost += int64(len(this.WechatUnionId))
 	cost += int64(len(this.Token))
 	cost += int64(len(this.Head))
 	cost += 8 //OnlineDur int64
-	cost += int64(len(this.TestBool))
-	cost += 4 * int64(len(this.TestI32))
-	for _, item := range this.TestString {
-		cost += int64(len(item))
-	}
-	cost += int64(len(this.TestData.Name))
-	cost += 4 //Age int32
-	for _, item := range this.TestData2 {
-		cost += int64(len(item.Name))
-		cost += 4 //Age int32
-	}
 	return cost
 }

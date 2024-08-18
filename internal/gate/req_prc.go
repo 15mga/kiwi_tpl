@@ -15,27 +15,15 @@ func registerReq() {
 		if _svc.IsShutdown() {
 			return
 		}
+		_svc.Wait()
 		req.SetReceiver(_svc)
 		core.SelfPrcReq[*pb.GateHeartbeatReq](req, _svc.OnGateHeartbeat)
-	})
-	kiwi.Router().BindReq(common.Gate, codec.GateUploadFileReq, func(req kiwi.IRcvRequest) {
-		if _svc.IsShutdown() {
-			return
-		}
-		req.SetReceiver(_svc)
-		core.SelfPrcReq[*pb.GateUploadFileReq](req, _svc.OnGateUploadFile)
-	})
-	kiwi.Router().BindReq(common.Gate, codec.GateUploadWithTokenReq, func(req kiwi.IRcvRequest) {
-		if _svc.IsShutdown() {
-			return
-		}
-		req.SetReceiver(_svc)
-		core.SelfPrcReq[*pb.GateUploadWithTokenReq](req, _svc.OnGateUploadWithToken)
 	})
 	kiwi.Router().BindReq(common.Gate, codec.GateBanAddrReq, func(req kiwi.IRcvRequest) {
 		if _svc.IsShutdown() {
 			return
 		}
+		_svc.Wait()
 		req.SetReceiver(_svc)
 		core.SelfPrcReq[*pb.GateBanAddrReq](req, _svc.OnGateBanAddr)
 	})
@@ -43,6 +31,7 @@ func registerReq() {
 		if _svc.IsShutdown() {
 			return
 		}
+		_svc.Wait()
 		req.SetReceiver(_svc)
 		core.SelfPrcReq[*pb.GateSendToIdReq](req, _svc.OnGateSendToId)
 	})
@@ -50,6 +39,7 @@ func registerReq() {
 		if _svc.IsShutdown() {
 			return
 		}
+		_svc.Wait()
 		req.SetReceiver(_svc)
 		core.SelfPrcReq[*pb.GateSendToAddrReq](req, _svc.OnGateSendToAddr)
 	})
@@ -57,6 +47,7 @@ func registerReq() {
 		if _svc.IsShutdown() {
 			return
 		}
+		_svc.Wait()
 		req.SetReceiver(_svc)
 		core.SelfPrcReq[*pb.GateSendToMultiIdReq](req, _svc.OnGateSendToMultiId)
 	})
@@ -64,6 +55,7 @@ func registerReq() {
 		if _svc.IsShutdown() {
 			return
 		}
+		_svc.Wait()
 		req.SetReceiver(_svc)
 		core.SelfPrcReq[*pb.GateSendToMultiAddrReq](req, _svc.OnGateSendToMultiAddr)
 	})
@@ -71,6 +63,7 @@ func registerReq() {
 		if _svc.IsShutdown() {
 			return
 		}
+		_svc.Wait()
 		req.SetReceiver(_svc)
 		core.SelfPrcReq[*pb.GateSendToAllReq](req, _svc.OnGateSendToAll)
 	})
@@ -78,6 +71,7 @@ func registerReq() {
 		if _svc.IsShutdown() {
 			return
 		}
+		_svc.Wait()
 		req.SetReceiver(_svc)
 		core.SelfPrcReq[*pb.GateCloseIdReq](req, _svc.OnGateCloseId)
 	})
@@ -85,6 +79,7 @@ func registerReq() {
 		if _svc.IsShutdown() {
 			return
 		}
+		_svc.Wait()
 		req.SetReceiver(_svc)
 		core.SelfPrcReq[*pb.GateCloseAddrReq](req, _svc.OnGateCloseAddr)
 	})
@@ -92,6 +87,7 @@ func registerReq() {
 		if _svc.IsShutdown() {
 			return
 		}
+		_svc.Wait()
 		req.SetReceiver(_svc)
 		core.SelfPrcReq[*pb.GateUpdateReq](req, _svc.OnGateUpdate)
 	})
@@ -99,6 +95,7 @@ func registerReq() {
 		if _svc.IsShutdown() {
 			return
 		}
+		_svc.Wait()
 		req.SetReceiver(_svc)
 		core.SelfPrcReq[*pb.GateAddrUpdateReq](req, _svc.OnGateAddrUpdate)
 	})
@@ -106,6 +103,7 @@ func registerReq() {
 		if _svc.IsShutdown() {
 			return
 		}
+		_svc.Wait()
 		req.SetReceiver(_svc)
 		core.SelfPrcReq[*pb.GateRemoveReq](req, _svc.OnGateRemove)
 	})
@@ -113,6 +111,7 @@ func registerReq() {
 		if _svc.IsShutdown() {
 			return
 		}
+		_svc.Wait()
 		req.SetReceiver(_svc)
 		core.SelfPrcReq[*pb.GateAddrRemoveReq](req, _svc.OnGateAddrRemove)
 	})
@@ -120,6 +119,7 @@ func registerReq() {
 		if _svc.IsShutdown() {
 			return
 		}
+		_svc.Wait()
 		req.SetReceiver(_svc)
 		core.SelfPrcReq[*pb.GateGetReq](req, _svc.OnGateGet)
 	})
@@ -127,6 +127,7 @@ func registerReq() {
 		if _svc.IsShutdown() {
 			return
 		}
+		_svc.Wait()
 		req.SetReceiver(_svc)
 		core.SelfPrcReq[*pb.GateAddrGetReq](req, _svc.OnGateAddrGet)
 	})

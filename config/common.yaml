@@ -32,13 +32,13 @@ log:
       - fatal
     ttl: 604800 #7天
 redis:
-  addr: 192.168.1.17:6379
+  addr: hw.15m.games:46379
   user: ""
-  password: feichangliujiayi
+  password: yo1peuBX6HJfoxuYe7Yx
   db: 0
 mongo:
 #  uri: mongodb://127.0.0.1:27017
-  uri: mongodb://95eh:Xoah6wdKrcdS@tc1.95eh.com:47017
+  uri: mongodb://root:xa2jvO7dJT7d1iLA@hw.15m.games:47017/
   db: game
 game:
   roundStartDur: 1500

@@ -1,15 +1,10 @@
 package gate
 
 import (
-	"crypto/md5"
-	"encoding/hex"
-	"fmt"
-	"game/internal/codec"
 	"game/internal/common"
 	"game/proto/pb"
 	"github.com/15mga/kiwi"
 	"github.com/15mga/kiwi/util"
-	"os"
 	"time"
 )
 
@@ -19,88 +14,8 @@ func (s *Svc) OnGateHeartbeat(pkt kiwi.IRcvRequest, req *pb.GateHeartbeatReq, re
 	pkt.Ok(res)
 }
 
-func (s *Svc) OnGateUploadFile(pkt kiwi.IRcvRequest, req *pb.GateUploadFileReq, res *pb.GateUploadFileRes) {
-	wd, _ := os.Getwd()
-	relativeDir := fmt.Sprintf("static/%s", req.Type)
-	dir := fmt.Sprintf("%s/%s", wd, relativeDir)
-	err := os.MkdirAll(dir, os.ModePerm)
-	if err != nil {
-		pkt.Fail(util.EcServiceErr)
-		return
-	}
-	relativePath := fmt.Sprintf("%s/%s_%d%s", relativeDir, pkt.HeadId(), time.Now().UnixMilli(), req.FileExt)
-	path := fmt.Sprintf("%s/%s", wd, relativePath)
-	bytes, err := hex.DecodeString(req.Data)
-	if err != nil {
-		pkt.Fail(util.EcUnmarshallErr)
-		return
-	}
-	err = os.WriteFile(path, bytes, os.ModePerm)
-	if err != nil {
-		pkt.Fail(util.EcServiceErr)
-		return
-	}
-	res.Url = relativePath
-	pkt.Ok(res)
-}
-
-func (s *Svc) OnGateUploadWithToken(pkt kiwi.IRcvRequest, req *pb.GateUploadWithTokenReq, res *pb.GateUploadWithTokenRes) {
-	claims, e := common.ParseToken(req.Token)
-	if e != nil {
-		pkt.Fail(util.EcNoAuth)
-		return
-	}
-	wd, _ := os.Getwd()
-	relativeDir := fmt.Sprintf("static/%s", req.Type)
-	dir := fmt.Sprintf("%s/%s", wd, relativeDir)
-	err := os.MkdirAll(dir, os.ModePerm)
-	if err != nil {
-		pkt.Fail(util.EcServiceErr)
-		return
-	}
-	bytes, err := hex.DecodeString(req.Data)
-	if err != nil {
-		pkt.Fail(util.EcUnmarshallErr)
-		return
-	}
-
-	md5Bytes := md5.Sum(bytes)
-	name := hex.EncodeToString(md5Bytes[:])
-	relativePath := fmt.Sprintf("%s/%s%s", relativeDir, name, req.FileExt)
-	path := fmt.Sprintf("%s/%s", wd, relativePath)
-
-	err = os.WriteFile(path, bytes, os.ModePerm)
-	if err != nil {
-		pkt.Fail(util.EcServiceErr)
-		return
-	}
-	res.Url = relativePath
-	payload, _ := util.JsonMarshal(&pb.GateUploadWithTokenPus{
-		Url: relativePath,
-	})
-	bytes, e = common.PackUserPus(common.Gate, codec.GateUploadWithTokenPus, payload)
-	if e != nil {
-		kiwi.TE(pkt.Tid(), e)
-		return
-	}
-	kiwi.Gate().Send(pkt.Tid(), claims.Uid, bytes, func(ok bool) {
-		if !ok {
-			pkt.Fail(common.EcGateNotExistAddr)
-			return
-		}
-		pkt.Ok(res)
-	})
-}
-
 func (s *Svc) OnGateSendToId(pkt kiwi.IRcvRequest, req *pb.GateSendToIdReq, res *pb.GateSendToIdRes) {
-	svc, code := kiwi.SplitSvcCode(req.SvcCode)
-	bytes, err := common.PackUserPus(svc, code, req.Payload)
-	if err != nil {
-		kiwi.TE(pkt.Tid(), err)
-		pkt.Err(err)
-		return
-	}
-	kiwi.Gate().Send(pkt.Tid(), req.Id, bytes, func(ok bool) {
+	kiwi.Gate().Send(pkt.Tid(), req.Id, req.Payload, func(ok bool) {
 		if !ok {
 			pkt.Fail(common.EcGateNotExistId)
 			return
@@ -110,13 +25,7 @@ func (s *Svc) OnGateSendToId(pkt kiwi.IRcvRequest, req *pb.GateSendToIdReq, res 
 }
 
 func (s *Svc) OnGateSendToAddr(pkt kiwi.IRcvRequest, req *pb.GateSendToAddrReq, res *pb.GateSendToAddrRes) {
-	svc, code := kiwi.SplitSvcCode(req.SvcCode)
-	bytes, err := common.PackUserPus(svc, code, req.Payload)
-	if err != nil {
-		kiwi.TE(pkt.Tid(), err)
-		return
-	}
-	kiwi.Gate().AddrSend(pkt.Tid(), req.Addr, bytes, func(ok bool) {
+	kiwi.Gate().AddrSend(pkt.Tid(), req.Addr, req.Payload, func(ok bool) {
 		if !ok {
 			pkt.Fail(common.EcGateNotExistAddr)
 			return
@@ -150,8 +59,8 @@ func (s *Svc) OnGateSendToMultiId(pkt kiwi.IRcvRequest, req *pb.GateSendToMultiI
 	}
 	kiwi.Gate().MultiSend(pkt.Tid(), idToMsg, func(m map[string]bool) {
 		res.Result = m
-		pkt.Ok(res)
 	})
+	pkt.Ok(res)
 }
 
 func (s *Svc) OnGateSendToMultiAddr(pkt kiwi.IRcvRequest, req *pb.GateSendToMultiAddrReq, res *pb.GateSendToMultiAddrRes) {
@@ -179,18 +88,13 @@ func (s *Svc) OnGateSendToMultiAddr(pkt kiwi.IRcvRequest, req *pb.GateSendToMult
 	}
 	kiwi.Gate().MultiAddrSend(pkt.Tid(), addrToMsg, func(m map[string]bool) {
 		res.Result = m
-		pkt.Ok(res)
 	})
+	pkt.Ok(res)
 }
 
 func (s *Svc) OnGateSendToAll(pkt kiwi.IRcvRequest, req *pb.GateSendToAllReq, res *pb.GateSendToAllRes) {
-	svc, code := kiwi.SplitSvcCode(req.SvcCode)
-	bytes, err := common.PackUserPus(svc, code, req.Payload)
-	if err != nil {
-		kiwi.TE(pkt.Tid(), err)
-		return
-	}
-	kiwi.Gate().AllSend(pkt.Tid(), bytes)
+	kiwi.Gate().AllSend(pkt.Tid(), req.Payload)
+	pkt.Ok(res)
 }
 
 func (s *Svc) OnGateCloseId(pkt kiwi.IRcvRequest, req *pb.GateCloseIdReq, res *pb.GateCloseIdRes) {
@@ -247,11 +151,10 @@ func (s *Svc) OnGateAddrUpdate(pkt kiwi.IRcvRequest, req *pb.GateAddrUpdateReq, 
 func (s *Svc) updateHead(pkt kiwi.IRcvRequest, head util.M) {
 	uid, _ := util.MGet[string](head, common.HdUserId)
 	delete(head, common.HdGateAddr)
-	delete(head, common.HdGateId)
 	delete(head, common.HdSvc)
-	delete(head, common.HdCode)
+	delete(head, common.HdMtd)
 	headBytes, _ := head.ToBytes()
-	s.Req(pkt.Tid(), util.M{
+	s.AsyncReq(pkt.Tid(), util.M{
 		common.HdUserId: uid,
 	}, &pb.UserUpdateHeadReq{
 		Id:   uid,

@@ -22,20 +22,18 @@ const (
 )
 
 // 注册
-type UserSignUpReq struct {
+type UserSignUpWithMobileReq struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
 	Mobile   string `protobuf:"bytes,1,opt,name=mobile,proto3" json:"mobile,omitempty" bson:"mobile"`       //手机号
 	Password string `protobuf:"bytes,2,opt,name=password,proto3" json:"password,omitempty" bson:"password"` //密码
-	Code     string `protobuf:"bytes,3,opt,name=code,proto3" json:"code,omitempty" bson:"code"`             //短信验证码
-	Nick     string `protobuf:"bytes,4,opt,name=nick,proto3" json:"nick,omitempty" bson:"nick"`             //昵称
-	Avatar   string `protobuf:"bytes,5,opt,name=avatar,proto3" json:"avatar,omitempty" bson:"avatar"`       //头像
+	Code     string `protobuf:"bytes,3,opt,name=code,proto3" json:"code,omitempty" bson:"code"`             //验证码
 }
 
-func (x *UserSignUpReq) Reset() {
-	*x = UserSignUpReq{}
+func (x *UserSignUpWithMobileReq) Reset() {
+	*x = UserSignUpWithMobileReq{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_client_user_c_proto_msgTypes[0]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -43,13 +41,13 @@ func (x *UserSignUpReq) Reset() {
 	}
 }
 
-func (x *UserSignUpReq) String() string {
+func (x *UserSignUpWithMobileReq) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*UserSignUpReq) ProtoMessage() {}
+func (*UserSignUpWithMobileReq) ProtoMessage() {}
 
-func (x *UserSignUpReq) ProtoReflect() protoreflect.Message {
+func (x *UserSignUpWithMobileReq) ProtoReflect() protoreflect.Message {
 	mi := &file_client_user_c_proto_msgTypes[0]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -61,55 +59,41 @@ func (x *UserSignUpReq) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use UserSignUpReq.ProtoReflect.Descriptor instead.
-func (*UserSignUpReq) Descriptor() ([]byte, []int) {
+// Deprecated: Use UserSignUpWithMobileReq.ProtoReflect.Descriptor instead.
+func (*UserSignUpWithMobileReq) Descriptor() ([]byte, []int) {
 	return file_client_user_c_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *UserSignUpReq) GetMobile() string {
+func (x *UserSignUpWithMobileReq) GetMobile() string {
 	if x != nil {
 		return x.Mobile
 	}
 	return ""
 }
 
-func (x *UserSignUpReq) GetPassword() string {
+func (x *UserSignUpWithMobileReq) GetPassword() string {
 	if x != nil {
 		return x.Password
 	}
 	return ""
 }
 
-func (x *UserSignUpReq) GetCode() string {
+func (x *UserSignUpWithMobileReq) GetCode() string {
 	if x != nil {
 		return x.Code
 	}
 	return ""
 }
 
-func (x *UserSignUpReq) GetNick() string {
-	if x != nil {
-		return x.Nick
-	}
-	return ""
-}
-
-func (x *UserSignUpReq) GetAvatar() string {
-	if x != nil {
-		return x.Avatar
-	}
-	return ""
-}
-
 // 注册
-type UserSignUpRes struct {
+type UserSignUpWithMobileRes struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 }
 
-func (x *UserSignUpRes) Reset() {
-	*x = UserSignUpRes{}
+func (x *UserSignUpWithMobileRes) Reset() {
+	*x = UserSignUpWithMobileRes{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_client_user_c_proto_msgTypes[1]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -117,13 +101,13 @@ func (x *UserSignUpRes) Reset() {
 	}
 }
 
-func (x *UserSignUpRes) String() string {
+func (x *UserSignUpWithMobileRes) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*UserSignUpRes) ProtoMessage() {}
+func (*UserSignUpWithMobileRes) ProtoMessage() {}
 
-func (x *UserSignUpRes) ProtoReflect() protoreflect.Message {
+func (x *UserSignUpWithMobileRes) ProtoReflect() protoreflect.Message {
 	mi := &file_client_user_c_proto_msgTypes[1]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -135,26 +119,927 @@ func (x *UserSignUpRes) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use UserSignUpRes.ProtoReflect.Descriptor instead.
-func (*UserSignUpRes) Descriptor() ([]byte, []int) {
+// Deprecated: Use UserSignUpWithMobileRes.ProtoReflect.Descriptor instead.
+func (*UserSignUpWithMobileRes) Descriptor() ([]byte, []int) {
 	return file_client_user_c_proto_rawDescGZIP(), []int{1}
 }
 
 // 登录
-type UserSignInReq struct {
+type UserSignInWithMobileReq struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
 	Mobile   string `protobuf:"bytes,1,opt,name=mobile,proto3" json:"mobile,omitempty" bson:"mobile"`
 	Password string `protobuf:"bytes,2,opt,name=password,proto3" json:"password,omitempty" bson:"password"`
-	Os       string `protobuf:"bytes,3,opt,name=os,proto3" json:"os,omitempty" bson:"os"`
+}
+
+func (x *UserSignInWithMobileReq) Reset() {
+	*x = UserSignInWithMobileReq{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_client_user_c_proto_msgTypes[2]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *UserSignInWithMobileReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UserSignInWithMobileReq) ProtoMessage() {}
+
+func (x *UserSignInWithMobileReq) ProtoReflect() protoreflect.Message {
+	mi := &file_client_user_c_proto_msgTypes[2]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UserSignInWithMobileReq.ProtoReflect.Descriptor instead.
+func (*UserSignInWithMobileReq) Descriptor() ([]byte, []int) {
+	return file_client_user_c_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *UserSignInWithMobileReq) GetMobile() string {
+	if x != nil {
+		return x.Mobile
+	}
+	return ""
+}
+
+func (x *UserSignInWithMobileReq) GetPassword() string {
+	if x != nil {
+		return x.Password
+	}
+	return ""
+}
+
+// 登录
+type UserSignInWithMobileRes struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	ExistUser bool `protobuf:"varint,1,opt,name=existUser,proto3" json:"existUser,omitempty" bson:"exist_user"`
+}
+
+func (x *UserSignInWithMobileRes) Reset() {
+	*x = UserSignInWithMobileRes{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_client_user_c_proto_msgTypes[3]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *UserSignInWithMobileRes) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UserSignInWithMobileRes) ProtoMessage() {}
+
+func (x *UserSignInWithMobileRes) ProtoReflect() protoreflect.Message {
+	mi := &file_client_user_c_proto_msgTypes[3]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UserSignInWithMobileRes.ProtoReflect.Descriptor instead.
+func (*UserSignInWithMobileRes) Descriptor() ([]byte, []int) {
+	return file_client_user_c_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *UserSignInWithMobileRes) GetExistUser() bool {
+	if x != nil {
+		return x.ExistUser
+	}
+	return false
+}
+
+// 重置密码
+type UserResetPasswordWithMobileReq struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Mobile      string `protobuf:"bytes,1,opt,name=mobile,proto3" json:"mobile,omitempty" bson:"mobile"`                 //手机号
+	OldPassword string `protobuf:"bytes,2,opt,name=oldPassword,proto3" json:"oldPassword,omitempty" bson:"old_password"` //密码
+	NewPassword string `protobuf:"bytes,3,opt,name=newPassword,proto3" json:"newPassword,omitempty" bson:"new_password"`
+	Code        string `protobuf:"bytes,4,opt,name=code,proto3" json:"code,omitempty" bson:"code"` //短信验证码
+}
+
+func (x *UserResetPasswordWithMobileReq) Reset() {
+	*x = UserResetPasswordWithMobileReq{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_client_user_c_proto_msgTypes[4]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *UserResetPasswordWithMobileReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UserResetPasswordWithMobileReq) ProtoMessage() {}
+
+func (x *UserResetPasswordWithMobileReq) ProtoReflect() protoreflect.Message {
+	mi := &file_client_user_c_proto_msgTypes[4]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UserResetPasswordWithMobileReq.ProtoReflect.Descriptor instead.
+func (*UserResetPasswordWithMobileReq) Descriptor() ([]byte, []int) {
+	return file_client_user_c_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *UserResetPasswordWithMobileReq) GetMobile() string {
+	if x != nil {
+		return x.Mobile
+	}
+	return ""
+}
+
+func (x *UserResetPasswordWithMobileReq) GetOldPassword() string {
+	if x != nil {
+		return x.OldPassword
+	}
+	return ""
+}
+
+func (x *UserResetPasswordWithMobileReq) GetNewPassword() string {
+	if x != nil {
+		return x.NewPassword
+	}
+	return ""
+}
+
+func (x *UserResetPasswordWithMobileReq) GetCode() string {
+	if x != nil {
+		return x.Code
+	}
+	return ""
+}
+
+// 重置密码
+type UserResetPasswordWithMobileRes struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+}
+
+func (x *UserResetPasswordWithMobileRes) Reset() {
+	*x = UserResetPasswordWithMobileRes{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_client_user_c_proto_msgTypes[5]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *UserResetPasswordWithMobileRes) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UserResetPasswordWithMobileRes) ProtoMessage() {}
+
+func (x *UserResetPasswordWithMobileRes) ProtoReflect() protoreflect.Message {
+	mi := &file_client_user_c_proto_msgTypes[5]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UserResetPasswordWithMobileRes.ProtoReflect.Descriptor instead.
+func (*UserResetPasswordWithMobileRes) Descriptor() ([]byte, []int) {
+	return file_client_user_c_proto_rawDescGZIP(), []int{5}
+}
+
+// 短信验证码
+type UserCodeWithMobileReq struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Mobile string `protobuf:"bytes,1,opt,name=mobile,proto3" json:"mobile,omitempty" bson:"mobile"` //手机号
+}
+
+func (x *UserCodeWithMobileReq) Reset() {
+	*x = UserCodeWithMobileReq{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_client_user_c_proto_msgTypes[6]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *UserCodeWithMobileReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UserCodeWithMobileReq) ProtoMessage() {}
+
+func (x *UserCodeWithMobileReq) ProtoReflect() protoreflect.Message {
+	mi := &file_client_user_c_proto_msgTypes[6]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UserCodeWithMobileReq.ProtoReflect.Descriptor instead.
+func (*UserCodeWithMobileReq) Descriptor() ([]byte, []int) {
+	return file_client_user_c_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *UserCodeWithMobileReq) GetMobile() string {
+	if x != nil {
+		return x.Mobile
+	}
+	return ""
+}
+
+type UserCodeWithMobileRes struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Code string `protobuf:"bytes,1,opt,name=code,proto3" json:"code,omitempty" bson:"code"` //测试用返回
+}
+
+func (x *UserCodeWithMobileRes) Reset() {
+	*x = UserCodeWithMobileRes{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_client_user_c_proto_msgTypes[7]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *UserCodeWithMobileRes) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UserCodeWithMobileRes) ProtoMessage() {}
+
+func (x *UserCodeWithMobileRes) ProtoReflect() protoreflect.Message {
+	mi := &file_client_user_c_proto_msgTypes[7]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UserCodeWithMobileRes.ProtoReflect.Descriptor instead.
+func (*UserCodeWithMobileRes) Descriptor() ([]byte, []int) {
+	return file_client_user_c_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *UserCodeWithMobileRes) GetCode() string {
+	if x != nil {
+		return x.Code
+	}
+	return ""
+}
+
+// 注册
+type UserSignUpWithEmailReq struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Email    string `protobuf:"bytes,1,opt,name=email,proto3" json:"email,omitempty" bson:"email"`          //手机号
+	Password string `protobuf:"bytes,2,opt,name=password,proto3" json:"password,omitempty" bson:"password"` //密码
+	Code     string `protobuf:"bytes,3,opt,name=code,proto3" json:"code,omitempty" bson:"code"`             //验证码
+}
+
+func (x *UserSignUpWithEmailReq) Reset() {
+	*x = UserSignUpWithEmailReq{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_client_user_c_proto_msgTypes[8]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *UserSignUpWithEmailReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UserSignUpWithEmailReq) ProtoMessage() {}
+
+func (x *UserSignUpWithEmailReq) ProtoReflect() protoreflect.Message {
+	mi := &file_client_user_c_proto_msgTypes[8]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UserSignUpWithEmailReq.ProtoReflect.Descriptor instead.
+func (*UserSignUpWithEmailReq) Descriptor() ([]byte, []int) {
+	return file_client_user_c_proto_rawDescGZIP(), []int{8}
+}
+
+func (x *UserSignUpWithEmailReq) GetEmail() string {
+	if x != nil {
+		return x.Email
+	}
+	return ""
+}
+
+func (x *UserSignUpWithEmailReq) GetPassword() string {
+	if x != nil {
+		return x.Password
+	}
+	return ""
+}
+
+func (x *UserSignUpWithEmailReq) GetCode() string {
+	if x != nil {
+		return x.Code
+	}
+	return ""
+}
+
+// 注册
+type UserSignUpWithEmailRes struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+}
+
+func (x *UserSignUpWithEmailRes) Reset() {
+	*x = UserSignUpWithEmailRes{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_client_user_c_proto_msgTypes[9]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *UserSignUpWithEmailRes) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UserSignUpWithEmailRes) ProtoMessage() {}
+
+func (x *UserSignUpWithEmailRes) ProtoReflect() protoreflect.Message {
+	mi := &file_client_user_c_proto_msgTypes[9]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UserSignUpWithEmailRes.ProtoReflect.Descriptor instead.
+func (*UserSignUpWithEmailRes) Descriptor() ([]byte, []int) {
+	return file_client_user_c_proto_rawDescGZIP(), []int{9}
+}
+
+// 登录
+type UserSignInWithEmailReq struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Email    string `protobuf:"bytes,1,opt,name=email,proto3" json:"email,omitempty" bson:"email"`
+	Password string `protobuf:"bytes,2,opt,name=password,proto3" json:"password,omitempty" bson:"password"`
+}
+
+func (x *UserSignInWithEmailReq) Reset() {
+	*x = UserSignInWithEmailReq{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_client_user_c_proto_msgTypes[10]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *UserSignInWithEmailReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UserSignInWithEmailReq) ProtoMessage() {}
+
+func (x *UserSignInWithEmailReq) ProtoReflect() protoreflect.Message {
+	mi := &file_client_user_c_proto_msgTypes[10]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UserSignInWithEmailReq.ProtoReflect.Descriptor instead.
+func (*UserSignInWithEmailReq) Descriptor() ([]byte, []int) {
+	return file_client_user_c_proto_rawDescGZIP(), []int{10}
+}
+
+func (x *UserSignInWithEmailReq) GetEmail() string {
+	if x != nil {
+		return x.Email
+	}
+	return ""
+}
+
+func (x *UserSignInWithEmailReq) GetPassword() string {
+	if x != nil {
+		return x.Password
+	}
+	return ""
+}
+
+// 登录
+type UserSignInWithEmailRes struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	ExistUser bool `protobuf:"varint,1,opt,name=existUser,proto3" json:"existUser,omitempty" bson:"exist_user"`
+}
+
+func (x *UserSignInWithEmailRes) Reset() {
+	*x = UserSignInWithEmailRes{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_client_user_c_proto_msgTypes[11]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *UserSignInWithEmailRes) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UserSignInWithEmailRes) ProtoMessage() {}
+
+func (x *UserSignInWithEmailRes) ProtoReflect() protoreflect.Message {
+	mi := &file_client_user_c_proto_msgTypes[11]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UserSignInWithEmailRes.ProtoReflect.Descriptor instead.
+func (*UserSignInWithEmailRes) Descriptor() ([]byte, []int) {
+	return file_client_user_c_proto_rawDescGZIP(), []int{11}
+}
+
+func (x *UserSignInWithEmailRes) GetExistUser() bool {
+	if x != nil {
+		return x.ExistUser
+	}
+	return false
+}
+
+// 重置密码
+type UserResetPasswordWithEmailReq struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Email       string `protobuf:"bytes,1,opt,name=email,proto3" json:"email,omitempty" bson:"email"` //手机号
+	OldPassword string `protobuf:"bytes,2,opt,name=oldPassword,proto3" json:"oldPassword,omitempty" bson:"old_password"`
+	NewPassword string `protobuf:"bytes,3,opt,name=newPassword,proto3" json:"newPassword,omitempty" bson:"new_password"`
+	Code        string `protobuf:"bytes,4,opt,name=code,proto3" json:"code,omitempty" bson:"code"` //短信验证码
+}
+
+func (x *UserResetPasswordWithEmailReq) Reset() {
+	*x = UserResetPasswordWithEmailReq{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_client_user_c_proto_msgTypes[12]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *UserResetPasswordWithEmailReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UserResetPasswordWithEmailReq) ProtoMessage() {}
+
+func (x *UserResetPasswordWithEmailReq) ProtoReflect() protoreflect.Message {
+	mi := &file_client_user_c_proto_msgTypes[12]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UserResetPasswordWithEmailReq.ProtoReflect.Descriptor instead.
+func (*UserResetPasswordWithEmailReq) Descriptor() ([]byte, []int) {
+	return file_client_user_c_proto_rawDescGZIP(), []int{12}
+}
+
+func (x *UserResetPasswordWithEmailReq) GetEmail() string {
+	if x != nil {
+		return x.Email
+	}
+	return ""
+}
+
+func (x *UserResetPasswordWithEmailReq) GetOldPassword() string {
+	if x != nil {
+		return x.OldPassword
+	}
+	return ""
+}
+
+func (x *UserResetPasswordWithEmailReq) GetNewPassword() string {
+	if x != nil {
+		return x.NewPassword
+	}
+	return ""
+}
+
+func (x *UserResetPasswordWithEmailReq) GetCode() string {
+	if x != nil {
+		return x.Code
+	}
+	return ""
+}
+
+// 重置密码
+type UserResetPasswordWithEmailRes struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+}
+
+func (x *UserResetPasswordWithEmailRes) Reset() {
+	*x = UserResetPasswordWithEmailRes{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_client_user_c_proto_msgTypes[13]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *UserResetPasswordWithEmailRes) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UserResetPasswordWithEmailRes) ProtoMessage() {}
+
+func (x *UserResetPasswordWithEmailRes) ProtoReflect() protoreflect.Message {
+	mi := &file_client_user_c_proto_msgTypes[13]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UserResetPasswordWithEmailRes.ProtoReflect.Descriptor instead.
+func (*UserResetPasswordWithEmailRes) Descriptor() ([]byte, []int) {
+	return file_client_user_c_proto_rawDescGZIP(), []int{13}
+}
+
+// 短信验证码
+type UserCodeWithEmailReq struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Email string `protobuf:"bytes,1,opt,name=email,proto3" json:"email,omitempty" bson:"email"` //手机号
+}
+
+func (x *UserCodeWithEmailReq) Reset() {
+	*x = UserCodeWithEmailReq{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_client_user_c_proto_msgTypes[14]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *UserCodeWithEmailReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UserCodeWithEmailReq) ProtoMessage() {}
+
+func (x *UserCodeWithEmailReq) ProtoReflect() protoreflect.Message {
+	mi := &file_client_user_c_proto_msgTypes[14]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UserCodeWithEmailReq.ProtoReflect.Descriptor instead.
+func (*UserCodeWithEmailReq) Descriptor() ([]byte, []int) {
+	return file_client_user_c_proto_rawDescGZIP(), []int{14}
+}
+
+func (x *UserCodeWithEmailReq) GetEmail() string {
+	if x != nil {
+		return x.Email
+	}
+	return ""
+}
+
+type UserCodeWithEmailRes struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Code string `protobuf:"bytes,1,opt,name=code,proto3" json:"code,omitempty" bson:"code"` //测试用返回
+}
+
+func (x *UserCodeWithEmailRes) Reset() {
+	*x = UserCodeWithEmailRes{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_client_user_c_proto_msgTypes[15]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *UserCodeWithEmailRes) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UserCodeWithEmailRes) ProtoMessage() {}
+
+func (x *UserCodeWithEmailRes) ProtoReflect() protoreflect.Message {
+	mi := &file_client_user_c_proto_msgTypes[15]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UserCodeWithEmailRes.ProtoReflect.Descriptor instead.
+func (*UserCodeWithEmailRes) Descriptor() ([]byte, []int) {
+	return file_client_user_c_proto_rawDescGZIP(), []int{15}
+}
+
+func (x *UserCodeWithEmailRes) GetCode() string {
+	if x != nil {
+		return x.Code
+	}
+	return ""
+}
+
+// 登录
+type UserSignInWithWechatReq struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Code string `protobuf:"bytes,1,opt,name=code,proto3" json:"code,omitempty" bson:"code"`
+}
+
+func (x *UserSignInWithWechatReq) Reset() {
+	*x = UserSignInWithWechatReq{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_client_user_c_proto_msgTypes[16]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *UserSignInWithWechatReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UserSignInWithWechatReq) ProtoMessage() {}
+
+func (x *UserSignInWithWechatReq) ProtoReflect() protoreflect.Message {
+	mi := &file_client_user_c_proto_msgTypes[16]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UserSignInWithWechatReq.ProtoReflect.Descriptor instead.
+func (*UserSignInWithWechatReq) Descriptor() ([]byte, []int) {
+	return file_client_user_c_proto_rawDescGZIP(), []int{16}
+}
+
+func (x *UserSignInWithWechatReq) GetCode() string {
+	if x != nil {
+		return x.Code
+	}
+	return ""
+}
+
+// 登录
+type UserSignInWithWechatRes struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	ExistUser bool `protobuf:"varint,1,opt,name=existUser,proto3" json:"existUser,omitempty" bson:"exist_user"`
+}
+
+func (x *UserSignInWithWechatRes) Reset() {
+	*x = UserSignInWithWechatRes{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_client_user_c_proto_msgTypes[17]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *UserSignInWithWechatRes) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UserSignInWithWechatRes) ProtoMessage() {}
+
+func (x *UserSignInWithWechatRes) ProtoReflect() protoreflect.Message {
+	mi := &file_client_user_c_proto_msgTypes[17]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UserSignInWithWechatRes.ProtoReflect.Descriptor instead.
+func (*UserSignInWithWechatRes) Descriptor() ([]byte, []int) {
+	return file_client_user_c_proto_rawDescGZIP(), []int{17}
+}
+
+func (x *UserSignInWithWechatRes) GetExistUser() bool {
+	if x != nil {
+		return x.ExistUser
+	}
+	return false
+}
+
+type UserNewReq struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	User *User `protobuf:"bytes,1,opt,name=user,proto3" json:"user,omitempty" bson:"user"`
+}
+
+func (x *UserNewReq) Reset() {
+	*x = UserNewReq{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_client_user_c_proto_msgTypes[18]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *UserNewReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UserNewReq) ProtoMessage() {}
+
+func (x *UserNewReq) ProtoReflect() protoreflect.Message {
+	mi := &file_client_user_c_proto_msgTypes[18]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UserNewReq.ProtoReflect.Descriptor instead.
+func (*UserNewReq) Descriptor() ([]byte, []int) {
+	return file_client_user_c_proto_rawDescGZIP(), []int{18}
+}
+
+func (x *UserNewReq) GetUser() *User {
+	if x != nil {
+		return x.User
+	}
+	return nil
+}
+
+type UserNewRes struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+}
+
+func (x *UserNewRes) Reset() {
+	*x = UserNewRes{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_client_user_c_proto_msgTypes[19]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *UserNewRes) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UserNewRes) ProtoMessage() {}
+
+func (x *UserNewRes) ProtoReflect() protoreflect.Message {
+	mi := &file_client_user_c_proto_msgTypes[19]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UserNewRes.ProtoReflect.Descriptor instead.
+func (*UserNewRes) Descriptor() ([]byte, []int) {
+	return file_client_user_c_proto_rawDescGZIP(), []int{19}
+}
+
+type UserSignInReq struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Os string `protobuf:"bytes,2,opt,name=os,proto3" json:"os,omitempty" bson:"os"`
 }
 
 func (x *UserSignInReq) Reset() {
 	*x = UserSignInReq{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_client_user_c_proto_msgTypes[2]
+		mi := &file_client_user_c_proto_msgTypes[20]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -167,7 +1052,7 @@ func (x *UserSignInReq) String() string {
 func (*UserSignInReq) ProtoMessage() {}
 
 func (x *UserSignInReq) ProtoReflect() protoreflect.Message {
-	mi := &file_client_user_c_proto_msgTypes[2]
+	mi := &file_client_user_c_proto_msgTypes[20]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -180,21 +1065,7 @@ func (x *UserSignInReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UserSignInReq.ProtoReflect.Descriptor instead.
 func (*UserSignInReq) Descriptor() ([]byte, []int) {
-	return file_client_user_c_proto_rawDescGZIP(), []int{2}
-}
-
-func (x *UserSignInReq) GetMobile() string {
-	if x != nil {
-		return x.Mobile
-	}
-	return ""
-}
-
-func (x *UserSignInReq) GetPassword() string {
-	if x != nil {
-		return x.Password
-	}
-	return ""
+	return file_client_user_c_proto_rawDescGZIP(), []int{20}
 }
 
 func (x *UserSignInReq) GetOs() string {
@@ -204,19 +1075,19 @@ func (x *UserSignInReq) GetOs() string {
 	return ""
 }
 
-// 登录
 type UserSignInRes struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Token string `protobuf:"bytes,1,opt,name=token,proto3" json:"token,omitempty" bson:"token"`
+	User  *User  `protobuf:"bytes,1,opt,name=user,proto3" json:"user,omitempty" bson:"user"`
+	Token string `protobuf:"bytes,2,opt,name=token,proto3" json:"token,omitempty" bson:"token"`
 }
 
 func (x *UserSignInRes) Reset() {
 	*x = UserSignInRes{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_client_user_c_proto_msgTypes[3]
+		mi := &file_client_user_c_proto_msgTypes[21]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -229,7 +1100,7 @@ func (x *UserSignInRes) String() string {
 func (*UserSignInRes) ProtoMessage() {}
 
 func (x *UserSignInRes) ProtoReflect() protoreflect.Message {
-	mi := &file_client_user_c_proto_msgTypes[3]
+	mi := &file_client_user_c_proto_msgTypes[21]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -242,7 +1113,14 @@ func (x *UserSignInRes) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UserSignInRes.ProtoReflect.Descriptor instead.
 func (*UserSignInRes) Descriptor() ([]byte, []int) {
-	return file_client_user_c_proto_rawDescGZIP(), []int{3}
+	return file_client_user_c_proto_rawDescGZIP(), []int{21}
+}
+
+func (x *UserSignInRes) GetUser() *User {
+	if x != nil {
+		return x.User
+	}
+	return nil
 }
 
 func (x *UserSignInRes) GetToken() string {
@@ -252,206 +1130,7 @@ func (x *UserSignInRes) GetToken() string {
 	return ""
 }
 
-// 重置密码
-type UserResetPasswordReq struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	Mobile   string `protobuf:"bytes,1,opt,name=mobile,proto3" json:"mobile,omitempty" bson:"mobile"`       //手机号
-	Password string `protobuf:"bytes,2,opt,name=password,proto3" json:"password,omitempty" bson:"password"` //密码
-	Code     string `protobuf:"bytes,3,opt,name=code,proto3" json:"code,omitempty" bson:"code"`             //短信验证码
-}
-
-func (x *UserResetPasswordReq) Reset() {
-	*x = UserResetPasswordReq{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_client_user_c_proto_msgTypes[4]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *UserResetPasswordReq) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*UserResetPasswordReq) ProtoMessage() {}
-
-func (x *UserResetPasswordReq) ProtoReflect() protoreflect.Message {
-	mi := &file_client_user_c_proto_msgTypes[4]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use UserResetPasswordReq.ProtoReflect.Descriptor instead.
-func (*UserResetPasswordReq) Descriptor() ([]byte, []int) {
-	return file_client_user_c_proto_rawDescGZIP(), []int{4}
-}
-
-func (x *UserResetPasswordReq) GetMobile() string {
-	if x != nil {
-		return x.Mobile
-	}
-	return ""
-}
-
-func (x *UserResetPasswordReq) GetPassword() string {
-	if x != nil {
-		return x.Password
-	}
-	return ""
-}
-
-func (x *UserResetPasswordReq) GetCode() string {
-	if x != nil {
-		return x.Code
-	}
-	return ""
-}
-
-// 重置密码
-type UserResetPasswordRes struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	Token string `protobuf:"bytes,1,opt,name=token,proto3" json:"token,omitempty" bson:"token"`
-}
-
-func (x *UserResetPasswordRes) Reset() {
-	*x = UserResetPasswordRes{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_client_user_c_proto_msgTypes[5]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *UserResetPasswordRes) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*UserResetPasswordRes) ProtoMessage() {}
-
-func (x *UserResetPasswordRes) ProtoReflect() protoreflect.Message {
-	mi := &file_client_user_c_proto_msgTypes[5]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use UserResetPasswordRes.ProtoReflect.Descriptor instead.
-func (*UserResetPasswordRes) Descriptor() ([]byte, []int) {
-	return file_client_user_c_proto_rawDescGZIP(), []int{5}
-}
-
-func (x *UserResetPasswordRes) GetToken() string {
-	if x != nil {
-		return x.Token
-	}
-	return ""
-}
-
-// 短信验证码
-type UserSmsCodeReq struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	Mobile string `protobuf:"bytes,1,opt,name=mobile,proto3" json:"mobile,omitempty" bson:"mobile"` //手机号
-}
-
-func (x *UserSmsCodeReq) Reset() {
-	*x = UserSmsCodeReq{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_client_user_c_proto_msgTypes[6]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *UserSmsCodeReq) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*UserSmsCodeReq) ProtoMessage() {}
-
-func (x *UserSmsCodeReq) ProtoReflect() protoreflect.Message {
-	mi := &file_client_user_c_proto_msgTypes[6]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use UserSmsCodeReq.ProtoReflect.Descriptor instead.
-func (*UserSmsCodeReq) Descriptor() ([]byte, []int) {
-	return file_client_user_c_proto_rawDescGZIP(), []int{6}
-}
-
-func (x *UserSmsCodeReq) GetMobile() string {
-	if x != nil {
-		return x.Mobile
-	}
-	return ""
-}
-
-// 短信验证码
-type UserSmsCodeRes struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-}
-
-func (x *UserSmsCodeRes) Reset() {
-	*x = UserSmsCodeRes{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_client_user_c_proto_msgTypes[7]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *UserSmsCodeRes) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*UserSmsCodeRes) ProtoMessage() {}
-
-func (x *UserSmsCodeRes) ProtoReflect() protoreflect.Message {
-	mi := &file_client_user_c_proto_msgTypes[7]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use UserSmsCodeRes.ProtoReflect.Descriptor instead.
-func (*UserSmsCodeRes) Descriptor() ([]byte, []int) {
-	return file_client_user_c_proto_rawDescGZIP(), []int{7}
-}
-
-// 登出请求
+// 登出
 type UserSignOutReq struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -461,7 +1140,7 @@ type UserSignOutReq struct {
 func (x *UserSignOutReq) Reset() {
 	*x = UserSignOutReq{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_client_user_c_proto_msgTypes[8]
+		mi := &file_client_user_c_proto_msgTypes[22]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -474,7 +1153,7 @@ func (x *UserSignOutReq) String() string {
 func (*UserSignOutReq) ProtoMessage() {}
 
 func (x *UserSignOutReq) ProtoReflect() protoreflect.Message {
-	mi := &file_client_user_c_proto_msgTypes[8]
+	mi := &file_client_user_c_proto_msgTypes[22]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -487,10 +1166,9 @@ func (x *UserSignOutReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UserSignOutReq.ProtoReflect.Descriptor instead.
 func (*UserSignOutReq) Descriptor() ([]byte, []int) {
-	return file_client_user_c_proto_rawDescGZIP(), []int{8}
+	return file_client_user_c_proto_rawDescGZIP(), []int{22}
 }
 
-// 登出响应
 type UserSignOutRes struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -500,7 +1178,7 @@ type UserSignOutRes struct {
 func (x *UserSignOutRes) Reset() {
 	*x = UserSignOutRes{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_client_user_c_proto_msgTypes[9]
+		mi := &file_client_user_c_proto_msgTypes[23]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -513,7 +1191,7 @@ func (x *UserSignOutRes) String() string {
 func (*UserSignOutRes) ProtoMessage() {}
 
 func (x *UserSignOutRes) ProtoReflect() protoreflect.Message {
-	mi := &file_client_user_c_proto_msgTypes[9]
+	mi := &file_client_user_c_proto_msgTypes[23]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -526,7 +1204,139 @@ func (x *UserSignOutRes) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UserSignOutRes.ProtoReflect.Descriptor instead.
 func (*UserSignOutRes) Descriptor() ([]byte, []int) {
-	return file_client_user_c_proto_rawDescGZIP(), []int{9}
+	return file_client_user_c_proto_rawDescGZIP(), []int{23}
+}
+
+type UserReconnectReq struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Token string `protobuf:"bytes,1,opt,name=token,proto3" json:"token,omitempty" bson:"token"`
+}
+
+func (x *UserReconnectReq) Reset() {
+	*x = UserReconnectReq{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_client_user_c_proto_msgTypes[24]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *UserReconnectReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UserReconnectReq) ProtoMessage() {}
+
+func (x *UserReconnectReq) ProtoReflect() protoreflect.Message {
+	mi := &file_client_user_c_proto_msgTypes[24]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UserReconnectReq.ProtoReflect.Descriptor instead.
+func (*UserReconnectReq) Descriptor() ([]byte, []int) {
+	return file_client_user_c_proto_rawDescGZIP(), []int{24}
+}
+
+func (x *UserReconnectReq) GetToken() string {
+	if x != nil {
+		return x.Token
+	}
+	return ""
+}
+
+type UserReconnectRes struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	HasUser bool `protobuf:"varint,1,opt,name=hasUser,proto3" json:"hasUser,omitempty" bson:"has_user"`
+}
+
+func (x *UserReconnectRes) Reset() {
+	*x = UserReconnectRes{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_client_user_c_proto_msgTypes[25]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *UserReconnectRes) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UserReconnectRes) ProtoMessage() {}
+
+func (x *UserReconnectRes) ProtoReflect() protoreflect.Message {
+	mi := &file_client_user_c_proto_msgTypes[25]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UserReconnectRes.ProtoReflect.Descriptor instead.
+func (*UserReconnectRes) Descriptor() ([]byte, []int) {
+	return file_client_user_c_proto_rawDescGZIP(), []int{25}
+}
+
+func (x *UserReconnectRes) GetHasUser() bool {
+	if x != nil {
+		return x.HasUser
+	}
+	return false
+}
+
+type UserRepeatSignInPus struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+}
+
+func (x *UserRepeatSignInPus) Reset() {
+	*x = UserRepeatSignInPus{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_client_user_c_proto_msgTypes[26]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *UserRepeatSignInPus) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UserRepeatSignInPus) ProtoMessage() {}
+
+func (x *UserRepeatSignInPus) ProtoReflect() protoreflect.Message {
+	mi := &file_client_user_c_proto_msgTypes[26]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UserRepeatSignInPus.ProtoReflect.Descriptor instead.
+func (*UserRepeatSignInPus) Descriptor() ([]byte, []int) {
+	return file_client_user_c_proto_rawDescGZIP(), []int{26}
 }
 
 var File_client_user_c_proto protoreflect.FileDescriptor
@@ -536,47 +1346,119 @@ var file_client_user_c_proto_rawDesc = []byte{
 	0x70, 0x72, 0x6f, 0x74, 0x6f, 0x12, 0x02, 0x70, 0x62, 0x1a, 0x25, 0x67, 0x69, 0x74, 0x68, 0x75,
 	0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x31, 0x35, 0x6d, 0x67, 0x61, 0x2f, 0x6b, 0x69, 0x77, 0x69,
 	0x5f, 0x74, 0x6f, 0x6f, 0x6c, 0x2f, 0x6b, 0x69, 0x77, 0x69, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f,
-	0x22, 0x92, 0x01, 0x0a, 0x0d, 0x55, 0x73, 0x65, 0x72, 0x53, 0x69, 0x67, 0x6e, 0x55, 0x70, 0x52,
-	0x65, 0x71, 0x12, 0x16, 0x0a, 0x06, 0x6d, 0x6f, 0x62, 0x69, 0x6c, 0x65, 0x18, 0x01, 0x20, 0x01,
-	0x28, 0x09, 0x52, 0x06, 0x6d, 0x6f, 0x62, 0x69, 0x6c, 0x65, 0x12, 0x1a, 0x0a, 0x08, 0x70, 0x61,
-	0x73, 0x73, 0x77, 0x6f, 0x72, 0x64, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x08, 0x70, 0x61,
-	0x73, 0x73, 0x77, 0x6f, 0x72, 0x64, 0x12, 0x12, 0x0a, 0x04, 0x63, 0x6f, 0x64, 0x65, 0x18, 0x03,
-	0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x63, 0x6f, 0x64, 0x65, 0x12, 0x12, 0x0a, 0x04, 0x6e, 0x69,
-	0x63, 0x6b, 0x18, 0x04, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x6e, 0x69, 0x63, 0x6b, 0x12, 0x16,
-	0x0a, 0x06, 0x61, 0x76, 0x61, 0x74, 0x61, 0x72, 0x18, 0x05, 0x20, 0x01, 0x28, 0x09, 0x52, 0x06,
-	0x61, 0x76, 0x61, 0x74, 0x61, 0x72, 0x3a, 0x0d, 0xe0, 0xe3, 0x49, 0x00, 0xea, 0xe3, 0x49, 0x05,
-	0x67, 0x75, 0x65, 0x73, 0x74, 0x22, 0x15, 0x0a, 0x0d, 0x55, 0x73, 0x65, 0x72, 0x53, 0x69, 0x67,
-	0x6e, 0x55, 0x70, 0x52, 0x65, 0x73, 0x3a, 0x04, 0xe0, 0xe3, 0x49, 0x01, 0x22, 0x62, 0x0a, 0x0d,
-	0x55, 0x73, 0x65, 0x72, 0x53, 0x69, 0x67, 0x6e, 0x49, 0x6e, 0x52, 0x65, 0x71, 0x12, 0x16, 0x0a,
+	0x1a, 0x10, 0x6d, 0x6f, 0x64, 0x65, 0x6c, 0x2f, 0x75, 0x73, 0x65, 0x72, 0x2e, 0x70, 0x72, 0x6f,
+	0x74, 0x6f, 0x22, 0x70, 0x0a, 0x17, 0x55, 0x73, 0x65, 0x72, 0x53, 0x69, 0x67, 0x6e, 0x55, 0x70,
+	0x57, 0x69, 0x74, 0x68, 0x4d, 0x6f, 0x62, 0x69, 0x6c, 0x65, 0x52, 0x65, 0x71, 0x12, 0x16, 0x0a,
 	0x06, 0x6d, 0x6f, 0x62, 0x69, 0x6c, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x6d,
 	0x6f, 0x62, 0x69, 0x6c, 0x65, 0x12, 0x1a, 0x0a, 0x08, 0x70, 0x61, 0x73, 0x73, 0x77, 0x6f, 0x72,
 	0x64, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x08, 0x70, 0x61, 0x73, 0x73, 0x77, 0x6f, 0x72,
-	0x64, 0x12, 0x0e, 0x0a, 0x02, 0x6f, 0x73, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x02, 0x6f,
-	0x73, 0x3a, 0x0d, 0xe0, 0xe3, 0x49, 0x02, 0xea, 0xe3, 0x49, 0x05, 0x67, 0x75, 0x65, 0x73, 0x74,
-	0x22, 0x2b, 0x0a, 0x0d, 0x55, 0x73, 0x65, 0x72, 0x53, 0x69, 0x67, 0x6e, 0x49, 0x6e, 0x52, 0x65,
-	0x73, 0x12, 0x14, 0x0a, 0x05, 0x74, 0x6f, 0x6b, 0x65, 0x6e, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09,
-	0x52, 0x05, 0x74, 0x6f, 0x6b, 0x65, 0x6e, 0x3a, 0x04, 0xe0, 0xe3, 0x49, 0x03, 0x22, 0x6d, 0x0a,
-	0x14, 0x55, 0x73, 0x65, 0x72, 0x52, 0x65, 0x73, 0x65, 0x74, 0x50, 0x61, 0x73, 0x73, 0x77, 0x6f,
-	0x72, 0x64, 0x52, 0x65, 0x71, 0x12, 0x16, 0x0a, 0x06, 0x6d, 0x6f, 0x62, 0x69, 0x6c, 0x65, 0x18,
-	0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x6d, 0x6f, 0x62, 0x69, 0x6c, 0x65, 0x12, 0x1a, 0x0a,
-	0x08, 0x70, 0x61, 0x73, 0x73, 0x77, 0x6f, 0x72, 0x64, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52,
-	0x08, 0x70, 0x61, 0x73, 0x73, 0x77, 0x6f, 0x72, 0x64, 0x12, 0x12, 0x0a, 0x04, 0x63, 0x6f, 0x64,
-	0x65, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x63, 0x6f, 0x64, 0x65, 0x3a, 0x0d, 0xe0,
-	0xe3, 0x49, 0x04, 0xea, 0xe3, 0x49, 0x05, 0x67, 0x75, 0x65, 0x73, 0x74, 0x22, 0x32, 0x0a, 0x14,
-	0x55, 0x73, 0x65, 0x72, 0x52, 0x65, 0x73, 0x65, 0x74, 0x50, 0x61, 0x73, 0x73, 0x77, 0x6f, 0x72,
-	0x64, 0x52, 0x65, 0x73, 0x12, 0x14, 0x0a, 0x05, 0x74, 0x6f, 0x6b, 0x65, 0x6e, 0x18, 0x01, 0x20,
-	0x01, 0x28, 0x09, 0x52, 0x05, 0x74, 0x6f, 0x6b, 0x65, 0x6e, 0x3a, 0x04, 0xe0, 0xe3, 0x49, 0x05,
-	0x22, 0x37, 0x0a, 0x0e, 0x55, 0x73, 0x65, 0x72, 0x53, 0x6d, 0x73, 0x43, 0x6f, 0x64, 0x65, 0x52,
-	0x65, 0x71, 0x12, 0x16, 0x0a, 0x06, 0x6d, 0x6f, 0x62, 0x69, 0x6c, 0x65, 0x18, 0x01, 0x20, 0x01,
-	0x28, 0x09, 0x52, 0x06, 0x6d, 0x6f, 0x62, 0x69, 0x6c, 0x65, 0x3a, 0x0d, 0xe0, 0xe3, 0x49, 0x06,
-	0xea, 0xe3, 0x49, 0x05, 0x67, 0x75, 0x65, 0x73, 0x74, 0x22, 0x16, 0x0a, 0x0e, 0x55, 0x73, 0x65,
-	0x72, 0x53, 0x6d, 0x73, 0x43, 0x6f, 0x64, 0x65, 0x52, 0x65, 0x73, 0x3a, 0x04, 0xe0, 0xe3, 0x49,
-	0x07, 0x22, 0x20, 0x0a, 0x0e, 0x55, 0x73, 0x65, 0x72, 0x53, 0x69, 0x67, 0x6e, 0x4f, 0x75, 0x74,
-	0x52, 0x65, 0x71, 0x3a, 0x0e, 0xe0, 0xe3, 0x49, 0x08, 0xea, 0xe3, 0x49, 0x06, 0x70, 0x6c, 0x61,
-	0x79, 0x65, 0x72, 0x22, 0x16, 0x0a, 0x0e, 0x55, 0x73, 0x65, 0x72, 0x53, 0x69, 0x67, 0x6e, 0x4f,
-	0x75, 0x74, 0x52, 0x65, 0x73, 0x3a, 0x04, 0xe0, 0xe3, 0x49, 0x09, 0x42, 0x14, 0xca, 0xdd, 0x49,
-	0x06, 0x12, 0x04, 0x75, 0x73, 0x65, 0x72, 0x5a, 0x03, 0x2f, 0x70, 0x62, 0xaa, 0x02, 0x02, 0x50,
-	0x62, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x64, 0x12, 0x12, 0x0a, 0x04, 0x63, 0x6f, 0x64, 0x65, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52,
+	0x04, 0x63, 0x6f, 0x64, 0x65, 0x3a, 0x0d, 0xe0, 0xe3, 0x49, 0x00, 0xea, 0xe3, 0x49, 0x05, 0x67,
+	0x75, 0x65, 0x73, 0x74, 0x22, 0x1f, 0x0a, 0x17, 0x55, 0x73, 0x65, 0x72, 0x53, 0x69, 0x67, 0x6e,
+	0x55, 0x70, 0x57, 0x69, 0x74, 0x68, 0x4d, 0x6f, 0x62, 0x69, 0x6c, 0x65, 0x52, 0x65, 0x73, 0x3a,
+	0x04, 0xe0, 0xe3, 0x49, 0x01, 0x22, 0x5c, 0x0a, 0x17, 0x55, 0x73, 0x65, 0x72, 0x53, 0x69, 0x67,
+	0x6e, 0x49, 0x6e, 0x57, 0x69, 0x74, 0x68, 0x4d, 0x6f, 0x62, 0x69, 0x6c, 0x65, 0x52, 0x65, 0x71,
+	0x12, 0x16, 0x0a, 0x06, 0x6d, 0x6f, 0x62, 0x69, 0x6c, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09,
+	0x52, 0x06, 0x6d, 0x6f, 0x62, 0x69, 0x6c, 0x65, 0x12, 0x1a, 0x0a, 0x08, 0x70, 0x61, 0x73, 0x73,
+	0x77, 0x6f, 0x72, 0x64, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x08, 0x70, 0x61, 0x73, 0x73,
+	0x77, 0x6f, 0x72, 0x64, 0x3a, 0x0d, 0xe0, 0xe3, 0x49, 0x02, 0xea, 0xe3, 0x49, 0x05, 0x67, 0x75,
+	0x65, 0x73, 0x74, 0x22, 0x3d, 0x0a, 0x17, 0x55, 0x73, 0x65, 0x72, 0x53, 0x69, 0x67, 0x6e, 0x49,
+	0x6e, 0x57, 0x69, 0x74, 0x68, 0x4d, 0x6f, 0x62, 0x69, 0x6c, 0x65, 0x52, 0x65, 0x73, 0x12, 0x1c,
+	0x0a, 0x09, 0x65, 0x78, 0x69, 0x73, 0x74, 0x55, 0x73, 0x65, 0x72, 0x18, 0x01, 0x20, 0x01, 0x28,
+	0x08, 0x52, 0x09, 0x65, 0x78, 0x69, 0x73, 0x74, 0x55, 0x73, 0x65, 0x72, 0x3a, 0x04, 0xe0, 0xe3,
+	0x49, 0x03, 0x22, 0x9f, 0x01, 0x0a, 0x1e, 0x55, 0x73, 0x65, 0x72, 0x52, 0x65, 0x73, 0x65, 0x74,
+	0x50, 0x61, 0x73, 0x73, 0x77, 0x6f, 0x72, 0x64, 0x57, 0x69, 0x74, 0x68, 0x4d, 0x6f, 0x62, 0x69,
+	0x6c, 0x65, 0x52, 0x65, 0x71, 0x12, 0x16, 0x0a, 0x06, 0x6d, 0x6f, 0x62, 0x69, 0x6c, 0x65, 0x18,
+	0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x6d, 0x6f, 0x62, 0x69, 0x6c, 0x65, 0x12, 0x20, 0x0a,
+	0x0b, 0x6f, 0x6c, 0x64, 0x50, 0x61, 0x73, 0x73, 0x77, 0x6f, 0x72, 0x64, 0x18, 0x02, 0x20, 0x01,
+	0x28, 0x09, 0x52, 0x0b, 0x6f, 0x6c, 0x64, 0x50, 0x61, 0x73, 0x73, 0x77, 0x6f, 0x72, 0x64, 0x12,
+	0x20, 0x0a, 0x0b, 0x6e, 0x65, 0x77, 0x50, 0x61, 0x73, 0x73, 0x77, 0x6f, 0x72, 0x64, 0x18, 0x03,
+	0x20, 0x01, 0x28, 0x09, 0x52, 0x0b, 0x6e, 0x65, 0x77, 0x50, 0x61, 0x73, 0x73, 0x77, 0x6f, 0x72,
+	0x64, 0x12, 0x12, 0x0a, 0x04, 0x63, 0x6f, 0x64, 0x65, 0x18, 0x04, 0x20, 0x01, 0x28, 0x09, 0x52,
+	0x04, 0x63, 0x6f, 0x64, 0x65, 0x3a, 0x0d, 0xe0, 0xe3, 0x49, 0x04, 0xea, 0xe3, 0x49, 0x05, 0x67,
+	0x75, 0x65, 0x73, 0x74, 0x22, 0x26, 0x0a, 0x1e, 0x55, 0x73, 0x65, 0x72, 0x52, 0x65, 0x73, 0x65,
+	0x74, 0x50, 0x61, 0x73, 0x73, 0x77, 0x6f, 0x72, 0x64, 0x57, 0x69, 0x74, 0x68, 0x4d, 0x6f, 0x62,
+	0x69, 0x6c, 0x65, 0x52, 0x65, 0x73, 0x3a, 0x04, 0xe0, 0xe3, 0x49, 0x05, 0x22, 0x3e, 0x0a, 0x15,
+	0x55, 0x73, 0x65, 0x72, 0x43, 0x6f, 0x64, 0x65, 0x57, 0x69, 0x74, 0x68, 0x4d, 0x6f, 0x62, 0x69,
+	0x6c, 0x65, 0x52, 0x65, 0x71, 0x12, 0x16, 0x0a, 0x06, 0x6d, 0x6f, 0x62, 0x69, 0x6c, 0x65, 0x18,
+	0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x6d, 0x6f, 0x62, 0x69, 0x6c, 0x65, 0x3a, 0x0d, 0xe0,
+	0xe3, 0x49, 0x06, 0xea, 0xe3, 0x49, 0x05, 0x67, 0x75, 0x65, 0x73, 0x74, 0x22, 0x31, 0x0a, 0x15,
+	0x55, 0x73, 0x65, 0x72, 0x43, 0x6f, 0x64, 0x65, 0x57, 0x69, 0x74, 0x68, 0x4d, 0x6f, 0x62, 0x69,
+	0x6c, 0x65, 0x52, 0x65, 0x73, 0x12, 0x12, 0x0a, 0x04, 0x63, 0x6f, 0x64, 0x65, 0x18, 0x01, 0x20,
+	0x01, 0x28, 0x09, 0x52, 0x04, 0x63, 0x6f, 0x64, 0x65, 0x3a, 0x04, 0xe0, 0xe3, 0x49, 0x07, 0x22,
+	0x6d, 0x0a, 0x16, 0x55, 0x73, 0x65, 0x72, 0x53, 0x69, 0x67, 0x6e, 0x55, 0x70, 0x57, 0x69, 0x74,
+	0x68, 0x45, 0x6d, 0x61, 0x69, 0x6c, 0x52, 0x65, 0x71, 0x12, 0x14, 0x0a, 0x05, 0x65, 0x6d, 0x61,
+	0x69, 0x6c, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x65, 0x6d, 0x61, 0x69, 0x6c, 0x12,
+	0x1a, 0x0a, 0x08, 0x70, 0x61, 0x73, 0x73, 0x77, 0x6f, 0x72, 0x64, 0x18, 0x02, 0x20, 0x01, 0x28,
+	0x09, 0x52, 0x08, 0x70, 0x61, 0x73, 0x73, 0x77, 0x6f, 0x72, 0x64, 0x12, 0x12, 0x0a, 0x04, 0x63,
+	0x6f, 0x64, 0x65, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x63, 0x6f, 0x64, 0x65, 0x3a,
+	0x0d, 0xe0, 0xe3, 0x49, 0x08, 0xea, 0xe3, 0x49, 0x05, 0x67, 0x75, 0x65, 0x73, 0x74, 0x22, 0x1e,
+	0x0a, 0x16, 0x55, 0x73, 0x65, 0x72, 0x53, 0x69, 0x67, 0x6e, 0x55, 0x70, 0x57, 0x69, 0x74, 0x68,
+	0x45, 0x6d, 0x61, 0x69, 0x6c, 0x52, 0x65, 0x73, 0x3a, 0x04, 0xe0, 0xe3, 0x49, 0x09, 0x22, 0x59,
+	0x0a, 0x16, 0x55, 0x73, 0x65, 0x72, 0x53, 0x69, 0x67, 0x6e, 0x49, 0x6e, 0x57, 0x69, 0x74, 0x68,
+	0x45, 0x6d, 0x61, 0x69, 0x6c, 0x52, 0x65, 0x71, 0x12, 0x14, 0x0a, 0x05, 0x65, 0x6d, 0x61, 0x69,
+	0x6c, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x65, 0x6d, 0x61, 0x69, 0x6c, 0x12, 0x1a,
+	0x0a, 0x08, 0x70, 0x61, 0x73, 0x73, 0x77, 0x6f, 0x72, 0x64, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09,
+	0x52, 0x08, 0x70, 0x61, 0x73, 0x73, 0x77, 0x6f, 0x72, 0x64, 0x3a, 0x0d, 0xe0, 0xe3, 0x49, 0x0a,
+	0xea, 0xe3, 0x49, 0x05, 0x67, 0x75, 0x65, 0x73, 0x74, 0x22, 0x3c, 0x0a, 0x16, 0x55, 0x73, 0x65,
+	0x72, 0x53, 0x69, 0x67, 0x6e, 0x49, 0x6e, 0x57, 0x69, 0x74, 0x68, 0x45, 0x6d, 0x61, 0x69, 0x6c,
+	0x52, 0x65, 0x73, 0x12, 0x1c, 0x0a, 0x09, 0x65, 0x78, 0x69, 0x73, 0x74, 0x55, 0x73, 0x65, 0x72,
+	0x18, 0x01, 0x20, 0x01, 0x28, 0x08, 0x52, 0x09, 0x65, 0x78, 0x69, 0x73, 0x74, 0x55, 0x73, 0x65,
+	0x72, 0x3a, 0x04, 0xe0, 0xe3, 0x49, 0x0b, 0x22, 0x9c, 0x01, 0x0a, 0x1d, 0x55, 0x73, 0x65, 0x72,
+	0x52, 0x65, 0x73, 0x65, 0x74, 0x50, 0x61, 0x73, 0x73, 0x77, 0x6f, 0x72, 0x64, 0x57, 0x69, 0x74,
+	0x68, 0x45, 0x6d, 0x61, 0x69, 0x6c, 0x52, 0x65, 0x71, 0x12, 0x14, 0x0a, 0x05, 0x65, 0x6d, 0x61,
+	0x69, 0x6c, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x65, 0x6d, 0x61, 0x69, 0x6c, 0x12,
+	0x20, 0x0a, 0x0b, 0x6f, 0x6c, 0x64, 0x50, 0x61, 0x73, 0x73, 0x77, 0x6f, 0x72, 0x64, 0x18, 0x02,
+	0x20, 0x01, 0x28, 0x09, 0x52, 0x0b, 0x6f, 0x6c, 0x64, 0x50, 0x61, 0x73, 0x73, 0x77, 0x6f, 0x72,
+	0x64, 0x12, 0x20, 0x0a, 0x0b, 0x6e, 0x65, 0x77, 0x50, 0x61, 0x73, 0x73, 0x77, 0x6f, 0x72, 0x64,
+	0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0b, 0x6e, 0x65, 0x77, 0x50, 0x61, 0x73, 0x73, 0x77,
+	0x6f, 0x72, 0x64, 0x12, 0x12, 0x0a, 0x04, 0x63, 0x6f, 0x64, 0x65, 0x18, 0x04, 0x20, 0x01, 0x28,
+	0x09, 0x52, 0x04, 0x63, 0x6f, 0x64, 0x65, 0x3a, 0x0d, 0xe0, 0xe3, 0x49, 0x0c, 0xea, 0xe3, 0x49,
+	0x05, 0x67, 0x75, 0x65, 0x73, 0x74, 0x22, 0x25, 0x0a, 0x1d, 0x55, 0x73, 0x65, 0x72, 0x52, 0x65,
+	0x73, 0x65, 0x74, 0x50, 0x61, 0x73, 0x73, 0x77, 0x6f, 0x72, 0x64, 0x57, 0x69, 0x74, 0x68, 0x45,
+	0x6d, 0x61, 0x69, 0x6c, 0x52, 0x65, 0x73, 0x3a, 0x04, 0xe0, 0xe3, 0x49, 0x0d, 0x22, 0x3b, 0x0a,
+	0x14, 0x55, 0x73, 0x65, 0x72, 0x43, 0x6f, 0x64, 0x65, 0x57, 0x69, 0x74, 0x68, 0x45, 0x6d, 0x61,
+	0x69, 0x6c, 0x52, 0x65, 0x71, 0x12, 0x14, 0x0a, 0x05, 0x65, 0x6d, 0x61, 0x69, 0x6c, 0x18, 0x01,
+	0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x65, 0x6d, 0x61, 0x69, 0x6c, 0x3a, 0x0d, 0xe0, 0xe3, 0x49,
+	0x0e, 0xea, 0xe3, 0x49, 0x05, 0x67, 0x75, 0x65, 0x73, 0x74, 0x22, 0x30, 0x0a, 0x14, 0x55, 0x73,
+	0x65, 0x72, 0x43, 0x6f, 0x64, 0x65, 0x57, 0x69, 0x74, 0x68, 0x45, 0x6d, 0x61, 0x69, 0x6c, 0x52,
+	0x65, 0x73, 0x12, 0x12, 0x0a, 0x04, 0x63, 0x6f, 0x64, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09,
+	0x52, 0x04, 0x63, 0x6f, 0x64, 0x65, 0x3a, 0x04, 0xe0, 0xe3, 0x49, 0x0f, 0x22, 0x3c, 0x0a, 0x17,
+	0x55, 0x73, 0x65, 0x72, 0x53, 0x69, 0x67, 0x6e, 0x49, 0x6e, 0x57, 0x69, 0x74, 0x68, 0x57, 0x65,
+	0x63, 0x68, 0x61, 0x74, 0x52, 0x65, 0x71, 0x12, 0x12, 0x0a, 0x04, 0x63, 0x6f, 0x64, 0x65, 0x18,
+	0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x63, 0x6f, 0x64, 0x65, 0x3a, 0x0d, 0xe0, 0xe3, 0x49,
+	0x10, 0xea, 0xe3, 0x49, 0x05, 0x67, 0x75, 0x65, 0x73, 0x74, 0x22, 0x3d, 0x0a, 0x17, 0x55, 0x73,
+	0x65, 0x72, 0x53, 0x69, 0x67, 0x6e, 0x49, 0x6e, 0x57, 0x69, 0x74, 0x68, 0x57, 0x65, 0x63, 0x68,
+	0x61, 0x74, 0x52, 0x65, 0x73, 0x12, 0x1c, 0x0a, 0x09, 0x65, 0x78, 0x69, 0x73, 0x74, 0x55, 0x73,
+	0x65, 0x72, 0x18, 0x01, 0x20, 0x01, 0x28, 0x08, 0x52, 0x09, 0x65, 0x78, 0x69, 0x73, 0x74, 0x55,
+	0x73, 0x65, 0x72, 0x3a, 0x04, 0xe0, 0xe3, 0x49, 0x11, 0x22, 0x3a, 0x0a, 0x0a, 0x55, 0x73, 0x65,
+	0x72, 0x4e, 0x65, 0x77, 0x52, 0x65, 0x71, 0x12, 0x1c, 0x0a, 0x04, 0x75, 0x73, 0x65, 0x72, 0x18,
+	0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x08, 0x2e, 0x70, 0x62, 0x2e, 0x55, 0x73, 0x65, 0x72, 0x52,
+	0x04, 0x75, 0x73, 0x65, 0x72, 0x3a, 0x0e, 0xe0, 0xe3, 0x49, 0x12, 0xea, 0xe3, 0x49, 0x06, 0x70,
+	0x6c, 0x61, 0x79, 0x65, 0x72, 0x22, 0x12, 0x0a, 0x0a, 0x55, 0x73, 0x65, 0x72, 0x4e, 0x65, 0x77,
+	0x52, 0x65, 0x73, 0x3a, 0x04, 0xe0, 0xe3, 0x49, 0x13, 0x22, 0x2f, 0x0a, 0x0d, 0x55, 0x73, 0x65,
+	0x72, 0x53, 0x69, 0x67, 0x6e, 0x49, 0x6e, 0x52, 0x65, 0x71, 0x12, 0x0e, 0x0a, 0x02, 0x6f, 0x73,
+	0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x02, 0x6f, 0x73, 0x3a, 0x0e, 0xe0, 0xe3, 0x49, 0x14,
+	0xea, 0xe3, 0x49, 0x06, 0x70, 0x6c, 0x61, 0x79, 0x65, 0x72, 0x22, 0x49, 0x0a, 0x0d, 0x55, 0x73,
+	0x65, 0x72, 0x53, 0x69, 0x67, 0x6e, 0x49, 0x6e, 0x52, 0x65, 0x73, 0x12, 0x1c, 0x0a, 0x04, 0x75,
+	0x73, 0x65, 0x72, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x08, 0x2e, 0x70, 0x62, 0x2e, 0x55,
+	0x73, 0x65, 0x72, 0x52, 0x04, 0x75, 0x73, 0x65, 0x72, 0x12, 0x14, 0x0a, 0x05, 0x74, 0x6f, 0x6b,
+	0x65, 0x6e, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x74, 0x6f, 0x6b, 0x65, 0x6e, 0x3a,
+	0x04, 0xe0, 0xe3, 0x49, 0x15, 0x22, 0x20, 0x0a, 0x0e, 0x55, 0x73, 0x65, 0x72, 0x53, 0x69, 0x67,
+	0x6e, 0x4f, 0x75, 0x74, 0x52, 0x65, 0x71, 0x3a, 0x0e, 0xe0, 0xe3, 0x49, 0x16, 0xea, 0xe3, 0x49,
+	0x06, 0x70, 0x6c, 0x61, 0x79, 0x65, 0x72, 0x22, 0x16, 0x0a, 0x0e, 0x55, 0x73, 0x65, 0x72, 0x53,
+	0x69, 0x67, 0x6e, 0x4f, 0x75, 0x74, 0x52, 0x65, 0x73, 0x3a, 0x04, 0xe0, 0xe3, 0x49, 0x17, 0x22,
+	0x38, 0x0a, 0x10, 0x55, 0x73, 0x65, 0x72, 0x52, 0x65, 0x63, 0x6f, 0x6e, 0x6e, 0x65, 0x63, 0x74,
+	0x52, 0x65, 0x71, 0x12, 0x14, 0x0a, 0x05, 0x74, 0x6f, 0x6b, 0x65, 0x6e, 0x18, 0x01, 0x20, 0x01,
+	0x28, 0x09, 0x52, 0x05, 0x74, 0x6f, 0x6b, 0x65, 0x6e, 0x3a, 0x0e, 0xe0, 0xe3, 0x49, 0x18, 0xea,
+	0xe3, 0x49, 0x06, 0x70, 0x6c, 0x61, 0x79, 0x65, 0x72, 0x22, 0x32, 0x0a, 0x10, 0x55, 0x73, 0x65,
+	0x72, 0x52, 0x65, 0x63, 0x6f, 0x6e, 0x6e, 0x65, 0x63, 0x74, 0x52, 0x65, 0x73, 0x12, 0x18, 0x0a,
+	0x07, 0x68, 0x61, 0x73, 0x55, 0x73, 0x65, 0x72, 0x18, 0x01, 0x20, 0x01, 0x28, 0x08, 0x52, 0x07,
+	0x68, 0x61, 0x73, 0x55, 0x73, 0x65, 0x72, 0x3a, 0x04, 0xe0, 0xe3, 0x49, 0x19, 0x22, 0x1b, 0x0a,
+	0x13, 0x55, 0x73, 0x65, 0x72, 0x52, 0x65, 0x70, 0x65, 0x61, 0x74, 0x53, 0x69, 0x67, 0x6e, 0x49,
+	0x6e, 0x50, 0x75, 0x73, 0x3a, 0x04, 0xe0, 0xe3, 0x49, 0x1a, 0x42, 0x14, 0xca, 0xdd, 0x49, 0x06,
+	0x12, 0x04, 0x75, 0x73, 0x65, 0x72, 0x5a, 0x03, 0x2f, 0x70, 0x62, 0xaa, 0x02, 0x02, 0x50, 0x62,
+	0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -591,25 +1473,45 @@ func file_client_user_c_proto_rawDescGZIP() []byte {
 	return file_client_user_c_proto_rawDescData
 }
 
-var file_client_user_c_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
+var file_client_user_c_proto_msgTypes = make([]protoimpl.MessageInfo, 27)
 var file_client_user_c_proto_goTypes = []interface{}{
-	(*UserSignUpReq)(nil),        // 0: pb.UserSignUpReq
-	(*UserSignUpRes)(nil),        // 1: pb.UserSignUpRes
-	(*UserSignInReq)(nil),        // 2: pb.UserSignInReq
-	(*UserSignInRes)(nil),        // 3: pb.UserSignInRes
-	(*UserResetPasswordReq)(nil), // 4: pb.UserResetPasswordReq
-	(*UserResetPasswordRes)(nil), // 5: pb.UserResetPasswordRes
-	(*UserSmsCodeReq)(nil),       // 6: pb.UserSmsCodeReq
-	(*UserSmsCodeRes)(nil),       // 7: pb.UserSmsCodeRes
-	(*UserSignOutReq)(nil),       // 8: pb.UserSignOutReq
-	(*UserSignOutRes)(nil),       // 9: pb.UserSignOutRes
+	(*UserSignUpWithMobileReq)(nil),        // 0: pb.UserSignUpWithMobileReq
+	(*UserSignUpWithMobileRes)(nil),        // 1: pb.UserSignUpWithMobileRes
+	(*UserSignInWithMobileReq)(nil),        // 2: pb.UserSignInWithMobileReq
+	(*UserSignInWithMobileRes)(nil),        // 3: pb.UserSignInWithMobileRes
+	(*UserResetPasswordWithMobileReq)(nil), // 4: pb.UserResetPasswordWithMobileReq
+	(*UserResetPasswordWithMobileRes)(nil), // 5: pb.UserResetPasswordWithMobileRes
+	(*UserCodeWithMobileReq)(nil),          // 6: pb.UserCodeWithMobileReq
+	(*UserCodeWithMobileRes)(nil),          // 7: pb.UserCodeWithMobileRes
+	(*UserSignUpWithEmailReq)(nil),         // 8: pb.UserSignUpWithEmailReq
+	(*UserSignUpWithEmailRes)(nil),         // 9: pb.UserSignUpWithEmailRes
+	(*UserSignInWithEmailReq)(nil),         // 10: pb.UserSignInWithEmailReq
+	(*UserSignInWithEmailRes)(nil),         // 11: pb.UserSignInWithEmailRes
+	(*UserResetPasswordWithEmailReq)(nil),  // 12: pb.UserResetPasswordWithEmailReq
+	(*UserResetPasswordWithEmailRes)(nil),  // 13: pb.UserResetPasswordWithEmailRes
+	(*UserCodeWithEmailReq)(nil),           // 14: pb.UserCodeWithEmailReq
+	(*UserCodeWithEmailRes)(nil),           // 15: pb.UserCodeWithEmailRes
+	(*UserSignInWithWechatReq)(nil),        // 16: pb.UserSignInWithWechatReq
+	(*UserSignInWithWechatRes)(nil),        // 17: pb.UserSignInWithWechatRes
+	(*UserNewReq)(nil),                     // 18: pb.UserNewReq
+	(*UserNewRes)(nil),                     // 19: pb.UserNewRes
+	(*UserSignInReq)(nil),                  // 20: pb.UserSignInReq
+	(*UserSignInRes)(nil),                  // 21: pb.UserSignInRes
+	(*UserSignOutReq)(nil),                 // 22: pb.UserSignOutReq
+	(*UserSignOutRes)(nil),                 // 23: pb.UserSignOutRes
+	(*UserReconnectReq)(nil),               // 24: pb.UserReconnectReq
+	(*UserReconnectRes)(nil),               // 25: pb.UserReconnectRes
+	(*UserRepeatSignInPus)(nil),            // 26: pb.UserRepeatSignInPus
+	(*User)(nil),                           // 27: pb.User
 }
 var file_client_user_c_proto_depIdxs = []int32{
-	0, // [0:0] is the sub-list for method output_type
-	0, // [0:0] is the sub-list for method input_type
-	0, // [0:0] is the sub-list for extension type_name
-	0, // [0:0] is the sub-list for extension extendee
-	0, // [0:0] is the sub-list for field type_name
+	27, // 0: pb.UserNewReq.user:type_name -> pb.User
+	27, // 1: pb.UserSignInRes.user:type_name -> pb.User
+	2,  // [2:2] is the sub-list for method output_type
+	2,  // [2:2] is the sub-list for method input_type
+	2,  // [2:2] is the sub-list for extension type_name
+	2,  // [2:2] is the sub-list for extension extendee
+	0,  // [0:2] is the sub-list for field type_name
 }
 
 func init() { file_client_user_c_proto_init() }
@@ -617,9 +1519,10 @@ func file_client_user_c_proto_init() {
 	if File_client_user_c_proto != nil {
 		return
 	}
+	file_model_user_proto_init()
 	if !protoimpl.UnsafeEnabled {
 		file_client_user_c_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*UserSignUpReq); i {
+			switch v := v.(*UserSignUpWithMobileReq); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -631,7 +1534,7 @@ func file_client_user_c_proto_init() {
 			}
 		}
 		file_client_user_c_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*UserSignUpRes); i {
+			switch v := v.(*UserSignUpWithMobileRes); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -643,7 +1546,7 @@ func file_client_user_c_proto_init() {
 			}
 		}
 		file_client_user_c_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*UserSignInReq); i {
+			switch v := v.(*UserSignInWithMobileReq); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -655,7 +1558,7 @@ func file_client_user_c_proto_init() {
 			}
 		}
 		file_client_user_c_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*UserSignInRes); i {
+			switch v := v.(*UserSignInWithMobileRes); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -667,7 +1570,7 @@ func file_client_user_c_proto_init() {
 			}
 		}
 		file_client_user_c_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*UserResetPasswordReq); i {
+			switch v := v.(*UserResetPasswordWithMobileReq); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -679,7 +1582,7 @@ func file_client_user_c_proto_init() {
 			}
 		}
 		file_client_user_c_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*UserResetPasswordRes); i {
+			switch v := v.(*UserResetPasswordWithMobileRes); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -691,7 +1594,7 @@ func file_client_user_c_proto_init() {
 			}
 		}
 		file_client_user_c_proto_msgTypes[6].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*UserSmsCodeReq); i {
+			switch v := v.(*UserCodeWithMobileReq); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -703,7 +1606,7 @@ func file_client_user_c_proto_init() {
 			}
 		}
 		file_client_user_c_proto_msgTypes[7].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*UserSmsCodeRes); i {
+			switch v := v.(*UserCodeWithMobileRes); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -715,7 +1618,7 @@ func file_client_user_c_proto_init() {
 			}
 		}
 		file_client_user_c_proto_msgTypes[8].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*UserSignOutReq); i {
+			switch v := v.(*UserSignUpWithEmailReq); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -727,7 +1630,211 @@ func file_client_user_c_proto_init() {
 			}
 		}
 		file_client_user_c_proto_msgTypes[9].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*UserSignUpWithEmailRes); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_client_user_c_proto_msgTypes[10].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*UserSignInWithEmailReq); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_client_user_c_proto_msgTypes[11].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*UserSignInWithEmailRes); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_client_user_c_proto_msgTypes[12].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*UserResetPasswordWithEmailReq); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_client_user_c_proto_msgTypes[13].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*UserResetPasswordWithEmailRes); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_client_user_c_proto_msgTypes[14].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*UserCodeWithEmailReq); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_client_user_c_proto_msgTypes[15].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*UserCodeWithEmailRes); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_client_user_c_proto_msgTypes[16].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*UserSignInWithWechatReq); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_client_user_c_proto_msgTypes[17].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*UserSignInWithWechatRes); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_client_user_c_proto_msgTypes[18].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*UserNewReq); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_client_user_c_proto_msgTypes[19].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*UserNewRes); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_client_user_c_proto_msgTypes[20].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*UserSignInReq); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_client_user_c_proto_msgTypes[21].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*UserSignInRes); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_client_user_c_proto_msgTypes[22].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*UserSignOutReq); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_client_user_c_proto_msgTypes[23].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*UserSignOutRes); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_client_user_c_proto_msgTypes[24].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*UserReconnectReq); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_client_user_c_proto_msgTypes[25].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*UserReconnectRes); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_client_user_c_proto_msgTypes[26].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*UserRepeatSignInPus); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -745,7 +1852,7 @@ func file_client_user_c_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_client_user_c_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   10,
+			NumMessages:   27,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

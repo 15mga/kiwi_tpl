@@ -8,7 +8,55 @@ import (
 	"github.com/15mga/kiwi/util"
 )
 
+func (s *svc) OnUserSignUpWithMobile(pkt kiwi.IRcvRequest, req *pb.UserSignUpWithMobileReq, res *pb.UserSignUpWithMobileRes) {
+	pkt.Err2(util.EcNotImplement, util.M{"req": req})
+}
+
+func (s *svc) OnUserSignInWithMobile(pkt kiwi.IRcvRequest, req *pb.UserSignInWithMobileReq, res *pb.UserSignInWithMobileRes) {
+	pkt.Err2(util.EcNotImplement, util.M{"req": req})
+}
+
+func (s *svc) OnUserResetPasswordWithMobile(pkt kiwi.IRcvRequest, req *pb.UserResetPasswordWithMobileReq, res *pb.UserResetPasswordWithMobileRes) {
+	pkt.Err2(util.EcNotImplement, util.M{"req": req})
+}
+
+func (s *svc) OnUserCodeWithMobile(pkt kiwi.IRcvRequest, req *pb.UserCodeWithMobileReq, res *pb.UserCodeWithMobileRes) {
+	pkt.Err2(util.EcNotImplement, util.M{"req": req})
+}
+
+func (s *svc) OnUserSignUpWithEmail(pkt kiwi.IRcvRequest, req *pb.UserSignUpWithEmailReq, res *pb.UserSignUpWithEmailRes) {
+	pkt.Err2(util.EcNotImplement, util.M{"req": req})
+}
+
+func (s *svc) OnUserSignInWithEmail(pkt kiwi.IRcvRequest, req *pb.UserSignInWithEmailReq, res *pb.UserSignInWithEmailRes) {
+	pkt.Err2(util.EcNotImplement, util.M{"req": req})
+}
+
+func (s *svc) OnUserResetPasswordWithEmail(pkt kiwi.IRcvRequest, req *pb.UserResetPasswordWithEmailReq, res *pb.UserResetPasswordWithEmailRes) {
+	pkt.Err2(util.EcNotImplement, util.M{"req": req})
+}
+
+func (s *svc) OnUserCodeWithEmail(pkt kiwi.IRcvRequest, req *pb.UserCodeWithEmailReq, res *pb.UserCodeWithEmailRes) {
+	pkt.Err2(util.EcNotImplement, util.M{"req": req})
+}
+
+func (s *svc) OnUserSignInWithWechat(pkt kiwi.IRcvRequest, req *pb.UserSignInWithWechatReq, res *pb.UserSignInWithWechatRes) {
+	pkt.Err2(util.EcNotImplement, util.M{"req": req})
+}
+
+func (s *svc) OnUserNew(pkt kiwi.IRcvRequest, req *pb.UserNewReq, res *pb.UserNewRes) {
+	pkt.Err2(util.EcNotImplement, util.M{"req": req})
+}
+
+func (s *svc) OnUserSignIn(pkt kiwi.IRcvRequest, req *pb.UserSignInReq, res *pb.UserSignInRes) {
+	pkt.Err2(util.EcNotImplement, util.M{"req": req})
+}
+
 func (s *svc) OnUserSignOut(pkt kiwi.IRcvRequest, req *pb.UserSignOutReq, res *pb.UserSignOutRes) {
+	pkt.Err2(util.EcNotImplement, util.M{"req": req})
+}
+
+func (s *svc) OnUserReconnect(pkt kiwi.IRcvRequest, req *pb.UserReconnectReq, res *pb.UserReconnectRes) {
 	pkt.Err2(util.EcNotImplement, util.M{"req": req})
 }
 
@@ -17,21 +65,5 @@ func (s *svc) OnUserDisconnect(pkt kiwi.IRcvRequest, req *pb.UserDisconnectReq, 
 }
 
 func (s *svc) OnUserUpdateHead(pkt kiwi.IRcvRequest, req *pb.UserUpdateHeadReq, res *pb.UserUpdateHeadRes) {
-	pkt.Err2(util.EcNotImplement, util.M{"req": req})
-}
-
-func (s *svc) OnUserSignUp(pkt kiwi.IRcvRequest, req *pb.UserSignUpReq, res *pb.UserSignUpRes) {
-	pkt.Err2(util.EcNotImplement, util.M{"req": req})
-}
-
-func (s *svc) OnUserSignIn(pkt kiwi.IRcvRequest, req *pb.UserSignInReq, res *pb.UserSignInRes) {
-	pkt.Err2(util.EcNotImplement, util.M{"req": req})
-}
-
-func (s *svc) OnUserResetPassword(pkt kiwi.IRcvRequest, req *pb.UserResetPasswordReq, res *pb.UserResetPasswordRes) {
-	pkt.Err2(util.EcNotImplement, util.M{"req": req})
-}
-
-func (s *svc) OnUserSmsCode(pkt kiwi.IRcvRequest, req *pb.UserSmsCodeReq, res *pb.UserSmsCodeRes) {
 	pkt.Err2(util.EcNotImplement, util.M{"req": req})
 }

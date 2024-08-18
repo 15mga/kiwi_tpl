@@ -20,7 +20,7 @@ option (kiwi.svc) = {
 
 message UserDisconnectReq {
   option (kiwi.method) = 500;
-  string id = 1;
+  string userId = 1;
 }
 
 message UserDisconnectRes {

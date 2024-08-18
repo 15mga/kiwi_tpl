@@ -27,8 +27,7 @@ message GateBanAddrRes {
 message GateSendToIdReq {
   option (kiwi.method) = 502;
   string id = 1;
-  uint32 svcCode = 2;
-  bytes payload = 3;
+  bytes payload = 2;
 }
 
 message GateSendToIdRes {
@@ -38,8 +37,7 @@ message GateSendToIdRes {
 message GateSendToAddrReq {
   option (kiwi.method) = 504;
   string addr = 1;
-  uint32 svcCode = 2;
-  bytes payload = 3;
+  bytes payload = 2;
 }
 
 message GateSendToAddrRes {
@@ -68,8 +66,7 @@ message GateSendToMultiAddrRes {
 
 message GateSendToAllReq {
   option (kiwi.method) = 510;
-  uint32 svcCode = 1;
-  bytes payload = 2;
+  bytes payload = 1;
 }
 
 message GateSendToAllRes {

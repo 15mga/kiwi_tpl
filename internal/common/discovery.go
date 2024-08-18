@@ -27,7 +27,7 @@ func GetSnowflakeNodeId() int64 {
 			sidKeys = append(sidKeys, keys...)
 		})
 		if err != nil {
-			kiwi.Error3(util.EcRedisErr, err)
+			kiwi.Error(err)
 			return
 		}
 		idMap := make(map[int64]struct{})
@@ -138,7 +138,7 @@ func connectSvc() {
 		svcKeys = append(svcKeys, keys...)
 	})
 	if err != nil {
-		kiwi.Error3(util.EcRedisErr, err)
+		kiwi.Error(err)
 		return
 	}
 	newIdMap := make(map[int64]struct{}, len(svcKeys))

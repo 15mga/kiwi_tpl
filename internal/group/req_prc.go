@@ -16,6 +16,7 @@ func registerReq() {
 		if _svc.IsShutdown() {
 			return
 		}
+		_svc.Wait()
 		req.SetReceiver(_svc)
 		key, _ := util.MGet[string](req.Head(), "group_id")
 		core.ActivePrcReq[*pb.GroupNewReq](req, key, _svc.OnGroupNew)

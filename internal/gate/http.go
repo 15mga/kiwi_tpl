@@ -21,7 +21,7 @@ func (c *HttpHeadCache) GetId(r *http.Request) (string, bool) {
 	if e != nil {
 		return "", false
 	}
-	return claims.Uid, true
+	return claims.UserId, true
 }
 
 func (c *HttpHeadCache) GetHead(id string, head util.M) (newAgent bool) {
@@ -63,7 +63,7 @@ func HttpDisconnected(head util.M) {
 		return
 	}
 	_svc.AsyncReq(0, head, &pb.UserDisconnectReq{
-		Id: id,
+		UserId: id,
 	}, nil, nil)
 }
 

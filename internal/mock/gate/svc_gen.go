@@ -26,12 +26,6 @@ func InitClient(client *mock.Client) {
 	s.client.BindPointMsg("gate", "GateHeartbeat", s.inGateHeartbeatReq)
 	s.client.BindNetMsg(&pb.GateHeartbeatRes{}, s.onGateHeartbeatRes)
 	s.client.BindNetMsg(&pb.GateErrPus{}, s.onGateErrPus)
-	s.client.BindNetMsg(&pb.GateRepeatPus{}, s.onGateRepeatPus)
-	s.client.BindPointMsg("gate", "GateUploadFile", s.inGateUploadFileReq)
-	s.client.BindNetMsg(&pb.GateUploadFileRes{}, s.onGateUploadFileRes)
-	s.client.BindPointMsg("gate", "GateUploadWithToken", s.inGateUploadWithTokenReq)
-	s.client.BindNetMsg(&pb.GateUploadWithTokenRes{}, s.onGateUploadWithTokenRes)
-	s.client.BindNetMsg(&pb.GateUploadWithTokenPus{}, s.onGateUploadWithTokenPus)
 	s.client.BindPointMsg("gate", "GateBanAddr", s.inGateBanAddrReq)
 	s.client.BindNetMsg(&pb.GateBanAddrRes{}, s.onGateBanAddrRes)
 	s.client.BindPointMsg("gate", "GateSendToId", s.inGateSendToIdReq)
@@ -87,40 +81,6 @@ func (s *svc) onGateHeartbeatRes(msg util.IMsg) (point string, data any) {
 }
 
 func (s *svc) onGateErrPus(msg util.IMsg) (point string, data any) {
-	sc := kiwi.MergeSvcCode(kiwi.Codec().MsgToSvcMethod(msg))
-	s.client.Graph().Data().Set(strconv.Itoa(int(sc)), msg)
-	return "", nil
-}
-
-func (s *svc) onGateRepeatPus(msg util.IMsg) (point string, data any) {
-	sc := kiwi.MergeSvcCode(kiwi.Codec().MsgToSvcMethod(msg))
-	s.client.Graph().Data().Set(strconv.Itoa(int(sc)), msg)
-	return "", nil
-}
-
-func (s *svc) inGateUploadFileReq(msg graph.IMsg) *util.Err {
-	req := s.client.GetRequest(common.Gate, codec.GateUploadFileReq)
-	return s.AsyncReq(req)
-}
-
-func (s *svc) onGateUploadFileRes(msg util.IMsg) (point string, data any) {
-	sc := kiwi.MergeSvcCode(kiwi.Codec().MsgToSvcMethod(msg))
-	s.client.Graph().Data().Set(strconv.Itoa(int(sc)), msg)
-	return "GateUploadFile", nil
-}
-
-func (s *svc) inGateUploadWithTokenReq(msg graph.IMsg) *util.Err {
-	req := s.client.GetRequest(common.Gate, codec.GateUploadWithTokenReq)
-	return s.AsyncReq(req)
-}
-
-func (s *svc) onGateUploadWithTokenRes(msg util.IMsg) (point string, data any) {
-	sc := kiwi.MergeSvcCode(kiwi.Codec().MsgToSvcMethod(msg))
-	s.client.Graph().Data().Set(strconv.Itoa(int(sc)), msg)
-	return "GateUploadWithToken", nil
-}
-
-func (s *svc) onGateUploadWithTokenPus(msg util.IMsg) (point string, data any) {
 	sc := kiwi.MergeSvcCode(kiwi.Codec().MsgToSvcMethod(msg))
 	s.client.Graph().Data().Set(strconv.Itoa(int(sc)), msg)
 	return "", nil

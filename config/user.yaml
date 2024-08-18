@@ -1,0 +1,15 @@
+user:
+  sms:
+    debug: true
+    code: 240816
+  smtp:
+    host: smtp.qq.com
+    port: 465
+    subject: 欢迎注册九速竞技
+    body: 您的验证码是%s.
+    email: test.qq.com
+    password: 12345678
+  wechat:
+    url: https://api.weixin.qq.com/sns/oauth2/access_token?appid=%s&secret=%s&code=%s&grant_type=authorization_code
+    appId: ""
+    appSecret: ""

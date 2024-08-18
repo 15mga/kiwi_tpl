@@ -8,44 +8,36 @@ import (
 
 const (
 	//心跳
-	GateHeartbeatReq kiwi.TCode = 0
-	GateHeartbeatRes kiwi.TCode = 1
+	GateHeartbeatReq kiwi.TMethod = 0
+	GateHeartbeatRes kiwi.TMethod = 1
 	//错误推送
-	GateErrPus kiwi.TCode = 2
-	//重复链接推送
-	GateRepeatPus kiwi.TCode = 3
-	//上传图片
-	GateUploadFileReq      kiwi.TCode = 4
-	GateUploadFileRes      kiwi.TCode = 5
-	GateUploadWithTokenReq kiwi.TCode = 6
-	GateUploadWithTokenRes kiwi.TCode = 7
-	GateUploadWithTokenPus kiwi.TCode = 8
-	GateBanAddrReq         kiwi.TCode = 500
-	GateBanAddrRes         kiwi.TCode = 501
-	GateSendToIdReq        kiwi.TCode = 502
-	GateSendToIdRes        kiwi.TCode = 503
-	GateSendToAddrReq      kiwi.TCode = 504
-	GateSendToAddrRes      kiwi.TCode = 505
-	GateSendToMultiIdReq   kiwi.TCode = 506
-	GateSendToMultiIdRes   kiwi.TCode = 507
-	GateSendToMultiAddrReq kiwi.TCode = 508
-	GateSendToMultiAddrRes kiwi.TCode = 509
-	GateSendToAllReq       kiwi.TCode = 510
-	GateSendToAllRes       kiwi.TCode = 511
-	GateCloseIdReq         kiwi.TCode = 512
-	GateCloseIdRes         kiwi.TCode = 513
-	GateCloseAddrReq       kiwi.TCode = 514
-	GateCloseAddrRes       kiwi.TCode = 515
-	GateUpdateReq          kiwi.TCode = 516
-	GateUpdateRes          kiwi.TCode = 517
-	GateAddrUpdateReq      kiwi.TCode = 518
-	GateAddrUpdateRes      kiwi.TCode = 519
-	GateRemoveReq          kiwi.TCode = 520
-	GateRemoveRes          kiwi.TCode = 521
-	GateAddrRemoveReq      kiwi.TCode = 522
-	GateAddrRemoveRes      kiwi.TCode = 523
-	GateGetReq             kiwi.TCode = 524
-	GateGetRes             kiwi.TCode = 525
-	GateAddrGetReq         kiwi.TCode = 526
-	GateAddrGetRes         kiwi.TCode = 527
+	GateErrPus             kiwi.TMethod = 2
+	GateBanAddrReq         kiwi.TMethod = 500
+	GateBanAddrRes         kiwi.TMethod = 501
+	GateSendToIdReq        kiwi.TMethod = 502
+	GateSendToIdRes        kiwi.TMethod = 503
+	GateSendToAddrReq      kiwi.TMethod = 504
+	GateSendToAddrRes      kiwi.TMethod = 505
+	GateSendToMultiIdReq   kiwi.TMethod = 506
+	GateSendToMultiIdRes   kiwi.TMethod = 507
+	GateSendToMultiAddrReq kiwi.TMethod = 508
+	GateSendToMultiAddrRes kiwi.TMethod = 509
+	GateSendToAllReq       kiwi.TMethod = 510
+	GateSendToAllRes       kiwi.TMethod = 511
+	GateCloseIdReq         kiwi.TMethod = 512
+	GateCloseIdRes         kiwi.TMethod = 513
+	GateCloseAddrReq       kiwi.TMethod = 514
+	GateCloseAddrRes       kiwi.TMethod = 515
+	GateUpdateReq          kiwi.TMethod = 516
+	GateUpdateRes          kiwi.TMethod = 517
+	GateAddrUpdateReq      kiwi.TMethod = 518
+	GateAddrUpdateRes      kiwi.TMethod = 519
+	GateRemoveReq          kiwi.TMethod = 520
+	GateRemoveRes          kiwi.TMethod = 521
+	GateAddrRemoveReq      kiwi.TMethod = 522
+	GateAddrRemoveRes      kiwi.TMethod = 523
+	GateGetReq             kiwi.TMethod = 524
+	GateGetRes             kiwi.TMethod = 525
+	GateAddrGetReq         kiwi.TMethod = 526
+	GateAddrGetRes         kiwi.TMethod = 527
 )

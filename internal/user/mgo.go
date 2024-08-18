@@ -10,42 +10,77 @@ import (
 )
 
 const (
-	SchemaUser = "user"
+	SchemaMobileAccount = "mobile_account"
+	SchemaEmailAccount  = "email_account"
+	SchemaWechatAccount = "wechat_account"
+	SchemaUser          = "user"
 )
 
 const (
-	TestAge  = "age"
-	TestName = "name"
+	EmailAccountId       = "_id" // email
+	EmailAccountPassword = "password"
+	EmailAccountUserId   = "user_id"
+
+	MobileAccountId       = "_id" // mobile
+	MobileAccountPassword = "password"
+	MobileAccountUserId   = "user_id"
 
 	Id              = "_id"
-	Addr            = "addr"              //地址
 	Avatar          = "avatar"            //头像地址
 	Ban             = "ban"               //禁用
+	CreateTime      = "create_time"       //创建时间
 	Head            = "head"              //会话
 	IdCard          = "id_card"           //身份证
 	LastOfflineTime = "last_offline_time" //最后下线时间
 	LastOs          = "last_os"           //最后登录使用的系统
-	LastSignInIp    = "last_sign_in_ip"   //最后登录地址
+	LastSignInAddr  = "last_sign_in_addr" //最后登录地址
 	LastSignInTime  = "last_sign_in_time" //最后登录时间
-	Mobile          = "mobile"            //手机号
 	Nick            = "nick"              //昵称
 	OnlineDur       = "online_dur"        //在线时长
-	Password        = "password"
-	RealName        = "real_name"    //实名
-	RoleMask        = "role_mask"    //角色组遮罩
-	SignUpTime      = "sign_up_time" //注册时间
-	State           = "state"        //状态
-	TestBool        = "test_bool"
-	TestData        = "test_data"
-	TestData2       = "test_data2"
-	TestI32         = "test_i32"
-	TestString      = "test_string"
-	Token           = "token"           //token
-	WechatUnionId   = "wechat_union_id" //微信联合 id
+	RealName        = "real_name"         //实名
+	RoleMask        = "role_mask"         //角色组遮罩
+	State           = "state"             //状态
+	Token           = "token"             //token
+
+	WechatAccountId     = "_id" // wechatUnionId 微信联合 id
+	WechatAccountUserId = "user_id"
 )
 
 func initColl() {
+	mgo.InitColl(SchemaMobileAccount, MobileAccountIdx)
+	mgo.InitColl(SchemaEmailAccount, EmailAccountIdx)
+	mgo.InitColl(SchemaWechatAccount, WechatAccountIdx)
 	mgo.InitColl(SchemaUser, UserIdx)
+}
+
+func MobileAccountIdx() []mongo.IndexModel {
+	return []mongo.IndexModel{
+		{
+			Keys: bson.D{
+				{"user_id", 1},
+			},
+		},
+	}
+}
+
+func EmailAccountIdx() []mongo.IndexModel {
+	return []mongo.IndexModel{
+		{
+			Keys: bson.D{
+				{"user_id", 1},
+			},
+		},
+	}
+}
+
+func WechatAccountIdx() []mongo.IndexModel {
+	return []mongo.IndexModel{
+		{
+			Keys: bson.D{
+				{"user_id", 1},
+			},
+		},
+	}
 }
 
 func UserIdx() []mongo.IndexModel {
@@ -53,18 +88,6 @@ func UserIdx() []mongo.IndexModel {
 		{
 			Keys: bson.D{
 				{"nick", 1},
-			},
-			Options: options.Index().SetUnique(true),
-		},
-		{
-			Keys: bson.D{
-				{"mobile", 1},
-			},
-			Options: options.Index().SetUnique(true),
-		},
-		{
-			Keys: bson.D{
-				{"wechat_union_id", 1},
 			},
 			Options: options.Index().SetUnique(true),
 		},

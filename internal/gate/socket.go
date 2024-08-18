@@ -6,6 +6,7 @@ import (
 	"game/proto/pb"
 	"github.com/15mga/kiwi"
 	"github.com/15mga/kiwi/util"
+	"strconv"
 	"sync"
 )
 
@@ -31,13 +32,13 @@ func Disconnected(agent kiwi.IAgent, err *util.Err) {
 	agent.CopyHead(head)
 	id, _ := util.MGet[string](head, common.HdUserId)
 	_svc.AsyncReq(0, head, &pb.UserDisconnectReq{
-		Id: id,
+		UserId: id,
 	}, nil, nil)
 }
 
 func InitHead(m util.M) {
 	m[common.HdMask] = util.GenMask(common.RGuest)
-	m[common.HdGateId] = _svc.Meta().Id
+	m[strconv.Itoa(int(common.Gate))] = _svc.Meta().Id
 }
 
 func SocketReceiver(agent kiwi.IAgent, bytes []byte) {
@@ -73,7 +74,6 @@ var (
 )
 
 type request struct {
-	tid  int64
 	svc  kiwi.TSvc
 	code kiwi.TMethod
 	json bool
@@ -84,14 +84,14 @@ func (r *request) Request(svc kiwi.TSvc, code kiwi.TMethod, head util.M, payload
 	r.svc = svc
 	r.code = code
 	r.addr, _ = util.MGet[string](head, common.HdGateAddr)
-	r.tid = _svc.AsyncReqBytes(0, svc, code, head, true, payload, r.OnErr, r.OnOk)
+	_svc.AsyncReqBytes(0, svc, code, head, true, payload, r.OnErr, r.OnOk)
 }
 
 func (r *request) RequestNode(nodeId int64, svc kiwi.TSvc, code kiwi.TMethod, head util.M, payload []byte) {
 	r.svc = svc
 	r.code = code
 	r.addr, _ = util.MGet[string](head, common.HdGateAddr)
-	r.tid = _svc.AsyncReqNodeBytes(0, nodeId, svc, code, head, true, payload, r.OnErr, r.OnOk)
+	_svc.AsyncReqNodeBytes(0, nodeId, svc, code, head, true, payload, r.OnErr, r.OnOk)
 }
 
 func (r *request) OnOk(payload []byte) {
@@ -103,7 +103,7 @@ func (r *request) OnOk(payload []byte) {
 		return
 	}
 
-	kiwi.Gate().AddrSend(r.tid, r.addr, pkt, nil)
+	kiwi.Gate().AddrSend(0, r.addr, pkt, nil)
 }
 
 func (r *request) OnErr(errCode uint16) {
@@ -114,5 +114,5 @@ func (r *request) OnErr(errCode uint16) {
 		kiwi.Error(e)
 		return
 	}
-	kiwi.Gate().AddrSend(r.tid, r.addr, pkt, nil)
+	kiwi.Gate().AddrSend(0, r.addr, pkt, nil)
 }

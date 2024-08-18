@@ -74,6 +74,18 @@ func PackUserFail(failMsgCode kiwi.TSvcMethod, resSvcCode kiwi.TSvcMethod, errCo
 	return PackUserOk(failMsgCode, bytes)
 }
 
-func PackUserPus(svc kiwi.TSvc, code kiwi.TMethod, ntc []byte) ([]byte, *util.Err) {
-	return PackUserOk(kiwi.MergeSvcMethod(svc, code), ntc)
+func PackUserPus(svc kiwi.TSvc, code kiwi.TMethod, bytes []byte) ([]byte, *util.Err) {
+	return PackUserOk(kiwi.MergeSvcMethod(svc, code), bytes)
+}
+
+func PusUser(sender kiwi.IService, tid int64, userId string, msg util.IMsg) {
+	svc, mtd := kiwi.Codec().MsgToSvcMethod(msg)
+	bytes, _ := kiwi.Codec().PbMarshal(msg)
+	payload, _ := PackUserPus(svc, mtd, bytes)
+	sender.Req(tid, util.M{
+		HdUserId: userId,
+	}, &pb.GateSendToIdReq{
+		Id:      userId,
+		Payload: payload,
+	})
 }
