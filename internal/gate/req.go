@@ -127,28 +127,11 @@ func (s *Svc) OnGateUpdate(pkt kiwi.IRcvRequest, req *pb.GateUpdateReq, res *pb.
 	})
 }
 
-func (s *Svc) OnGateAddrUpdate(pkt kiwi.IRcvRequest, req *pb.GateAddrUpdateReq, res *pb.GateAddrUpdateRes) {
-	var head util.M
-	if req.Head != nil {
-		head = make(util.M)
-		err := kiwi.Packer().UnpackM(req.Head, head)
-		if err != nil {
-			kiwi.TE(pkt.Tid(), err)
-			pkt.Fail(err.Code())
-			return
-		}
-	}
-	kiwi.Gate().UpdateAddrHead(pkt.Tid(), req.Addr, head, func(head util.M, ok bool) {
-		if !ok {
-			pkt.Fail(common.EcGateNotExistAddr)
-			return
-		}
-		pkt.Ok(res)
-		s.updateHead(pkt, head)
-	})
-}
-
 func (s *Svc) updateHead(pkt kiwi.IRcvRequest, head util.M) {
+	_, ok := util.MGet[bool](head, common.HdSignIn)
+	if !ok {
+		return
+	}
 	uid, _ := util.MGet[string](head, common.HdUserId)
 	delete(head, common.HdGateAddr)
 	delete(head, common.HdSvc)
@@ -173,17 +156,6 @@ func (s *Svc) OnGateRemove(pkt kiwi.IRcvRequest, req *pb.GateRemoveReq, res *pb.
 	})
 }
 
-func (s *Svc) OnGateAddrRemove(pkt kiwi.IRcvRequest, req *pb.GateAddrRemoveReq, res *pb.GateAddrRemoveRes) {
-	kiwi.Gate().RemoveAddrHead(pkt.Tid(), req.Addr, req.Head, func(head util.M, ok bool) {
-		if !ok {
-			pkt.Fail(common.EcGateNotExistAddr)
-			return
-		}
-		pkt.Ok(res)
-		s.updateHead(pkt, head)
-	})
-}
-
 func (s *Svc) OnGateGet(pkt kiwi.IRcvRequest, req *pb.GateGetReq, res *pb.GateGetRes) {
 	kiwi.Gate().GetHead(pkt.Tid(), req.Id, func(head util.M, ok bool) {
 		if !ok {
@@ -195,19 +167,5 @@ func (s *Svc) OnGateGet(pkt kiwi.IRcvRequest, req *pb.GateGetReq, res *pb.GateGe
 	})
 	if req.Close {
 		kiwi.Gate().CloseWithId(pkt.Tid(), req.Id)
-	}
-}
-
-func (s *Svc) OnGateAddrGet(pkt kiwi.IRcvRequest, req *pb.GateAddrGetReq, res *pb.GateAddrGetRes) {
-	kiwi.Gate().GetAddrHead(pkt.Tid(), req.Addr, func(head util.M, ok bool) {
-		if !ok {
-			pkt.Fail(common.EcGateNotExistAddr)
-			return
-		}
-		res.Head, _ = kiwi.Packer().PackM(head)
-		pkt.Ok(res)
-	})
-	if req.Close {
-		kiwi.Gate().CloseWithAddr(pkt.Tid(), req.Addr)
 	}
 }

@@ -828,99 +828,6 @@ func (*GateUpdateRes) Descriptor() ([]byte, []int) {
 	return file_service_gate_s_proto_rawDescGZIP(), []int{17}
 }
 
-type GateAddrUpdateReq struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	Addr string `protobuf:"bytes,1,opt,name=addr,proto3" json:"addr,omitempty" bson:"addr"`
-	Head []byte `protobuf:"bytes,2,opt,name=head,proto3" json:"head,omitempty" bson:"head"`
-}
-
-func (x *GateAddrUpdateReq) Reset() {
-	*x = GateAddrUpdateReq{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_service_gate_s_proto_msgTypes[18]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *GateAddrUpdateReq) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*GateAddrUpdateReq) ProtoMessage() {}
-
-func (x *GateAddrUpdateReq) ProtoReflect() protoreflect.Message {
-	mi := &file_service_gate_s_proto_msgTypes[18]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use GateAddrUpdateReq.ProtoReflect.Descriptor instead.
-func (*GateAddrUpdateReq) Descriptor() ([]byte, []int) {
-	return file_service_gate_s_proto_rawDescGZIP(), []int{18}
-}
-
-func (x *GateAddrUpdateReq) GetAddr() string {
-	if x != nil {
-		return x.Addr
-	}
-	return ""
-}
-
-func (x *GateAddrUpdateReq) GetHead() []byte {
-	if x != nil {
-		return x.Head
-	}
-	return nil
-}
-
-type GateAddrUpdateRes struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-}
-
-func (x *GateAddrUpdateRes) Reset() {
-	*x = GateAddrUpdateRes{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_service_gate_s_proto_msgTypes[19]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *GateAddrUpdateRes) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*GateAddrUpdateRes) ProtoMessage() {}
-
-func (x *GateAddrUpdateRes) ProtoReflect() protoreflect.Message {
-	mi := &file_service_gate_s_proto_msgTypes[19]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use GateAddrUpdateRes.ProtoReflect.Descriptor instead.
-func (*GateAddrUpdateRes) Descriptor() ([]byte, []int) {
-	return file_service_gate_s_proto_rawDescGZIP(), []int{19}
-}
-
 type GateRemoveReq struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -933,7 +840,7 @@ type GateRemoveReq struct {
 func (x *GateRemoveReq) Reset() {
 	*x = GateRemoveReq{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_service_gate_s_proto_msgTypes[20]
+		mi := &file_service_gate_s_proto_msgTypes[18]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -946,7 +853,7 @@ func (x *GateRemoveReq) String() string {
 func (*GateRemoveReq) ProtoMessage() {}
 
 func (x *GateRemoveReq) ProtoReflect() protoreflect.Message {
-	mi := &file_service_gate_s_proto_msgTypes[20]
+	mi := &file_service_gate_s_proto_msgTypes[18]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -959,7 +866,7 @@ func (x *GateRemoveReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GateRemoveReq.ProtoReflect.Descriptor instead.
 func (*GateRemoveReq) Descriptor() ([]byte, []int) {
-	return file_service_gate_s_proto_rawDescGZIP(), []int{20}
+	return file_service_gate_s_proto_rawDescGZIP(), []int{18}
 }
 
 func (x *GateRemoveReq) GetId() string {
@@ -985,7 +892,7 @@ type GateRemoveRes struct {
 func (x *GateRemoveRes) Reset() {
 	*x = GateRemoveRes{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_service_gate_s_proto_msgTypes[21]
+		mi := &file_service_gate_s_proto_msgTypes[19]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -998,7 +905,7 @@ func (x *GateRemoveRes) String() string {
 func (*GateRemoveRes) ProtoMessage() {}
 
 func (x *GateRemoveRes) ProtoReflect() protoreflect.Message {
-	mi := &file_service_gate_s_proto_msgTypes[21]
+	mi := &file_service_gate_s_proto_msgTypes[19]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1011,100 +918,7 @@ func (x *GateRemoveRes) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GateRemoveRes.ProtoReflect.Descriptor instead.
 func (*GateRemoveRes) Descriptor() ([]byte, []int) {
-	return file_service_gate_s_proto_rawDescGZIP(), []int{21}
-}
-
-type GateAddrRemoveReq struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	Addr string   `protobuf:"bytes,1,opt,name=addr,proto3" json:"addr,omitempty" bson:"addr"`
-	Head []string `protobuf:"bytes,2,rep,name=head,proto3" json:"head,omitempty" bson:"head"`
-}
-
-func (x *GateAddrRemoveReq) Reset() {
-	*x = GateAddrRemoveReq{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_service_gate_s_proto_msgTypes[22]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *GateAddrRemoveReq) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*GateAddrRemoveReq) ProtoMessage() {}
-
-func (x *GateAddrRemoveReq) ProtoReflect() protoreflect.Message {
-	mi := &file_service_gate_s_proto_msgTypes[22]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use GateAddrRemoveReq.ProtoReflect.Descriptor instead.
-func (*GateAddrRemoveReq) Descriptor() ([]byte, []int) {
-	return file_service_gate_s_proto_rawDescGZIP(), []int{22}
-}
-
-func (x *GateAddrRemoveReq) GetAddr() string {
-	if x != nil {
-		return x.Addr
-	}
-	return ""
-}
-
-func (x *GateAddrRemoveReq) GetHead() []string {
-	if x != nil {
-		return x.Head
-	}
-	return nil
-}
-
-type GateAddrRemoveRes struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-}
-
-func (x *GateAddrRemoveRes) Reset() {
-	*x = GateAddrRemoveRes{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_service_gate_s_proto_msgTypes[23]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *GateAddrRemoveRes) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*GateAddrRemoveRes) ProtoMessage() {}
-
-func (x *GateAddrRemoveRes) ProtoReflect() protoreflect.Message {
-	mi := &file_service_gate_s_proto_msgTypes[23]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use GateAddrRemoveRes.ProtoReflect.Descriptor instead.
-func (*GateAddrRemoveRes) Descriptor() ([]byte, []int) {
-	return file_service_gate_s_proto_rawDescGZIP(), []int{23}
+	return file_service_gate_s_proto_rawDescGZIP(), []int{19}
 }
 
 type GateGetReq struct {
@@ -1119,7 +933,7 @@ type GateGetReq struct {
 func (x *GateGetReq) Reset() {
 	*x = GateGetReq{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_service_gate_s_proto_msgTypes[24]
+		mi := &file_service_gate_s_proto_msgTypes[20]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1132,7 +946,7 @@ func (x *GateGetReq) String() string {
 func (*GateGetReq) ProtoMessage() {}
 
 func (x *GateGetReq) ProtoReflect() protoreflect.Message {
-	mi := &file_service_gate_s_proto_msgTypes[24]
+	mi := &file_service_gate_s_proto_msgTypes[20]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1145,7 +959,7 @@ func (x *GateGetReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GateGetReq.ProtoReflect.Descriptor instead.
 func (*GateGetReq) Descriptor() ([]byte, []int) {
-	return file_service_gate_s_proto_rawDescGZIP(), []int{24}
+	return file_service_gate_s_proto_rawDescGZIP(), []int{20}
 }
 
 func (x *GateGetReq) GetId() string {
@@ -1173,7 +987,7 @@ type GateGetRes struct {
 func (x *GateGetRes) Reset() {
 	*x = GateGetRes{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_service_gate_s_proto_msgTypes[25]
+		mi := &file_service_gate_s_proto_msgTypes[21]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1186,7 +1000,7 @@ func (x *GateGetRes) String() string {
 func (*GateGetRes) ProtoMessage() {}
 
 func (x *GateGetRes) ProtoReflect() protoreflect.Message {
-	mi := &file_service_gate_s_proto_msgTypes[25]
+	mi := &file_service_gate_s_proto_msgTypes[21]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1199,112 +1013,10 @@ func (x *GateGetRes) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GateGetRes.ProtoReflect.Descriptor instead.
 func (*GateGetRes) Descriptor() ([]byte, []int) {
-	return file_service_gate_s_proto_rawDescGZIP(), []int{25}
+	return file_service_gate_s_proto_rawDescGZIP(), []int{21}
 }
 
 func (x *GateGetRes) GetHead() []byte {
-	if x != nil {
-		return x.Head
-	}
-	return nil
-}
-
-type GateAddrGetReq struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	Addr  string `protobuf:"bytes,1,opt,name=addr,proto3" json:"addr,omitempty" bson:"addr"`
-	Close bool   `protobuf:"varint,2,opt,name=close,proto3" json:"close,omitempty" bson:"close"` //关闭重复链接
-}
-
-func (x *GateAddrGetReq) Reset() {
-	*x = GateAddrGetReq{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_service_gate_s_proto_msgTypes[26]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *GateAddrGetReq) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*GateAddrGetReq) ProtoMessage() {}
-
-func (x *GateAddrGetReq) ProtoReflect() protoreflect.Message {
-	mi := &file_service_gate_s_proto_msgTypes[26]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use GateAddrGetReq.ProtoReflect.Descriptor instead.
-func (*GateAddrGetReq) Descriptor() ([]byte, []int) {
-	return file_service_gate_s_proto_rawDescGZIP(), []int{26}
-}
-
-func (x *GateAddrGetReq) GetAddr() string {
-	if x != nil {
-		return x.Addr
-	}
-	return ""
-}
-
-func (x *GateAddrGetReq) GetClose() bool {
-	if x != nil {
-		return x.Close
-	}
-	return false
-}
-
-type GateAddrGetRes struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	Head []byte `protobuf:"bytes,1,opt,name=head,proto3" json:"head,omitempty" bson:"head"`
-}
-
-func (x *GateAddrGetRes) Reset() {
-	*x = GateAddrGetRes{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_service_gate_s_proto_msgTypes[27]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *GateAddrGetRes) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*GateAddrGetRes) ProtoMessage() {}
-
-func (x *GateAddrGetRes) ProtoReflect() protoreflect.Message {
-	mi := &file_service_gate_s_proto_msgTypes[27]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use GateAddrGetRes.ProtoReflect.Descriptor instead.
-func (*GateAddrGetRes) Descriptor() ([]byte, []int) {
-	return file_service_gate_s_proto_rawDescGZIP(), []int{27}
-}
-
-func (x *GateAddrGetRes) GetHead() []byte {
 	if x != nil {
 		return x.Head
 	}
@@ -1380,37 +1092,18 @@ var file_service_gate_s_proto_rawDesc = []byte{
 	0x69, 0x64, 0x12, 0x12, 0x0a, 0x04, 0x68, 0x65, 0x61, 0x64, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0c,
 	0x52, 0x04, 0x68, 0x65, 0x61, 0x64, 0x3a, 0x05, 0xe0, 0xe3, 0x49, 0x84, 0x04, 0x22, 0x16, 0x0a,
 	0x0d, 0x47, 0x61, 0x74, 0x65, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x52, 0x65, 0x73, 0x3a, 0x05,
-	0xe0, 0xe3, 0x49, 0x85, 0x04, 0x22, 0x42, 0x0a, 0x11, 0x47, 0x61, 0x74, 0x65, 0x41, 0x64, 0x64,
-	0x72, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x52, 0x65, 0x71, 0x12, 0x12, 0x0a, 0x04, 0x61, 0x64,
-	0x64, 0x72, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x61, 0x64, 0x64, 0x72, 0x12, 0x12,
-	0x0a, 0x04, 0x68, 0x65, 0x61, 0x64, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0c, 0x52, 0x04, 0x68, 0x65,
-	0x61, 0x64, 0x3a, 0x05, 0xe0, 0xe3, 0x49, 0x86, 0x04, 0x22, 0x1a, 0x0a, 0x11, 0x47, 0x61, 0x74,
-	0x65, 0x41, 0x64, 0x64, 0x72, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x52, 0x65, 0x73, 0x3a, 0x05,
-	0xe0, 0xe3, 0x49, 0x87, 0x04, 0x22, 0x3a, 0x0a, 0x0d, 0x47, 0x61, 0x74, 0x65, 0x52, 0x65, 0x6d,
+	0xe0, 0xe3, 0x49, 0x85, 0x04, 0x22, 0x3a, 0x0a, 0x0d, 0x47, 0x61, 0x74, 0x65, 0x52, 0x65, 0x6d,
 	0x6f, 0x76, 0x65, 0x52, 0x65, 0x71, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01,
 	0x28, 0x09, 0x52, 0x02, 0x69, 0x64, 0x12, 0x12, 0x0a, 0x04, 0x68, 0x65, 0x61, 0x64, 0x18, 0x02,
 	0x20, 0x03, 0x28, 0x09, 0x52, 0x04, 0x68, 0x65, 0x61, 0x64, 0x3a, 0x05, 0xe0, 0xe3, 0x49, 0x88,
 	0x04, 0x22, 0x16, 0x0a, 0x0d, 0x47, 0x61, 0x74, 0x65, 0x52, 0x65, 0x6d, 0x6f, 0x76, 0x65, 0x52,
-	0x65, 0x73, 0x3a, 0x05, 0xe0, 0xe3, 0x49, 0x89, 0x04, 0x22, 0x42, 0x0a, 0x11, 0x47, 0x61, 0x74,
-	0x65, 0x41, 0x64, 0x64, 0x72, 0x52, 0x65, 0x6d, 0x6f, 0x76, 0x65, 0x52, 0x65, 0x71, 0x12, 0x12,
-	0x0a, 0x04, 0x61, 0x64, 0x64, 0x72, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x61, 0x64,
-	0x64, 0x72, 0x12, 0x12, 0x0a, 0x04, 0x68, 0x65, 0x61, 0x64, 0x18, 0x02, 0x20, 0x03, 0x28, 0x09,
-	0x52, 0x04, 0x68, 0x65, 0x61, 0x64, 0x3a, 0x05, 0xe0, 0xe3, 0x49, 0x8a, 0x04, 0x22, 0x1a, 0x0a,
-	0x11, 0x47, 0x61, 0x74, 0x65, 0x41, 0x64, 0x64, 0x72, 0x52, 0x65, 0x6d, 0x6f, 0x76, 0x65, 0x52,
-	0x65, 0x73, 0x3a, 0x05, 0xe0, 0xe3, 0x49, 0x8b, 0x04, 0x22, 0x39, 0x0a, 0x0a, 0x47, 0x61, 0x74,
+	0x65, 0x73, 0x3a, 0x05, 0xe0, 0xe3, 0x49, 0x89, 0x04, 0x22, 0x39, 0x0a, 0x0a, 0x47, 0x61, 0x74,
 	0x65, 0x47, 0x65, 0x74, 0x52, 0x65, 0x71, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x01, 0x20,
 	0x01, 0x28, 0x09, 0x52, 0x02, 0x69, 0x64, 0x12, 0x14, 0x0a, 0x05, 0x63, 0x6c, 0x6f, 0x73, 0x65,
 	0x18, 0x02, 0x20, 0x01, 0x28, 0x08, 0x52, 0x05, 0x63, 0x6c, 0x6f, 0x73, 0x65, 0x3a, 0x05, 0xe0,
 	0xe3, 0x49, 0x8c, 0x04, 0x22, 0x27, 0x0a, 0x0a, 0x47, 0x61, 0x74, 0x65, 0x47, 0x65, 0x74, 0x52,
 	0x65, 0x73, 0x12, 0x12, 0x0a, 0x04, 0x68, 0x65, 0x61, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0c,
-	0x52, 0x04, 0x68, 0x65, 0x61, 0x64, 0x3a, 0x05, 0xe0, 0xe3, 0x49, 0x8d, 0x04, 0x22, 0x41, 0x0a,
-	0x0e, 0x47, 0x61, 0x74, 0x65, 0x41, 0x64, 0x64, 0x72, 0x47, 0x65, 0x74, 0x52, 0x65, 0x71, 0x12,
-	0x12, 0x0a, 0x04, 0x61, 0x64, 0x64, 0x72, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x61,
-	0x64, 0x64, 0x72, 0x12, 0x14, 0x0a, 0x05, 0x63, 0x6c, 0x6f, 0x73, 0x65, 0x18, 0x02, 0x20, 0x01,
-	0x28, 0x08, 0x52, 0x05, 0x63, 0x6c, 0x6f, 0x73, 0x65, 0x3a, 0x05, 0xe0, 0xe3, 0x49, 0x8e, 0x04,
-	0x22, 0x2b, 0x0a, 0x0e, 0x47, 0x61, 0x74, 0x65, 0x41, 0x64, 0x64, 0x72, 0x47, 0x65, 0x74, 0x52,
-	0x65, 0x73, 0x12, 0x12, 0x0a, 0x04, 0x68, 0x65, 0x61, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0c,
-	0x52, 0x04, 0x68, 0x65, 0x61, 0x64, 0x3a, 0x05, 0xe0, 0xe3, 0x49, 0x8f, 0x04, 0x42, 0x22, 0xca,
+	0x52, 0x04, 0x68, 0x65, 0x61, 0x64, 0x3a, 0x05, 0xe0, 0xe3, 0x49, 0x8d, 0x04, 0x42, 0x22, 0xca,
 	0xdd, 0x49, 0x14, 0x08, 0x01, 0x12, 0x04, 0x67, 0x61, 0x74, 0x65, 0x1a, 0x0a, 0x08, 0x04, 0x10,
 	0x01, 0x1a, 0x04, 0x61, 0x64, 0x64, 0x72, 0x5a, 0x03, 0x2f, 0x70, 0x62, 0xaa, 0x02, 0x02, 0x50,
 	0x62, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
@@ -1428,7 +1121,7 @@ func file_service_gate_s_proto_rawDescGZIP() []byte {
 	return file_service_gate_s_proto_rawDescData
 }
 
-var file_service_gate_s_proto_msgTypes = make([]protoimpl.MessageInfo, 30)
+var file_service_gate_s_proto_msgTypes = make([]protoimpl.MessageInfo, 24)
 var file_service_gate_s_proto_goTypes = []interface{}{
 	(*GateBanAddrReq)(nil),         // 0: pb.GateBanAddrReq
 	(*GateBanAddrRes)(nil),         // 1: pb.GateBanAddrRes
@@ -1448,22 +1141,16 @@ var file_service_gate_s_proto_goTypes = []interface{}{
 	(*GateCloseAddrRes)(nil),       // 15: pb.GateCloseAddrRes
 	(*GateUpdateReq)(nil),          // 16: pb.GateUpdateReq
 	(*GateUpdateRes)(nil),          // 17: pb.GateUpdateRes
-	(*GateAddrUpdateReq)(nil),      // 18: pb.GateAddrUpdateReq
-	(*GateAddrUpdateRes)(nil),      // 19: pb.GateAddrUpdateRes
-	(*GateRemoveReq)(nil),          // 20: pb.GateRemoveReq
-	(*GateRemoveRes)(nil),          // 21: pb.GateRemoveRes
-	(*GateAddrRemoveReq)(nil),      // 22: pb.GateAddrRemoveReq
-	(*GateAddrRemoveRes)(nil),      // 23: pb.GateAddrRemoveRes
-	(*GateGetReq)(nil),             // 24: pb.GateGetReq
-	(*GateGetRes)(nil),             // 25: pb.GateGetRes
-	(*GateAddrGetReq)(nil),         // 26: pb.GateAddrGetReq
-	(*GateAddrGetRes)(nil),         // 27: pb.GateAddrGetRes
-	nil,                            // 28: pb.GateSendToMultiIdRes.ResultEntry
-	nil,                            // 29: pb.GateSendToMultiAddrRes.ResultEntry
+	(*GateRemoveReq)(nil),          // 18: pb.GateRemoveReq
+	(*GateRemoveRes)(nil),          // 19: pb.GateRemoveRes
+	(*GateGetReq)(nil),             // 20: pb.GateGetReq
+	(*GateGetRes)(nil),             // 21: pb.GateGetRes
+	nil,                            // 22: pb.GateSendToMultiIdRes.ResultEntry
+	nil,                            // 23: pb.GateSendToMultiAddrRes.ResultEntry
 }
 var file_service_gate_s_proto_depIdxs = []int32{
-	28, // 0: pb.GateSendToMultiIdRes.result:type_name -> pb.GateSendToMultiIdRes.ResultEntry
-	29, // 1: pb.GateSendToMultiAddrRes.result:type_name -> pb.GateSendToMultiAddrRes.ResultEntry
+	22, // 0: pb.GateSendToMultiIdRes.result:type_name -> pb.GateSendToMultiIdRes.ResultEntry
+	23, // 1: pb.GateSendToMultiAddrRes.result:type_name -> pb.GateSendToMultiAddrRes.ResultEntry
 	2,  // [2:2] is the sub-list for method output_type
 	2,  // [2:2] is the sub-list for method input_type
 	2,  // [2:2] is the sub-list for extension type_name
@@ -1694,30 +1381,6 @@ func file_service_gate_s_proto_init() {
 			}
 		}
 		file_service_gate_s_proto_msgTypes[18].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*GateAddrUpdateReq); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_service_gate_s_proto_msgTypes[19].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*GateAddrUpdateRes); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_service_gate_s_proto_msgTypes[20].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*GateRemoveReq); i {
 			case 0:
 				return &v.state
@@ -1729,7 +1392,7 @@ func file_service_gate_s_proto_init() {
 				return nil
 			}
 		}
-		file_service_gate_s_proto_msgTypes[21].Exporter = func(v interface{}, i int) interface{} {
+		file_service_gate_s_proto_msgTypes[19].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*GateRemoveRes); i {
 			case 0:
 				return &v.state
@@ -1741,31 +1404,7 @@ func file_service_gate_s_proto_init() {
 				return nil
 			}
 		}
-		file_service_gate_s_proto_msgTypes[22].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*GateAddrRemoveReq); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_service_gate_s_proto_msgTypes[23].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*GateAddrRemoveRes); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_service_gate_s_proto_msgTypes[24].Exporter = func(v interface{}, i int) interface{} {
+		file_service_gate_s_proto_msgTypes[20].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*GateGetReq); i {
 			case 0:
 				return &v.state
@@ -1777,32 +1416,8 @@ func file_service_gate_s_proto_init() {
 				return nil
 			}
 		}
-		file_service_gate_s_proto_msgTypes[25].Exporter = func(v interface{}, i int) interface{} {
+		file_service_gate_s_proto_msgTypes[21].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*GateGetRes); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_service_gate_s_proto_msgTypes[26].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*GateAddrGetReq); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_service_gate_s_proto_msgTypes[27].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*GateAddrGetRes); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1820,7 +1435,7 @@ func file_service_gate_s_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_service_gate_s_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   30,
+			NumMessages:   24,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

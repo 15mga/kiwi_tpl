@@ -18,7 +18,7 @@ func registerReq() {
 		}
 		_svc.Wait()
 		req.SetReceiver(_svc)
-		key, _ := util.MGet[string](req.Head(), "addr")
+		key, _ := util.MGet[string](req.Head(), "id")
 		core.ActivePrcReq[*pb.UserSignUpWithMobileReq](req, key, _svc.OnUserSignUpWithMobile)
 	})
 	kiwi.Router().BindReq(common.User, codec.UserSignInWithMobileReq, func(req kiwi.IRcvRequest) {
@@ -27,7 +27,7 @@ func registerReq() {
 		}
 		_svc.Wait()
 		req.SetReceiver(_svc)
-		key, _ := util.MGet[string](req.Head(), "addr")
+		key, _ := util.MGet[string](req.Head(), "id")
 		core.ActivePrcReq[*pb.UserSignInWithMobileReq](req, key, _svc.OnUserSignInWithMobile)
 	})
 	kiwi.Router().BindReq(common.User, codec.UserResetPasswordWithMobileReq, func(req kiwi.IRcvRequest) {
@@ -36,7 +36,7 @@ func registerReq() {
 		}
 		_svc.Wait()
 		req.SetReceiver(_svc)
-		key, _ := util.MGet[string](req.Head(), "addr")
+		key, _ := util.MGet[string](req.Head(), "id")
 		core.ActivePrcReq[*pb.UserResetPasswordWithMobileReq](req, key, _svc.OnUserResetPasswordWithMobile)
 	})
 	kiwi.Router().BindReq(common.User, codec.UserCodeWithMobileReq, func(req kiwi.IRcvRequest) {
@@ -45,7 +45,7 @@ func registerReq() {
 		}
 		_svc.Wait()
 		req.SetReceiver(_svc)
-		key, _ := util.MGet[string](req.Head(), "addr")
+		key, _ := util.MGet[string](req.Head(), "id")
 		core.ActivePrcReq[*pb.UserCodeWithMobileReq](req, key, _svc.OnUserCodeWithMobile)
 	})
 	kiwi.Router().BindReq(common.User, codec.UserSignUpWithEmailReq, func(req kiwi.IRcvRequest) {
@@ -54,7 +54,7 @@ func registerReq() {
 		}
 		_svc.Wait()
 		req.SetReceiver(_svc)
-		key, _ := util.MGet[string](req.Head(), "addr")
+		key, _ := util.MGet[string](req.Head(), "id")
 		core.ActivePrcReq[*pb.UserSignUpWithEmailReq](req, key, _svc.OnUserSignUpWithEmail)
 	})
 	kiwi.Router().BindReq(common.User, codec.UserSignInWithEmailReq, func(req kiwi.IRcvRequest) {
@@ -63,7 +63,7 @@ func registerReq() {
 		}
 		_svc.Wait()
 		req.SetReceiver(_svc)
-		key, _ := util.MGet[string](req.Head(), "addr")
+		key, _ := util.MGet[string](req.Head(), "id")
 		core.ActivePrcReq[*pb.UserSignInWithEmailReq](req, key, _svc.OnUserSignInWithEmail)
 	})
 	kiwi.Router().BindReq(common.User, codec.UserResetPasswordWithEmailReq, func(req kiwi.IRcvRequest) {
@@ -72,7 +72,7 @@ func registerReq() {
 		}
 		_svc.Wait()
 		req.SetReceiver(_svc)
-		key, _ := util.MGet[string](req.Head(), "addr")
+		key, _ := util.MGet[string](req.Head(), "id")
 		core.ActivePrcReq[*pb.UserResetPasswordWithEmailReq](req, key, _svc.OnUserResetPasswordWithEmail)
 	})
 	kiwi.Router().BindReq(common.User, codec.UserCodeWithEmailReq, func(req kiwi.IRcvRequest) {
@@ -81,7 +81,7 @@ func registerReq() {
 		}
 		_svc.Wait()
 		req.SetReceiver(_svc)
-		key, _ := util.MGet[string](req.Head(), "addr")
+		key, _ := util.MGet[string](req.Head(), "id")
 		core.ActivePrcReq[*pb.UserCodeWithEmailReq](req, key, _svc.OnUserCodeWithEmail)
 	})
 	kiwi.Router().BindReq(common.User, codec.UserSignInWithWechatReq, func(req kiwi.IRcvRequest) {
@@ -90,7 +90,7 @@ func registerReq() {
 		}
 		_svc.Wait()
 		req.SetReceiver(_svc)
-		key, _ := util.MGet[string](req.Head(), "addr")
+		key, _ := util.MGet[string](req.Head(), "id")
 		core.ActivePrcReq[*pb.UserSignInWithWechatReq](req, key, _svc.OnUserSignInWithWechat)
 	})
 	kiwi.Router().BindReq(common.User, codec.UserNewReq, func(req kiwi.IRcvRequest) {
@@ -99,7 +99,7 @@ func registerReq() {
 		}
 		_svc.Wait()
 		req.SetReceiver(_svc)
-		key, _ := util.MGet[string](req.Head(), "addr")
+		key, _ := util.MGet[string](req.Head(), "id")
 		core.ActivePrcReq[*pb.UserNewReq](req, key, _svc.OnUserNew)
 	})
 	kiwi.Router().BindReq(common.User, codec.UserSignInReq, func(req kiwi.IRcvRequest) {
@@ -108,7 +108,7 @@ func registerReq() {
 		}
 		_svc.Wait()
 		req.SetReceiver(_svc)
-		key, _ := util.MGet[string](req.Head(), "addr")
+		key, _ := util.MGet[string](req.Head(), "id")
 		core.ActivePrcReq[*pb.UserSignInReq](req, key, _svc.OnUserSignIn)
 	})
 	kiwi.Router().BindReq(common.User, codec.UserSignOutReq, func(req kiwi.IRcvRequest) {
@@ -117,7 +117,7 @@ func registerReq() {
 		}
 		_svc.Wait()
 		req.SetReceiver(_svc)
-		key, _ := util.MGet[string](req.Head(), "addr")
+		key, _ := util.MGet[string](req.Head(), "id")
 		core.ActivePrcReq[*pb.UserSignOutReq](req, key, _svc.OnUserSignOut)
 	})
 	kiwi.Router().BindReq(common.User, codec.UserReconnectReq, func(req kiwi.IRcvRequest) {
@@ -126,7 +126,7 @@ func registerReq() {
 		}
 		_svc.Wait()
 		req.SetReceiver(_svc)
-		key, _ := util.MGet[string](req.Head(), "addr")
+		key, _ := util.MGet[string](req.Head(), "id")
 		core.ActivePrcReq[*pb.UserReconnectReq](req, key, _svc.OnUserReconnect)
 	})
 	kiwi.Router().BindReq(common.User, codec.UserDisconnectReq, func(req kiwi.IRcvRequest) {
@@ -135,7 +135,7 @@ func registerReq() {
 		}
 		_svc.Wait()
 		req.SetReceiver(_svc)
-		key, _ := util.MGet[string](req.Head(), "addr")
+		key, _ := util.MGet[string](req.Head(), "id")
 		core.ActivePrcReq[*pb.UserDisconnectReq](req, key, _svc.OnUserDisconnect)
 	})
 	kiwi.Router().BindReq(common.User, codec.UserUpdateHeadReq, func(req kiwi.IRcvRequest) {
@@ -144,7 +144,7 @@ func registerReq() {
 		}
 		_svc.Wait()
 		req.SetReceiver(_svc)
-		key, _ := util.MGet[string](req.Head(), "addr")
+		key, _ := util.MGet[string](req.Head(), "id")
 		core.ActivePrcReq[*pb.UserUpdateHeadReq](req, key, _svc.OnUserUpdateHead)
 	})
 }

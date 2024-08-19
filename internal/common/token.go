@@ -16,6 +16,7 @@ var (
 
 type Claims struct {
 	Issuer    string
+	SignInCh  string
 	Addr      string
 	UserId    string
 	Timestamp int64
@@ -28,9 +29,10 @@ func (c *Claims) Valid() error {
 	return nil
 }
 
-func GenToken(addr, uid string, ts int64) (string, error) {
+func GenToken(signInCh, addr, uid string, ts int64) (string, error) {
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, &Claims{
 		Issuer:    Issuer,
+		SignInCh:  signInCh,
 		Addr:      addr,
 		UserId:    uid,
 		Timestamp: ts,

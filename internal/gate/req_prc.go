@@ -91,14 +91,6 @@ func registerReq() {
 		req.SetReceiver(_svc)
 		core.SelfPrcReq[*pb.GateUpdateReq](req, _svc.OnGateUpdate)
 	})
-	kiwi.Router().BindReq(common.Gate, codec.GateAddrUpdateReq, func(req kiwi.IRcvRequest) {
-		if _svc.IsShutdown() {
-			return
-		}
-		_svc.Wait()
-		req.SetReceiver(_svc)
-		core.SelfPrcReq[*pb.GateAddrUpdateReq](req, _svc.OnGateAddrUpdate)
-	})
 	kiwi.Router().BindReq(common.Gate, codec.GateRemoveReq, func(req kiwi.IRcvRequest) {
 		if _svc.IsShutdown() {
 			return
@@ -107,14 +99,6 @@ func registerReq() {
 		req.SetReceiver(_svc)
 		core.SelfPrcReq[*pb.GateRemoveReq](req, _svc.OnGateRemove)
 	})
-	kiwi.Router().BindReq(common.Gate, codec.GateAddrRemoveReq, func(req kiwi.IRcvRequest) {
-		if _svc.IsShutdown() {
-			return
-		}
-		_svc.Wait()
-		req.SetReceiver(_svc)
-		core.SelfPrcReq[*pb.GateAddrRemoveReq](req, _svc.OnGateAddrRemove)
-	})
 	kiwi.Router().BindReq(common.Gate, codec.GateGetReq, func(req kiwi.IRcvRequest) {
 		if _svc.IsShutdown() {
 			return
@@ -122,13 +106,5 @@ func registerReq() {
 		_svc.Wait()
 		req.SetReceiver(_svc)
 		core.SelfPrcReq[*pb.GateGetReq](req, _svc.OnGateGet)
-	})
-	kiwi.Router().BindReq(common.Gate, codec.GateAddrGetReq, func(req kiwi.IRcvRequest) {
-		if _svc.IsShutdown() {
-			return
-		}
-		_svc.Wait()
-		req.SetReceiver(_svc)
-		core.SelfPrcReq[*pb.GateAddrGetReq](req, _svc.OnGateAddrGet)
 	})
 }

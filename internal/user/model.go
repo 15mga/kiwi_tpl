@@ -6,6 +6,7 @@ import (
 	"game/proto/pb"
 	"github.com/15mga/kiwi/util/mgo"
 	"go.mongodb.org/mongo-driver/bson"
+	"sync"
 )
 
 func initModels() {
@@ -31,51 +32,35 @@ func initEvict() {
 	mgo.BindEvict(SchemaUser, onUserEvict)
 }
 
-var (
-	_MobileAccountIdMap = make(map[string]struct{})
-)
-
-func StoreAllMobileAccounts() {
-	for id := range _MobileAccountIdMap {
-		m, ok := mgo.Get[*MobileAccount](SchemaMobileAccount, id)
-		if !ok {
-			continue
-		}
-		m.Store()
-	}
-}
+var ()
 
 func SetMobileAccount(m *MobileAccount) {
-	mgo.Set(m)
+	mgo.SetModel(m)
 }
 
 func DelMobileAccount(id string) {
-	m, ok := mgo.Get[*MobileAccount](SchemaMobileAccount, id)
+	m, ok := mgo.GetModel[*MobileAccount](SchemaMobileAccount, id)
 	if !ok {
 		return
 	}
-	_ = m.Store()
-	mgo.Del(SchemaMobileAccount, id)
+	mgo.DelModel(SchemaMobileAccount, id)
 	delMobileAccountMap(m)
 }
 
 func onMobileAccountEvict(model mgo.IModel) {
-	m := model.(*MobileAccount)
-	_ = m.Store()
-	delMobileAccountMap(m)
+	delMobileAccountMap(model.(*MobileAccount))
 }
 
 func delMobileAccountMap(m *MobileAccount) {
-	delete(_MobileAccountIdMap, m.GetId())
 }
 
 func GetMobileAccountWithId(id string) (*MobileAccount, error) {
-	m, ok := mgo.Get[*MobileAccount](SchemaMobileAccount, id)
+	m, ok := mgo.GetModel[*MobileAccount](SchemaMobileAccount, id)
 	if ok {
 		return m, nil
 	}
 	m = _ModelFac[SchemaMobileAccount]().(*MobileAccount)
-	err := m.Load(id, m.MobileAccount)
+	err := mgo.FindOne(SchemaMobileAccount, bson.M{"_id": id}, m.MobileAccount)
 	if err != nil {
 		return nil, err
 	}
@@ -85,24 +70,22 @@ func GetMobileAccountWithId(id string) (*MobileAccount, error) {
 
 type MobileAccount struct {
 	*pb.MobileAccount
-	*mgo.Model
 }
 
 func (this *MobileAccount) SetPassword(val string) {
 	this.Password = val
-	this.SetDirty(MobileAccountPassword)
+	mgo.ModelWriter().Write(SchemaMobileAccount, this.Id, bson.M{MobileAccountPassword: val})
 }
 
 func (this *MobileAccount) SetUserId(val string) {
 	this.UserId = val
-	this.SetDirty(MobileAccountUserId)
+	mgo.ModelWriter().Write(SchemaMobileAccount, this.Id, bson.M{MobileAccountUserId: val})
 }
 
 func NewMobileAccount() mgo.IModel {
 	m := &MobileAccount{
 		MobileAccount: &pb.MobileAccount{},
 	}
-	m.Model = mgo.NewModel(SchemaMobileAccount, 3, m.GetVal)
 	return m
 }
 
@@ -123,16 +106,21 @@ func NewMobileAccountWithData(data *pb.MobileAccount) *MobileAccount {
 	m := &MobileAccount{
 		MobileAccount: data,
 	}
-	m.Model = mgo.NewModel(SchemaMobileAccount, 3, m.GetVal)
-	m.SetDirty(
-		MobileAccountPassword,
-		MobileAccountUserId,
-	)
 	return m
+}
+
+func (this *MobileAccount) Schema() string {
+	return SchemaMobileAccount
 }
 
 func (this *MobileAccount) GetVal(key string) any {
 	switch key {
+	case MobileAccountId:
+		return this.Id
+	case MobileAccountPassword:
+		return this.Password
+	case MobileAccountUserId:
+		return this.UserId
 	default:
 		return nil
 	}
@@ -145,51 +133,35 @@ func (this *MobileAccount) Cost() int64 {
 	return cost
 }
 
-var (
-	_EmailAccountIdMap = make(map[string]struct{})
-)
-
-func StoreAllEmailAccounts() {
-	for id := range _EmailAccountIdMap {
-		m, ok := mgo.Get[*EmailAccount](SchemaEmailAccount, id)
-		if !ok {
-			continue
-		}
-		m.Store()
-	}
-}
+var ()
 
 func SetEmailAccount(m *EmailAccount) {
-	mgo.Set(m)
+	mgo.SetModel(m)
 }
 
 func DelEmailAccount(id string) {
-	m, ok := mgo.Get[*EmailAccount](SchemaEmailAccount, id)
+	m, ok := mgo.GetModel[*EmailAccount](SchemaEmailAccount, id)
 	if !ok {
 		return
 	}
-	_ = m.Store()
-	mgo.Del(SchemaEmailAccount, id)
+	mgo.DelModel(SchemaEmailAccount, id)
 	delEmailAccountMap(m)
 }
 
 func onEmailAccountEvict(model mgo.IModel) {
-	m := model.(*EmailAccount)
-	_ = m.Store()
-	delEmailAccountMap(m)
+	delEmailAccountMap(model.(*EmailAccount))
 }
 
 func delEmailAccountMap(m *EmailAccount) {
-	delete(_EmailAccountIdMap, m.GetId())
 }
 
 func GetEmailAccountWithId(id string) (*EmailAccount, error) {
-	m, ok := mgo.Get[*EmailAccount](SchemaEmailAccount, id)
+	m, ok := mgo.GetModel[*EmailAccount](SchemaEmailAccount, id)
 	if ok {
 		return m, nil
 	}
 	m = _ModelFac[SchemaEmailAccount]().(*EmailAccount)
-	err := m.Load(id, m.EmailAccount)
+	err := mgo.FindOne(SchemaEmailAccount, bson.M{"_id": id}, m.EmailAccount)
 	if err != nil {
 		return nil, err
 	}
@@ -199,24 +171,22 @@ func GetEmailAccountWithId(id string) (*EmailAccount, error) {
 
 type EmailAccount struct {
 	*pb.EmailAccount
-	*mgo.Model
 }
 
 func (this *EmailAccount) SetPassword(val string) {
 	this.Password = val
-	this.SetDirty(EmailAccountPassword)
+	mgo.ModelWriter().Write(SchemaEmailAccount, this.Id, bson.M{EmailAccountPassword: val})
 }
 
 func (this *EmailAccount) SetUserId(val string) {
 	this.UserId = val
-	this.SetDirty(EmailAccountUserId)
+	mgo.ModelWriter().Write(SchemaEmailAccount, this.Id, bson.M{EmailAccountUserId: val})
 }
 
 func NewEmailAccount() mgo.IModel {
 	m := &EmailAccount{
 		EmailAccount: &pb.EmailAccount{},
 	}
-	m.Model = mgo.NewModel(SchemaEmailAccount, 3, m.GetVal)
 	return m
 }
 
@@ -237,16 +207,21 @@ func NewEmailAccountWithData(data *pb.EmailAccount) *EmailAccount {
 	m := &EmailAccount{
 		EmailAccount: data,
 	}
-	m.Model = mgo.NewModel(SchemaEmailAccount, 3, m.GetVal)
-	m.SetDirty(
-		EmailAccountPassword,
-		EmailAccountUserId,
-	)
 	return m
+}
+
+func (this *EmailAccount) Schema() string {
+	return SchemaEmailAccount
 }
 
 func (this *EmailAccount) GetVal(key string) any {
 	switch key {
+	case EmailAccountId:
+		return this.Id
+	case EmailAccountPassword:
+		return this.Password
+	case EmailAccountUserId:
+		return this.UserId
 	default:
 		return nil
 	}
@@ -259,51 +234,35 @@ func (this *EmailAccount) Cost() int64 {
 	return cost
 }
 
-var (
-	_WechatAccountIdMap = make(map[string]struct{})
-)
-
-func StoreAllWechatAccounts() {
-	for id := range _WechatAccountIdMap {
-		m, ok := mgo.Get[*WechatAccount](SchemaWechatAccount, id)
-		if !ok {
-			continue
-		}
-		m.Store()
-	}
-}
+var ()
 
 func SetWechatAccount(m *WechatAccount) {
-	mgo.Set(m)
+	mgo.SetModel(m)
 }
 
 func DelWechatAccount(id string) {
-	m, ok := mgo.Get[*WechatAccount](SchemaWechatAccount, id)
+	m, ok := mgo.GetModel[*WechatAccount](SchemaWechatAccount, id)
 	if !ok {
 		return
 	}
-	_ = m.Store()
-	mgo.Del(SchemaWechatAccount, id)
+	mgo.DelModel(SchemaWechatAccount, id)
 	delWechatAccountMap(m)
 }
 
 func onWechatAccountEvict(model mgo.IModel) {
-	m := model.(*WechatAccount)
-	_ = m.Store()
-	delWechatAccountMap(m)
+	delWechatAccountMap(model.(*WechatAccount))
 }
 
 func delWechatAccountMap(m *WechatAccount) {
-	delete(_WechatAccountIdMap, m.GetId())
 }
 
 func GetWechatAccountWithId(id string) (*WechatAccount, error) {
-	m, ok := mgo.Get[*WechatAccount](SchemaWechatAccount, id)
+	m, ok := mgo.GetModel[*WechatAccount](SchemaWechatAccount, id)
 	if ok {
 		return m, nil
 	}
 	m = _ModelFac[SchemaWechatAccount]().(*WechatAccount)
-	err := m.Load(id, m.WechatAccount)
+	err := mgo.FindOne(SchemaWechatAccount, bson.M{"_id": id}, m.WechatAccount)
 	if err != nil {
 		return nil, err
 	}
@@ -313,19 +272,17 @@ func GetWechatAccountWithId(id string) (*WechatAccount, error) {
 
 type WechatAccount struct {
 	*pb.WechatAccount
-	*mgo.Model
 }
 
 func (this *WechatAccount) SetUserId(val string) {
 	this.UserId = val
-	this.SetDirty(WechatAccountUserId)
+	mgo.ModelWriter().Write(SchemaWechatAccount, this.Id, bson.M{WechatAccountUserId: val})
 }
 
 func NewWechatAccount() mgo.IModel {
 	m := &WechatAccount{
 		WechatAccount: &pb.WechatAccount{},
 	}
-	m.Model = mgo.NewModel(SchemaWechatAccount, 2, m.GetVal)
 	return m
 }
 
@@ -346,15 +303,19 @@ func NewWechatAccountWithData(data *pb.WechatAccount) *WechatAccount {
 	m := &WechatAccount{
 		WechatAccount: data,
 	}
-	m.Model = mgo.NewModel(SchemaWechatAccount, 2, m.GetVal)
-	m.SetDirty(
-		WechatAccountUserId,
-	)
 	return m
+}
+
+func (this *WechatAccount) Schema() string {
+	return SchemaWechatAccount
 }
 
 func (this *WechatAccount) GetVal(key string) any {
 	switch key {
+	case WechatAccountId:
+		return this.Id
+	case WechatAccountUserId:
+		return this.UserId
 	default:
 		return nil
 	}
@@ -367,56 +328,41 @@ func (this *WechatAccount) Cost() int64 {
 }
 
 var (
-	_UserIdMap     = make(map[string]struct{})
-	_UserNickToId  = make(map[string]string)
-	_UserTokenToId = make(map[string]string)
+	_UserNickToId  = sync.Map{}
+	_UserTokenToId = sync.Map{}
 )
 
-func StoreAllUsers() {
-	for id := range _UserIdMap {
-		m, ok := mgo.Get[*User](SchemaUser, id)
-		if !ok {
-			continue
-		}
-		m.Store()
-	}
-}
-
 func SetUser(m *User) {
-	mgo.Set(m)
-	_UserNickToId[m.Nick] = m.Id
-	_UserTokenToId[m.Token] = m.Id
+	mgo.SetModel(m)
+	_UserNickToId.Store(m.Nick, m.Id)
+	_UserTokenToId.Store(m.Token, m.Id)
 }
 
 func DelUser(id string) {
-	m, ok := mgo.Get[*User](SchemaUser, id)
+	m, ok := mgo.GetModel[*User](SchemaUser, id)
 	if !ok {
 		return
 	}
-	_ = m.Store()
-	mgo.Del(SchemaUser, id)
+	mgo.DelModel(SchemaUser, id)
 	delUserMap(m)
 }
 
 func onUserEvict(model mgo.IModel) {
-	m := model.(*User)
-	_ = m.Store()
-	delUserMap(m)
+	delUserMap(model.(*User))
 }
 
 func delUserMap(m *User) {
-	delete(_UserIdMap, m.GetId())
-	delete(_UserNickToId, m.Nick)
-	delete(_UserTokenToId, m.Token)
+	_UserNickToId.Delete(m.Nick)
+	_UserTokenToId.Delete(m.Token)
 }
 
 func GetUserWithId(id string) (*User, error) {
-	m, ok := mgo.Get[*User](SchemaUser, id)
+	m, ok := mgo.GetModel[*User](SchemaUser, id)
 	if ok {
 		return m, nil
 	}
 	m = _ModelFac[SchemaUser]().(*User)
-	err := m.Load(id, m.User)
+	err := mgo.FindOne(SchemaUser, bson.M{"_id": id}, m.User)
 	if err != nil {
 		return nil, err
 	}
@@ -425,15 +371,16 @@ func GetUserWithId(id string) (*User, error) {
 }
 
 func GetUserWithNick(nick string) (*User, error) {
-	id, ok := _UserNickToId[nick]
+	o, ok := _UserNickToId.Load(nick)
 	if ok {
-		m, ok := mgo.Get[*User](SchemaUser, id)
+		id := o.(string)
+		m, ok := mgo.GetModel[*User](SchemaUser, id)
 		if ok {
 			return m, nil
 		}
 	}
 	m := _ModelFac[SchemaUser]().(*User)
-	err := m.LoadWithFilter(bson.M{Nick: nick})
+	err := mgo.FindOne(SchemaUser, bson.M{Nick: nick}, m.Nick)
 	if err != nil {
 		return nil, err
 	}
@@ -442,15 +389,16 @@ func GetUserWithNick(nick string) (*User, error) {
 }
 
 func GetUserWithToken(token string) (*User, error) {
-	id, ok := _UserTokenToId[token]
+	o, ok := _UserTokenToId.Load(token)
 	if ok {
-		m, ok := mgo.Get[*User](SchemaUser, id)
+		id := o.(string)
+		m, ok := mgo.GetModel[*User](SchemaUser, id)
 		if ok {
 			return m, nil
 		}
 	}
 	m := _ModelFac[SchemaUser]().(*User)
-	err := m.LoadWithFilter(bson.M{Token: token})
+	err := mgo.FindOne(SchemaUser, bson.M{Token: token}, m.Token)
 	if err != nil {
 		return nil, err
 	}
@@ -460,89 +408,87 @@ func GetUserWithToken(token string) (*User, error) {
 
 type User struct {
 	*pb.User
-	*mgo.Model
 }
 
 func (this *User) SetRoleMask(val int64) {
 	this.RoleMask = val
-	this.SetDirty(RoleMask)
+	mgo.ModelWriter().Write(SchemaUser, this.Id, bson.M{RoleMask: val})
 }
 
 func (this *User) SetBan(val bool) {
 	this.Ban = val
-	this.SetDirty(Ban)
+	mgo.ModelWriter().Write(SchemaUser, this.Id, bson.M{Ban: val})
 }
 
 func (this *User) SetNick(val string) {
 	this.Nick = val
-	this.SetDirty(Nick)
+	mgo.ModelWriter().Write(SchemaUser, this.Id, bson.M{Nick: val})
 }
 
 func (this *User) SetIdCard(val string) {
 	this.IdCard = val
-	this.SetDirty(IdCard)
+	mgo.ModelWriter().Write(SchemaUser, this.Id, bson.M{IdCard: val})
 }
 
 func (this *User) SetRealName(val string) {
 	this.RealName = val
-	this.SetDirty(RealName)
+	mgo.ModelWriter().Write(SchemaUser, this.Id, bson.M{RealName: val})
 }
 
 func (this *User) SetCreateTime(val int64) {
 	this.CreateTime = val
-	this.SetDirty(CreateTime)
+	mgo.ModelWriter().Write(SchemaUser, this.Id, bson.M{CreateTime: val})
 }
 
 func (this *User) SetLastSignInTime(val int64) {
 	this.LastSignInTime = val
-	this.SetDirty(LastSignInTime)
+	mgo.ModelWriter().Write(SchemaUser, this.Id, bson.M{LastSignInTime: val})
 }
 
 func (this *User) SetLastSignInAddr(val string) {
 	this.LastSignInAddr = val
-	this.SetDirty(LastSignInAddr)
+	mgo.ModelWriter().Write(SchemaUser, this.Id, bson.M{LastSignInAddr: val})
 }
 
 func (this *User) SetLastOfflineTime(val int64) {
 	this.LastOfflineTime = val
-	this.SetDirty(LastOfflineTime)
+	mgo.ModelWriter().Write(SchemaUser, this.Id, bson.M{LastOfflineTime: val})
 }
 
 func (this *User) SetLastOs(val string) {
 	this.LastOs = val
-	this.SetDirty(LastOs)
+	mgo.ModelWriter().Write(SchemaUser, this.Id, bson.M{LastOs: val})
 }
 
 func (this *User) SetState(val pb.OnlineState) {
 	this.State = val
-	this.SetDirty(State)
+	mgo.ModelWriter().Write(SchemaUser, this.Id, bson.M{State: val})
 }
 
 func (this *User) SetAvatar(val string) {
 	this.Avatar = val
-	this.SetDirty(Avatar)
+	mgo.ModelWriter().Write(SchemaUser, this.Id, bson.M{Avatar: val})
 }
 
 func (this *User) SetToken(val string) {
 	this.Token = val
-	this.SetDirty(Token)
+	mgo.ModelWriter().Write(SchemaUser, this.Id, bson.M{Token: val})
 }
 
 func (this *User) SetHead(val []byte) {
 	this.Head = val
-	this.SetDirty(Head)
+	mgo.ModelWriter().Write(SchemaUser, this.Id, bson.M{Head: val})
 }
 
 func (this *User) SetOnlineDur(val int64) {
 	this.OnlineDur = val
-	this.SetDirty(OnlineDur)
+	mgo.ModelWriter().Write(SchemaUser, this.Id, bson.M{OnlineDur: val})
 }
 
 func NewUser() mgo.IModel {
 	m := &User{
 		User: &pb.User{},
 	}
-	m.Model = mgo.NewModel(SchemaUser, 16, m.GetVal)
 	return m
 }
 
@@ -563,32 +509,58 @@ func NewUserWithData(data *pb.User) *User {
 	m := &User{
 		User: data,
 	}
-	m.Model = mgo.NewModel(SchemaUser, 16, m.GetVal)
-	m.SetDirty(
-		RoleMask,
-		Ban,
-		Nick,
-		IdCard,
-		RealName,
-		CreateTime,
-		LastSignInTime,
-		LastSignInAddr,
-		LastOfflineTime,
-		LastOs,
-		State,
-		Avatar,
-		Token,
-		Head,
-		OnlineDur,
-	)
 	return m
+}
+
+func (this *User) Schema() string {
+	return SchemaUser
 }
 
 func (this *User) GetVal(key string) any {
 	switch key {
+	case Id:
+		return this.Id
+	case RoleMask:
+		return this.RoleMask
+	case Ban:
+		return this.Ban
+	case Nick:
+		return this.Nick
+	case IdCard:
+		return this.IdCard
+	case RealName:
+		return this.RealName
+	case CreateTime:
+		return this.CreateTime
+	case LastSignInTime:
+		return this.LastSignInTime
+	case LastSignInAddr:
+		return this.LastSignInAddr
+	case LastOfflineTime:
+		return this.LastOfflineTime
+	case LastOs:
+		return this.LastOs
+	case State:
+		return this.State
+	case Avatar:
+		return this.Avatar
+	case Token:
+		return this.Token
+	case Head:
+		return this.Head
+	case OnlineDur:
+		return this.OnlineDur
 	default:
 		return nil
 	}
+}
+
+func (this *User) CopyPlayerTag(m *pb.User) {
+	m.Id = this.Id
+	m.RoleMask = this.RoleMask
+	m.Nick = this.Nick
+	m.State = this.State
+	m.Avatar = this.Avatar
 }
 
 func (this *User) Cost() int64 {

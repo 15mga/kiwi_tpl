@@ -50,6 +50,10 @@ const (
 	EcEmailNotExist = 2015
 	//无效的token
 	EcInvalidToken = 2016
+	//用户已存在
+	EcUserExist = 2017
+	//用户被禁用
+	EcUserBanned = 2018
 )
 
 func init() {
@@ -73,5 +77,7 @@ func init() {
 		2014: "mobile not exist",
 		2015: "email not exist",
 		2016: "invalid token",
+		2017: "user exist",
+		2018: "user banned",
 	})
 }

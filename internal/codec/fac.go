@@ -73,35 +73,17 @@ func BindPool() {
 	kiwi.Codec().BindPool(common.Gate, GateUpdateRes, func() util.IMsg {
 		return &pb.GateUpdateRes{}
 	})
-	kiwi.Codec().BindPool(common.Gate, GateAddrUpdateReq, func() util.IMsg {
-		return &pb.GateAddrUpdateReq{}
-	})
-	kiwi.Codec().BindPool(common.Gate, GateAddrUpdateRes, func() util.IMsg {
-		return &pb.GateAddrUpdateRes{}
-	})
 	kiwi.Codec().BindPool(common.Gate, GateRemoveReq, func() util.IMsg {
 		return &pb.GateRemoveReq{}
 	})
 	kiwi.Codec().BindPool(common.Gate, GateRemoveRes, func() util.IMsg {
 		return &pb.GateRemoveRes{}
 	})
-	kiwi.Codec().BindPool(common.Gate, GateAddrRemoveReq, func() util.IMsg {
-		return &pb.GateAddrRemoveReq{}
-	})
-	kiwi.Codec().BindPool(common.Gate, GateAddrRemoveRes, func() util.IMsg {
-		return &pb.GateAddrRemoveRes{}
-	})
 	kiwi.Codec().BindPool(common.Gate, GateGetReq, func() util.IMsg {
 		return &pb.GateGetReq{}
 	})
 	kiwi.Codec().BindPool(common.Gate, GateGetRes, func() util.IMsg {
 		return &pb.GateGetRes{}
-	})
-	kiwi.Codec().BindPool(common.Gate, GateAddrGetReq, func() util.IMsg {
-		return &pb.GateAddrGetReq{}
-	})
-	kiwi.Codec().BindPool(common.Gate, GateAddrGetRes, func() util.IMsg {
-		return &pb.GateAddrGetRes{}
 	})
 	kiwi.Codec().BindPool(common.User, UserSignUpWithMobileReq, func() util.IMsg {
 		return &pb.UserSignUpWithMobileReq{}

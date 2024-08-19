@@ -11,7 +11,7 @@ option (kiwi.svc) = {
   worker: {
     mode: Active,
     origin: Head,
-    key: "addr",
+    key: "id",
   },
   dependencies:[
     "gate"

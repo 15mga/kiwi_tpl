@@ -44,16 +44,10 @@ func InitClient(client *mock.Client) {
 	s.client.BindNetMsg(&pb.GateCloseAddrRes{}, s.onGateCloseAddrRes)
 	s.client.BindPointMsg("gate", "GateUpdate", s.inGateUpdateReq)
 	s.client.BindNetMsg(&pb.GateUpdateRes{}, s.onGateUpdateRes)
-	s.client.BindPointMsg("gate", "GateAddrUpdate", s.inGateAddrUpdateReq)
-	s.client.BindNetMsg(&pb.GateAddrUpdateRes{}, s.onGateAddrUpdateRes)
 	s.client.BindPointMsg("gate", "GateRemove", s.inGateRemoveReq)
 	s.client.BindNetMsg(&pb.GateRemoveRes{}, s.onGateRemoveRes)
-	s.client.BindPointMsg("gate", "GateAddrRemove", s.inGateAddrRemoveReq)
-	s.client.BindNetMsg(&pb.GateAddrRemoveRes{}, s.onGateAddrRemoveRes)
 	s.client.BindPointMsg("gate", "GateGet", s.inGateGetReq)
 	s.client.BindNetMsg(&pb.GateGetRes{}, s.onGateGetRes)
-	s.client.BindPointMsg("gate", "GateAddrGet", s.inGateAddrGetReq)
-	s.client.BindNetMsg(&pb.GateAddrGetRes{}, s.onGateAddrGetRes)
 }
 
 func (s *svc) Dispose() {
@@ -185,17 +179,6 @@ func (s *svc) onGateUpdateRes(msg util.IMsg) (point string, data any) {
 	return "GateUpdate", nil
 }
 
-func (s *svc) inGateAddrUpdateReq(msg graph.IMsg) *util.Err {
-	req := s.client.GetRequest(common.Gate, codec.GateAddrUpdateReq)
-	return s.AsyncReq(req)
-}
-
-func (s *svc) onGateAddrUpdateRes(msg util.IMsg) (point string, data any) {
-	sc := kiwi.MergeSvcCode(kiwi.Codec().MsgToSvcMethod(msg))
-	s.client.Graph().Data().Set(strconv.Itoa(int(sc)), msg)
-	return "GateAddrUpdate", nil
-}
-
 func (s *svc) inGateRemoveReq(msg graph.IMsg) *util.Err {
 	req := s.client.GetRequest(common.Gate, codec.GateRemoveReq)
 	return s.AsyncReq(req)
@@ -207,17 +190,6 @@ func (s *svc) onGateRemoveRes(msg util.IMsg) (point string, data any) {
 	return "GateRemove", nil
 }
 
-func (s *svc) inGateAddrRemoveReq(msg graph.IMsg) *util.Err {
-	req := s.client.GetRequest(common.Gate, codec.GateAddrRemoveReq)
-	return s.AsyncReq(req)
-}
-
-func (s *svc) onGateAddrRemoveRes(msg util.IMsg) (point string, data any) {
-	sc := kiwi.MergeSvcCode(kiwi.Codec().MsgToSvcMethod(msg))
-	s.client.Graph().Data().Set(strconv.Itoa(int(sc)), msg)
-	return "GateAddrRemove", nil
-}
-
 func (s *svc) inGateGetReq(msg graph.IMsg) *util.Err {
 	req := s.client.GetRequest(common.Gate, codec.GateGetReq)
 	return s.AsyncReq(req)
@@ -227,15 +199,4 @@ func (s *svc) onGateGetRes(msg util.IMsg) (point string, data any) {
 	sc := kiwi.MergeSvcCode(kiwi.Codec().MsgToSvcMethod(msg))
 	s.client.Graph().Data().Set(strconv.Itoa(int(sc)), msg)
 	return "GateGet", nil
-}
-
-func (s *svc) inGateAddrGetReq(msg graph.IMsg) *util.Err {
-	req := s.client.GetRequest(common.Gate, codec.GateAddrGetReq)
-	return s.AsyncReq(req)
-}
-
-func (s *svc) onGateAddrGetRes(msg util.IMsg) (point string, data any) {
-	sc := kiwi.MergeSvcCode(kiwi.Codec().MsgToSvcMethod(msg))
-	s.client.Graph().Data().Set(strconv.Itoa(int(sc)), msg)
-	return "GateAddrGet", nil
 }

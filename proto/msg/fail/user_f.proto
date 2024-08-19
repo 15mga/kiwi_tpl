@@ -25,6 +25,8 @@ option (kiwi.svc) = {
     {code:2013, error:"user not exist", comment:"用户不存在"},
     {code:2014, error:"mobile not exist", comment:"手机号不存在"},
     {code:2015, error:"email not exist", comment:"邮箱不存在"},
-    {code:2016, error:"invalid token", comment:"无效的token"}
+    {code:2016, error:"invalid token", comment:"无效的token"},
+    {code:2017, error:"user exist", comment:"用户已存在"},
+    {code:2018, error:"user banned", comment:"用户被禁用"}
   ]
 };

@@ -30,14 +30,8 @@ const (
 	GateCloseAddrRes       kiwi.TMethod = 515
 	GateUpdateReq          kiwi.TMethod = 516
 	GateUpdateRes          kiwi.TMethod = 517
-	GateAddrUpdateReq      kiwi.TMethod = 518
-	GateAddrUpdateRes      kiwi.TMethod = 519
 	GateRemoveReq          kiwi.TMethod = 520
 	GateRemoveRes          kiwi.TMethod = 521
-	GateAddrRemoveReq      kiwi.TMethod = 522
-	GateAddrRemoveRes      kiwi.TMethod = 523
 	GateGetReq             kiwi.TMethod = 524
 	GateGetRes             kiwi.TMethod = 525
-	GateAddrGetReq         kiwi.TMethod = 526
-	GateAddrGetRes         kiwi.TMethod = 527
 )

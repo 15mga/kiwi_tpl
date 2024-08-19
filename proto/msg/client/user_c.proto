@@ -36,6 +36,7 @@ message UserSignInWithMobileReq {
 message UserSignInWithMobileRes {
   option (kiwi.method) = 3;
   bool existUser = 1;
+  string token = 2;
 }
 
 //重置密码
@@ -91,6 +92,7 @@ message UserSignInWithEmailReq {
 message UserSignInWithEmailRes {
   option (kiwi.method) = 11;
   bool existUser = 1;
+  string token = 2;
 }
 
 //重置密码
@@ -131,6 +133,7 @@ message UserSignInWithWechatReq {
 message UserSignInWithWechatRes {
   option (kiwi.method) = 17;
   bool existUser = 1;
+  string token = 2;
 }
 
 message UserNewReq {
@@ -141,6 +144,7 @@ message UserNewReq {
 
 message UserNewRes {
   option (kiwi.method) = 19;
+  string token = 1;
 }
 
 message UserSignInReq {

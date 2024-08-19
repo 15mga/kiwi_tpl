@@ -101,16 +101,6 @@ message GateUpdateRes {
   option (kiwi.method) = 517;
 }
 
-message GateAddrUpdateReq {
-  option (kiwi.method) = 518;
-  string addr = 1;
-  bytes head = 2;
-}
-
-message GateAddrUpdateRes {
-  option (kiwi.method) = 519;
-}
-
 message GateRemoveReq {
   option (kiwi.method) = 520;
   string id = 1;
@@ -121,16 +111,6 @@ message GateRemoveRes {
   option (kiwi.method) = 521;
 }
 
-message GateAddrRemoveReq {
-  option (kiwi.method) = 522;
-  string addr = 1;
-  repeated string head = 2;
-}
-
-message GateAddrRemoveRes {
-  option (kiwi.method) = 523;
-}
-
 message GateGetReq {
   option (kiwi.method) = 524;
   string id = 1;
@@ -139,16 +119,5 @@ message GateGetReq {
 
 message GateGetRes {
   option (kiwi.method) = 525;
-  bytes head = 1;
-}
-
-message GateAddrGetReq {
-  option (kiwi.method) = 526;
-  string addr = 1;
-  bool close = 2; //关闭重复链接
-}
-
-message GateAddrGetRes {
-  option (kiwi.method) = 527;
   bytes head = 1;
 }

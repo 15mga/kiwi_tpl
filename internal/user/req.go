@@ -6,18 +6,12 @@ import (
 	"github.com/15mga/kiwi"
 	"github.com/15mga/kiwi/sid"
 	"github.com/15mga/kiwi/util"
-	"github.com/15mga/kiwi/util/mgo"
-	"go.mongodb.org/mongo-driver/bson"
 	"time"
 )
 
 func (s *Svc) Start() {
 	s.svc.Start()
 	initModels()
-}
-
-func (s *Svc) BeforeShutdown() {
-	StoreAllUsers()
 }
 
 func (s *Svc) OnUserSignUpWithMobile(pkt kiwi.IRcvRequest, req *pb.UserSignUpWithMobileReq, res *pb.UserSignUpWithMobileRes) {
@@ -45,25 +39,28 @@ func (s *Svc) OnUserSignInWithMobile(pkt kiwi.IRcvRequest, req *pb.UserSignInWit
 		return
 	}
 
+	userId := account.UserId
 	head := util.M{
-		common.HdSignIn:    common.SignInMobile,
-		common.HdAccountId: req.Mobile,
+		common.HdSignInCh:  common.SignInMobile,
+		common.HdAccountId: account.Id,
 		common.HdMask:      util.GenMask(common.RPlayer),
 	}
-	if account.UserId != "" {
+	if userId == "" {
+		userId = account.Id
+	} else {
 		res.ExistUser = true
-		head[common.HdUserId] = account.UserId
 	}
+	head[common.HdUserId] = userId
 
 	headBytes, _ := head.ToBytes()
 	pkt.AsyncReq(&pb.GateUpdateReq{
 		Id:   pkt.HeadId(),
 		Head: headBytes,
-	}, func(code uint16) {
-		pkt.Fail(code)
-	}, func(msg util.IMsg) {
-		pkt.Ok(res)
-	})
+	}, nil, nil)
+
+	addr, _ := util.MGet[string](pkt.Head(), common.HdGateAddr)
+	res.Token, _ = common.GenToken(common.SignInMobile, addr, userId, time.Now().Unix())
+	pkt.Ok(res)
 }
 
 func (s *Svc) OnUserResetPasswordWithMobile(pkt kiwi.IRcvRequest, req *pb.UserResetPasswordWithMobileReq, res *pb.UserResetPasswordWithMobileRes) {
@@ -124,27 +121,28 @@ func (s *Svc) OnUserSignInWithEmail(pkt kiwi.IRcvRequest, req *pb.UserSignInWith
 		pkt.Fail(common.EcWrongMobileOrPassword)
 		return
 	}
-	addr, _ := util.MGet[string](pkt.Head(), common.HdGateAddr)
 
+	userId := account.UserId
 	head := util.M{
-		common.HdSignIn:    common.SignInEmail,
-		common.HdAccountId: req.Email,
+		common.HdSignInCh:  common.SignInEmail,
+		common.HdAccountId: account.Id,
 		common.HdMask:      util.GenMask(common.RPlayer),
 	}
 	if account.UserId != "" {
 		res.ExistUser = true
-		head[common.HdUserId] = account.UserId
+		userId = account.Id
 	}
+	head[common.HdUserId] = userId
 
 	headBytes, _ := head.ToBytes()
-	pkt.AsyncReq(&pb.GateAddrUpdateReq{
-		Addr: addr,
+	pkt.AsyncReq(&pb.GateUpdateReq{
+		Id:   pkt.HeadId(),
 		Head: headBytes,
-	}, func(code uint16) {
-		pkt.Fail(code)
-	}, func(msg util.IMsg) {
-		pkt.Ok(res)
-	})
+	}, nil, nil)
+
+	addr, _ := util.MGet[string](pkt.Head(), common.HdGateAddr)
+	res.Token, _ = common.GenToken(common.SignInEmail, addr, userId, time.Now().Unix())
+	pkt.Ok(res)
 }
 
 func (s *Svc) OnUserResetPasswordWithEmail(pkt kiwi.IRcvRequest, req *pb.UserResetPasswordWithEmailReq, res *pb.UserResetPasswordWithEmailRes) {
@@ -199,7 +197,6 @@ func (s *Svc) OnUserSignInWithWechat(pkt kiwi.IRcvRequest, req *pb.UserSignInWit
 		return
 	}
 
-	addr, _ := util.MGet[string](pkt.Head(), common.HdGateAddr)
 	var (
 		userId string
 		user   *User
@@ -240,36 +237,96 @@ func (s *Svc) OnUserSignInWithWechat(pkt kiwi.IRcvRequest, req *pb.UserSignInWit
 			Head:            nil,
 			OnlineDur:       0,
 		})
+		if err != nil {
+			pkt.Fail(util.EcDbErr)
+			return
+		}
 	}
 
 	user.SetAvatar(userInfo.HeadImgUrl)
 
 	head := util.M{
-		common.HdSignIn: common.SignInWechat,
-		common.HdUserId: userId,
+		common.HdSignInCh:  common.SignInWechat,
+		common.HdAccountId: account.Id,
+		common.HdUserId:    userId,
 	}
 	headBytes, _ := head.ToBytes()
-	pkt.AsyncReq(&pb.GateAddrUpdateReq{
-		Addr: addr,
+	pkt.AsyncReq(&pb.GateUpdateReq{
+		Id:   pkt.HeadId(),
 		Head: headBytes,
-	}, func(code uint16) {
-		pkt.Fail(code)
-	}, func(msg util.IMsg) {
-		res.ExistUser = true
-		pkt.Ok(res)
-	})
+	}, nil, nil)
+
+	res.ExistUser = true
+	addr, _ := util.MGet[string](pkt.Head(), common.HdGateAddr)
+	res.Token, _ = common.GenToken(common.SignInWechat, addr, userId, time.Now().Unix())
+	pkt.Ok(res)
 }
 
 func (s *Svc) OnUserNew(pkt kiwi.IRcvRequest, req *pb.UserNewReq, res *pb.UserNewRes) {
+	userId, _ := util.MGet[string](pkt.Head(), common.HdUserId)
+	accountId, _ := util.MGet[string](pkt.Head(), common.HdAccountId)
+	if userId != accountId {
+		pkt.Fail(common.EcUserExist)
+		return
+	}
+	if req.User == nil {
+		pkt.Fail(util.EcBadPacket)
+		return
+	}
 	if req.User.Nick == "" {
 		pkt.Fail(common.EcNickCanNotEmpty)
 		return
 	}
 	addr, _ := util.MGet[string](pkt.Head(), common.HdGateAddr)
-	accountId, _ := util.MGet[string](pkt.Head(), common.HdAccountId)
-	signIn, _ := util.MGet[string](pkt.Head(), common.HdSignIn)
-	userId := sid.GetStrId()
-	_, err := InsertUser(&pb.User{
+	signIn, _ := util.MGet[string](pkt.Head(), common.HdSignInCh)
+	now := time.Now().Unix()
+	userId = sid.GetStrId()
+	token, err := common.GenToken(signIn, addr, userId, now)
+	if err != nil {
+		pkt.Fail(util.EcServiceErr)
+		return
+	}
+
+	var accountIntfc IAccount
+	switch signIn {
+	case common.SignInMobile:
+		account, err := GetMobileAccountWithId(accountId)
+		if err != nil {
+			pkt.Fail(util.EcServiceErr)
+			return
+		}
+		if account.UserId != "" {
+			pkt.Fail(common.EcUserExist)
+			return
+		}
+		accountIntfc = account
+	case common.SignInEmail:
+		account, err := GetEmailAccountWithId(accountId)
+		if err != nil {
+			pkt.Fail(util.EcServiceErr)
+			return
+		}
+		if account.UserId != "" {
+			pkt.Fail(common.EcUserExist)
+			return
+		}
+		accountIntfc = account
+	case common.SignInWechat:
+		account, err := GetWechatAccountWithId(accountId)
+		if err != nil {
+			pkt.Fail(util.EcServiceErr)
+			return
+		}
+		if account.UserId != "" {
+			pkt.Fail(common.EcUserExist)
+			return
+		}
+		accountIntfc = account
+	default:
+		pkt.Fail(util.EcServiceErr)
+		return
+	}
+	_, err = InsertUser(&pb.User{
 		Id:              userId,
 		RoleMask:        util.GenMask(common.RPlayer),
 		Ban:             false,
@@ -283,57 +340,35 @@ func (s *Svc) OnUserNew(pkt kiwi.IRcvRequest, req *pb.UserNewReq, res *pb.UserNe
 		LastOs:          "",
 		State:           pb.OnlineState_Disconnected,
 		Avatar:          req.User.Avatar,
-		Token:           "",
+		Token:           token,
 		Head:            nil,
 		OnlineDur:       0,
 	})
 	if err != nil {
-		pkt.Fail(util.EcDbErr)
+		pkt.Fail(common.EcNickExist)
 		return
 	}
+	accountIntfc.SetUserId(userId)
 
-	switch signIn {
-	case common.SignInMobile:
-		account, err := GetMobileAccountWithId(accountId)
-		if err != nil {
-			pkt.Fail(util.EcServiceErr)
-			return
-		}
-		account.SetUserId(userId)
-	case common.SignInEmail:
-		account, err := GetEmailAccountWithId(accountId)
-		if err != nil {
-			pkt.Fail(util.EcServiceErr)
-			return
-		}
-		account.SetUserId(userId)
-	case common.SignInWechat:
-		account, err := GetWechatAccountWithId(accountId)
-		if err != nil {
-			pkt.Fail(util.EcServiceErr)
-			return
-		}
-		account.SetUserId(userId)
-	}
 	head := util.M{
 		common.HdUserId: userId,
 	}
 	headBytes, _ := head.ToBytes()
-	pkt.AsyncReq(&pb.GateAddrUpdateReq{
-		Addr: addr,
+	pkt.AsyncReq(&pb.GateUpdateReq{
+		Id:   pkt.HeadId(),
 		Head: headBytes,
-	}, func(code uint16) {
-		pkt.Fail(code)
-	}, func(msg util.IMsg) {
-		pkt.Ok(res)
-	})
+	}, nil, nil)
+
+	res.Token = token
+	pkt.Ok(res)
 }
 
 func (s *Svc) OnUserSignIn(pkt kiwi.IRcvRequest, req *pb.UserSignInReq, res *pb.UserSignInRes) {
 	userId, _ := util.MGet[string](pkt.Head(), common.HdUserId)
 	addr, _ := util.MGet[string](pkt.Head(), common.HdGateAddr)
+	signIn, _ := util.MGet[string](pkt.Head(), common.HdSignInCh)
 	now := time.Now().Unix()
-	token, err := common.GenToken(addr, userId, now)
+	token, err := common.GenToken(signIn, addr, userId, now)
 	if err != nil {
 		pkt.Fail(util.EcServiceErr)
 		return
@@ -341,6 +376,10 @@ func (s *Svc) OnUserSignIn(pkt kiwi.IRcvRequest, req *pb.UserSignInReq, res *pb.
 	user, err := GetUserWithId(userId)
 	if err != nil {
 		pkt.Fail(common.EcUserNotExist)
+		return
+	}
+	if user.Ban {
+		pkt.Fail(common.EcUserBanned)
 		return
 	}
 
@@ -354,21 +393,21 @@ func (s *Svc) OnUserSignIn(pkt kiwi.IRcvRequest, req *pb.UserSignInReq, res *pb.
 	user.SetLastSignInTime(now)
 	user.SetState(pb.OnlineState_Connected)
 	user.SetToken(token)
-	_ = user.Store()
 
 	head := util.M{
-		common.HdMask: user.RoleMask,
+		common.HdMask:   user.RoleMask,
+		common.HdSignIn: true,
 	}
 	headBytes, _ := head.ToBytes()
-	pkt.AsyncReq(&pb.GateAddrUpdateReq{
-		Addr: addr,
+	pkt.AsyncReq(&pb.GateUpdateReq{
+		Id:   pkt.HeadId(),
 		Head: headBytes,
-	}, func(code uint16) {
-		pkt.Fail(code)
-	}, func(msg util.IMsg) {
-		res.User = user.User
-		pkt.Ok(res)
-	})
+	}, nil, nil)
+
+	res.User = &pb.User{}
+	user.CopyPlayerTag(res.User)
+	res.Token = token
+	pkt.Ok(res)
 }
 
 func (s *Svc) userOffline(userId string) uint16 {
@@ -418,18 +457,16 @@ func (s *Svc) OnUserReconnect(pkt kiwi.IRcvRequest, req *pb.UserReconnectReq, re
 	pkt.AsyncReq(&pb.GateCloseAddrReq{Addr: claims.Addr}, nil, nil)
 
 	addr, _ := util.MGet[string](pkt.Head(), common.HdGateAddr)
-	tkn, _ := common.GenToken(addr, user.Id, user.LastSignInTime)
+	tkn, _ := common.GenToken(claims.SignInCh, addr, user.Id, user.LastSignInTime)
 	user.SetLastSignInAddr(addr)
 	user.SetToken(tkn)
 
-	pkt.AsyncReq(&pb.GateAddrUpdateReq{
-		Addr: addr,
+	pkt.AsyncReq(&pb.GateUpdateReq{
+		Id:   pkt.HeadId(),
 		Head: user.Head,
-	}, func(code uint16) {
-		pkt.Fail(code)
-	}, func(msg util.IMsg) {
-		pkt.Ok(res)
-	})
+	}, nil, nil)
+
+	pkt.Ok(res)
 }
 
 func (s *Svc) OnUserDisconnect(pkt kiwi.IRcvRequest, req *pb.UserDisconnectReq, res *pb.UserDisconnectRes) {
@@ -442,16 +479,20 @@ func (s *Svc) OnUserDisconnect(pkt kiwi.IRcvRequest, req *pb.UserDisconnectReq, 
 }
 
 func (s *Svc) OnUserUpdateHead(pkt kiwi.IRcvRequest, req *pb.UserUpdateHeadReq, res *pb.UserUpdateHeadRes) {
-	_, err := mgo.UpdateOne(SchemaUser, bson.M{
-		Id: req.Id,
-	}, bson.M{
-		"$set": bson.M{
-			Head: req.Head,
-		},
-	})
-	if err != nil {
-		pkt.Fail(util.EcServiceErr)
+	head := util.M{}
+	head.FromBytes(req.Head)
+	user, er := GetUserWithId(req.GetId())
+	if er != nil {
+		pkt.Fail(common.EcUserNotExist)
 		return
 	}
+	user.SetHead(req.Head)
 	pkt.Ok(res)
+	kiwi.TI(pkt.Tid(), "user update", util.M{
+		"head": head,
+	})
+}
+
+type IAccount interface {
+	SetUserId(id string)
 }

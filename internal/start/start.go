@@ -63,9 +63,13 @@ func Start(ver string, svc ...kiwi.TSvc) {
 		))
 	}
 	// 排除打印的链路日志
-	core.ExcludeTrace(common.User)
+	core.ExcludeTrace(common.Gate,
+		codec.GateUpdateReq, codec.GateUpdateRes,
+	)
 	// 排除打印的消息，用于当
-	core.ExcludeMsg(common.User)
+	core.ExcludeMsg(common.Gate,
+		codec.GateUpdateReq, codec.GateUpdateRes,
+	)
 
 	service := make([]kiwi.IService, 0, len(svc))
 	hasGate := false

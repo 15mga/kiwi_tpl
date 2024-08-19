@@ -48,22 +48,10 @@ func (s *svc) OnGateUpdate(pkt kiwi.IRcvRequest, req *pb.GateUpdateReq, res *pb.
 	pkt.Err2(util.EcNotImplement, util.M{"req": req})
 }
 
-func (s *svc) OnGateAddrUpdate(pkt kiwi.IRcvRequest, req *pb.GateAddrUpdateReq, res *pb.GateAddrUpdateRes) {
-	pkt.Err2(util.EcNotImplement, util.M{"req": req})
-}
-
 func (s *svc) OnGateRemove(pkt kiwi.IRcvRequest, req *pb.GateRemoveReq, res *pb.GateRemoveRes) {
 	pkt.Err2(util.EcNotImplement, util.M{"req": req})
 }
 
-func (s *svc) OnGateAddrRemove(pkt kiwi.IRcvRequest, req *pb.GateAddrRemoveReq, res *pb.GateAddrRemoveRes) {
-	pkt.Err2(util.EcNotImplement, util.M{"req": req})
-}
-
 func (s *svc) OnGateGet(pkt kiwi.IRcvRequest, req *pb.GateGetReq, res *pb.GateGetRes) {
-	pkt.Err2(util.EcNotImplement, util.M{"req": req})
-}
-
-func (s *svc) OnGateAddrGet(pkt kiwi.IRcvRequest, req *pb.GateAddrGetReq, res *pb.GateAddrGetRes) {
 	pkt.Err2(util.EcNotImplement, util.M{"req": req})
 }

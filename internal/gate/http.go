@@ -15,13 +15,16 @@ import (
 type HttpHeadCache struct {
 }
 
-func (c *HttpHeadCache) GetId(r *http.Request) (string, bool) {
+func (c *HttpHeadCache) GetId(r *http.Request) (string, bool, error) {
 	token := r.Header.Get("token")
+	if token == "" {
+		return "", false, nil
+	}
 	claims, e := common.ParseToken(token)
 	if e != nil {
-		return "", false
+		return "", false, e
 	}
-	return claims.UserId, true
+	return claims.UserId, true, nil
 }
 
 func (c *HttpHeadCache) GetHead(id string, head util.M) (newAgent bool) {
@@ -104,19 +107,25 @@ func HttpReceiver(head util.M, w http.ResponseWriter, r *http.Request) {
 		httpResErr(w, util.EcWrongSvc)
 		return
 	}
-	codeStr := r.PathValue("code")
-	codeInt, err := strconv.Atoi(codeStr)
+	methodStr := r.PathValue("method")
+	methodInt, err := strconv.Atoi(methodStr)
 	if err != nil {
 		httpResErr(w, util.EcWrongMethod)
 		return
 	}
 	svc := kiwi.TSvc(svcInt)
-	code := kiwi.TMethod(codeInt)
+	method := kiwi.TMethod(methodInt)
 
 	roleMask, _ := util.MGet[int64](head, common.HdMask)
-	ok := kiwi.Gate().Authenticate(roleMask, svc, code)
+	ok := kiwi.Gate().Authenticate(roleMask, svc, method)
 	if !ok {
 		httpResErr(w, util.EcNoAuth)
+		kiwi.Debug("no auth", util.M{
+			"svc":    svc,
+			"method": method,
+			"role":   roleMask,
+			"head":   head,
+		})
 		return
 	}
 
@@ -130,7 +139,7 @@ func HttpReceiver(head util.M, w http.ResponseWriter, r *http.Request) {
 
 	failCh := make(chan uint16, 1)
 	okCh := make(chan []byte, 1)
-	_svc.AsyncReqBytes(0, svc, code, head, true, payload, func(code uint16) {
+	_svc.AsyncReqBytes(0, svc, method, head, true, payload, func(code uint16) {
 		failCh <- code
 	}, func(bytes []byte) {
 		okCh <- bytes
@@ -140,7 +149,7 @@ func HttpReceiver(head util.M, w http.ResponseWriter, r *http.Request) {
 	case c := <-failCh:
 		res.Code = c
 	case b := <-okCh:
-		resCode, err := kiwi.Codec().ReqToResMethod(svc, code)
+		resCode, err := kiwi.Codec().ReqToResMethod(svc, method)
 		if err != nil {
 			httpResErr(w, util.EcServiceErr)
 			return

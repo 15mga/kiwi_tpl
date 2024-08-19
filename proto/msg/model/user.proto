@@ -16,10 +16,10 @@ enum OnlineState {
 
 message User {
   option (kiwi.schema) = true;
-  string id = 1 [(kiwi.cache)=true];
-  int64 roleMask = 2; //角色组遮罩
+  string id = 1 [(kiwi.cache)=true,(kiwi.tag)="player"];
+  int64 roleMask = 2[(kiwi.tag)="player"]; //角色组遮罩
   bool ban = 3; //禁用
-  string nick = 4 [(kiwi.cache)=true]; //昵称
+  string nick = 4 [(kiwi.cache)=true,(kiwi.tag)="player"]; //昵称
   string idCard = 5; //身份证
   string realName = 6; //实名
   int64 createTime = 7; //创建时间
@@ -27,9 +27,9 @@ message User {
   string lastSignInAddr = 9; //最后登录地址
   int64 lastOfflineTime = 10; //最后下线时间
   string lastOs = 11; //最后登录使用的系统
-  OnlineState state = 12; //状态
-  string avatar = 13; //头像地址
-  string token = 14 [(kiwi.cache)=true]; //token
+  OnlineState state = 12 [(kiwi.tag)="player"]; //状态
+  string avatar = 13 [(kiwi.tag)="player"]; //头像地址
+  string token = 14[(kiwi.cache)=true]; //token
   bytes head = 15; //会话
   int64 onlineDur = 16; //在线时长
   option (kiwi.idx) = {

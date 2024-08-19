@@ -3,13 +3,13 @@ log:
   std:
     enable: true
     log:
-      - debug
+#      - debug
       - info
       - warn
       - error
       - fatal
     trace:
-      - debug
+#      - debug
       - info
       - warn
       - error
@@ -19,13 +19,13 @@ log:
     uri: mongodb://127.0.0.1:27017
     db: qiji_log
     log:
-      - debug
+#      - debug
       - info
       - warn
       - error
       - fatal
     trace:
-      - debug
+#      - debug
       - info
       - warn
       - error
