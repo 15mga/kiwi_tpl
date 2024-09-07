@@ -85,6 +85,12 @@ func BindPool() {
 	kiwi.Codec().BindPool(common.Gate, GateGetRes, func() util.IMsg {
 		return &pb.GateGetRes{}
 	})
+	kiwi.Codec().BindPool(common.Gate, GateUpdateRolesReq, func() util.IMsg {
+		return &pb.GateUpdateRolesReq{}
+	})
+	kiwi.Codec().BindPool(common.Gate, GateUpdateRolesRes, func() util.IMsg {
+		return &pb.GateUpdateRolesRes{}
+	})
 	kiwi.Codec().BindPool(common.User, UserSignUpWithMobileReq, func() util.IMsg {
 		return &pb.UserSignUpWithMobileReq{}
 	})

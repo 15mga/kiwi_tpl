@@ -12,7 +12,7 @@ option (kiwi.svc) = {
     {code:2000, error:"mobile wrong", comment:"手机号错误"},
     {code:2001, error:"password wrong", comment:"密码错误"},
     {code:2002, error:"mobile exist", comment:"手机号已存在"},
-    {code:2003, error:"nick exist", comment:"手机号已存在"},
+    {code:2003, error:"nick exist", comment:"昵称已存在"},
     {code:2004, error:"sms wrong", comment:"手机验证码错误"},
     {code:2005, error:"wrong mobile or password", comment:"账号或密码错误"},
     {code:2006, error:"email code wrong", comment:"邮件验证码错误"},

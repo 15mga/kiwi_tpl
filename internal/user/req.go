@@ -12,6 +12,7 @@ import (
 func (s *Svc) Start() {
 	s.svc.Start()
 	initModels()
+	s.Req(0, nil, &pb.GateUpdateRolesReq{Roles: MsgRole})
 }
 
 func (s *Svc) OnUserSignUpWithMobile(pkt kiwi.IRcvRequest, req *pb.UserSignUpWithMobileReq, res *pb.UserSignUpWithMobileRes) {
@@ -39,18 +40,20 @@ func (s *Svc) OnUserSignInWithMobile(pkt kiwi.IRcvRequest, req *pb.UserSignInWit
 		return
 	}
 
-	userId := account.UserId
 	head := util.M{
 		common.HdSignInCh:  common.SignInMobile,
 		common.HdAccountId: account.Id,
 		common.HdMask:      util.GenMask(common.RPlayer),
 	}
-	if userId == "" {
-		userId = account.Id
+	var id string
+	if account.UserId == "" {
+		id = account.Id
 	} else {
 		res.ExistUser = true
+		id = account.UserId
+		head[common.HdUserId] = id
 	}
-	head[common.HdUserId] = userId
+	head[common.HdId] = id
 
 	headBytes, _ := head.ToBytes()
 	pkt.AsyncReq(&pb.GateUpdateReq{
@@ -59,7 +62,7 @@ func (s *Svc) OnUserSignInWithMobile(pkt kiwi.IRcvRequest, req *pb.UserSignInWit
 	}, nil, nil)
 
 	addr, _ := util.MGet[string](pkt.Head(), common.HdGateAddr)
-	res.Token, _ = common.GenToken(common.SignInMobile, addr, userId, time.Now().Unix())
+	res.Token, _ = common.GenToken(common.SignInMobile, addr, id, time.Now().Unix())
 	pkt.Ok(res)
 }
 
@@ -122,17 +125,20 @@ func (s *Svc) OnUserSignInWithEmail(pkt kiwi.IRcvRequest, req *pb.UserSignInWith
 		return
 	}
 
-	userId := account.UserId
 	head := util.M{
 		common.HdSignInCh:  common.SignInEmail,
 		common.HdAccountId: account.Id,
 		common.HdMask:      util.GenMask(common.RPlayer),
 	}
-	if account.UserId != "" {
+	var id string
+	if account.UserId == "" {
+		id = account.Id
+	} else {
 		res.ExistUser = true
-		userId = account.Id
+		id = account.UserId
+		head[common.HdUserId] = id
 	}
-	head[common.HdUserId] = userId
+	head[common.HdId] = id
 
 	headBytes, _ := head.ToBytes()
 	pkt.AsyncReq(&pb.GateUpdateReq{
@@ -141,7 +147,7 @@ func (s *Svc) OnUserSignInWithEmail(pkt kiwi.IRcvRequest, req *pb.UserSignInWith
 	}, nil, nil)
 
 	addr, _ := util.MGet[string](pkt.Head(), common.HdGateAddr)
-	res.Token, _ = common.GenToken(common.SignInEmail, addr, userId, time.Now().Unix())
+	res.Token, _ = common.GenToken(common.SignInEmail, addr, id, time.Now().Unix())
 	pkt.Ok(res)
 }
 
@@ -201,9 +207,12 @@ func (s *Svc) OnUserSignInWithWechat(pkt kiwi.IRcvRequest, req *pb.UserSignInWit
 		userId string
 		user   *User
 	)
-
 	account, err := GetWechatAccountWithId(userInfo.UnionId)
-	if err != nil { //没有账号
+	if err == nil { //有账号
+		userId = account.UserId
+		user, _ = GetUserWithId(userId)
+	} else { //没有账号
+		userId = sid.GetStrId()
 		_, err = InsertWechatAccount(&pb.WechatAccount{
 			Id:     userInfo.UnionId,
 			UserId: userId,
@@ -213,12 +222,7 @@ func (s *Svc) OnUserSignInWithWechat(pkt kiwi.IRcvRequest, req *pb.UserSignInWit
 			return
 		}
 	}
-	if account.UserId != "" {
-		userId = account.UserId
-		user, _ = GetUserWithId(userId)
-	}
 	if user == nil {
-		userId = sid.GetStrId()
 		account.SetUserId(userId)
 		user, err = InsertUser(&pb.User{
 			Id:              userId,
@@ -241,14 +245,15 @@ func (s *Svc) OnUserSignInWithWechat(pkt kiwi.IRcvRequest, req *pb.UserSignInWit
 			pkt.Fail(util.EcDbErr)
 			return
 		}
+	} else {
+		user.SetAvatar(userInfo.HeadImgUrl)
 	}
-
-	user.SetAvatar(userInfo.HeadImgUrl)
 
 	head := util.M{
 		common.HdSignInCh:  common.SignInWechat,
 		common.HdAccountId: account.Id,
 		common.HdUserId:    userId,
+		common.HdId:        userId,
 	}
 	headBytes, _ := head.ToBytes()
 	pkt.AsyncReq(&pb.GateUpdateReq{
@@ -263,7 +268,7 @@ func (s *Svc) OnUserSignInWithWechat(pkt kiwi.IRcvRequest, req *pb.UserSignInWit
 }
 
 func (s *Svc) OnUserNew(pkt kiwi.IRcvRequest, req *pb.UserNewReq, res *pb.UserNewRes) {
-	userId, _ := util.MGet[string](pkt.Head(), common.HdUserId)
+	userId, _ := util.MGet[string](pkt.Head(), common.HdId)
 	accountId, _ := util.MGet[string](pkt.Head(), common.HdAccountId)
 	if userId != accountId {
 		pkt.Fail(common.EcUserExist)
@@ -277,15 +282,9 @@ func (s *Svc) OnUserNew(pkt kiwi.IRcvRequest, req *pb.UserNewReq, res *pb.UserNe
 		pkt.Fail(common.EcNickCanNotEmpty)
 		return
 	}
-	addr, _ := util.MGet[string](pkt.Head(), common.HdGateAddr)
+
 	signIn, _ := util.MGet[string](pkt.Head(), common.HdSignInCh)
-	now := time.Now().Unix()
 	userId = sid.GetStrId()
-	token, err := common.GenToken(signIn, addr, userId, now)
-	if err != nil {
-		pkt.Fail(util.EcServiceErr)
-		return
-	}
 
 	var accountIntfc IAccount
 	switch signIn {
@@ -326,7 +325,7 @@ func (s *Svc) OnUserNew(pkt kiwi.IRcvRequest, req *pb.UserNewReq, res *pb.UserNe
 		pkt.Fail(util.EcServiceErr)
 		return
 	}
-	_, err = InsertUser(&pb.User{
+	_, err := InsertUser(&pb.User{
 		Id:              userId,
 		RoleMask:        util.GenMask(common.RPlayer),
 		Ban:             false,
@@ -340,7 +339,7 @@ func (s *Svc) OnUserNew(pkt kiwi.IRcvRequest, req *pb.UserNewReq, res *pb.UserNe
 		LastOs:          "",
 		State:           pb.OnlineState_Disconnected,
 		Avatar:          req.User.Avatar,
-		Token:           token,
+		Token:           "",
 		Head:            nil,
 		OnlineDur:       0,
 	})
@@ -350,28 +349,36 @@ func (s *Svc) OnUserNew(pkt kiwi.IRcvRequest, req *pb.UserNewReq, res *pb.UserNe
 	}
 	accountIntfc.SetUserId(userId)
 
-	head := util.M{
-		common.HdUserId: userId,
-	}
-	headBytes, _ := head.ToBytes()
-	pkt.AsyncReq(&pb.GateUpdateReq{
-		Id:   pkt.HeadId(),
-		Head: headBytes,
-	}, nil, nil)
-
-	res.Token = token
 	pkt.Ok(res)
 }
 
 func (s *Svc) OnUserSignIn(pkt kiwi.IRcvRequest, req *pb.UserSignInReq, res *pb.UserSignInRes) {
-	userId, _ := util.MGet[string](pkt.Head(), common.HdUserId)
 	addr, _ := util.MGet[string](pkt.Head(), common.HdGateAddr)
 	signIn, _ := util.MGet[string](pkt.Head(), common.HdSignInCh)
-	now := time.Now().Unix()
-	token, err := common.GenToken(signIn, addr, userId, now)
-	if err != nil {
-		pkt.Fail(util.EcServiceErr)
-		return
+	aid, _ := util.MGet[string](pkt.Head(), common.HdAccountId)
+	var userId string
+	switch signIn {
+	case common.SignInMobile:
+		account, err := GetMobileAccountWithId(aid)
+		if err != nil {
+			pkt.Fail(common.EcNotSignIn)
+			return
+		}
+		userId = account.UserId
+	case common.SignInEmail:
+		account, err := GetEmailAccountWithId(aid)
+		if err != nil {
+			pkt.Fail(common.EcNotSignIn)
+			return
+		}
+		userId = account.UserId
+	case common.SignInWechat:
+		account, err := GetWechatAccountWithId(aid)
+		if err != nil {
+			pkt.Fail(common.EcNotSignIn)
+			return
+		}
+		userId = account.UserId
 	}
 	user, err := GetUserWithId(userId)
 	if err != nil {
@@ -380,6 +387,13 @@ func (s *Svc) OnUserSignIn(pkt kiwi.IRcvRequest, req *pb.UserSignInReq, res *pb.
 	}
 	if user.Ban {
 		pkt.Fail(common.EcUserBanned)
+		return
+	}
+
+	now := time.Now().Unix()
+	token, err := common.GenToken(signIn, addr, userId, now)
+	if err != nil {
+		pkt.Fail(util.EcServiceErr)
 		return
 	}
 
@@ -395,8 +409,7 @@ func (s *Svc) OnUserSignIn(pkt kiwi.IRcvRequest, req *pb.UserSignInReq, res *pb.
 	user.SetToken(token)
 
 	head := util.M{
-		common.HdMask:   user.RoleMask,
-		common.HdSignIn: true,
+		common.HdMask: user.RoleMask,
 	}
 	headBytes, _ := head.ToBytes()
 	pkt.AsyncReq(&pb.GateUpdateReq{
@@ -410,7 +423,7 @@ func (s *Svc) OnUserSignIn(pkt kiwi.IRcvRequest, req *pb.UserSignInReq, res *pb.
 	pkt.Ok(res)
 }
 
-func (s *Svc) userOffline(userId string) uint16 {
+func (s *Svc) userOffline(userId string) util.TErrCode {
 	user, err := GetUserWithId(userId)
 	if err != nil {
 		return common.EcUserNotExist
@@ -434,6 +447,11 @@ func (s *Svc) OnUserSignOut(pkt kiwi.IRcvRequest, req *pb.UserSignOutReq, res *p
 		return
 	}
 	pkt.Ok(res)
+
+	addr, _ := util.MGet[string](pkt.Head(), common.HdGateAddr)
+	s.AsyncReq(pkt.Tid(), pkt.Head(), &pb.GateCloseAddrReq{
+		Addr: addr,
+	}, nil, nil)
 }
 
 func (s *Svc) OnUserReconnect(pkt kiwi.IRcvRequest, req *pb.UserReconnectReq, res *pb.UserReconnectRes) {
@@ -445,6 +463,11 @@ func (s *Svc) OnUserReconnect(pkt kiwi.IRcvRequest, req *pb.UserReconnectReq, re
 	user, err := GetUserWithToken(req.Token)
 	if err != nil {
 		pkt.Fail(common.EcInvalidToken)
+		return
+	}
+	if (time.Now().Unix()-user.LastOfflineTime)/60 > 10 {
+		pkt.Fail(common.EcInvalidToken)
+		user.SetToken("")
 		return
 	}
 	if claims.UserId != user.Id ||
@@ -481,7 +504,11 @@ func (s *Svc) OnUserDisconnect(pkt kiwi.IRcvRequest, req *pb.UserDisconnectReq, 
 func (s *Svc) OnUserUpdateHead(pkt kiwi.IRcvRequest, req *pb.UserUpdateHeadReq, res *pb.UserUpdateHeadRes) {
 	head := util.M{}
 	head.FromBytes(req.Head)
-	user, er := GetUserWithId(req.GetId())
+	userId, ok := util.MGet[string](pkt.Head(), common.HdUserId)
+	if !ok {
+		return
+	}
+	user, er := GetUserWithId(userId)
 	if er != nil {
 		pkt.Fail(common.EcUserNotExist)
 		return

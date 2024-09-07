@@ -40,8 +40,7 @@ message UserConnectedNtc {
 //更新用户head cache
 message UserUpdateHeadReq {
   option (kiwi.method) = 504;
-  string id = 1; //用户id
-  bytes head = 2;
+  bytes head = 1;
 }
 
 message UserUpdateHeadRes {

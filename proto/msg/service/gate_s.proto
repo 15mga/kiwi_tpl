@@ -121,3 +121,12 @@ message GateGetRes {
   option (kiwi.method) = 525;
   bytes head = 1;
 }
+
+message GateUpdateRolesReq {
+  option (kiwi.method) = 526;
+  map<uint32, int64> roles = 1; //SvcMethod:role mask
+}
+
+message GateUpdateRolesRes {
+  option (kiwi.method) = 527;
+}

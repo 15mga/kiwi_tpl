@@ -63,13 +63,10 @@ func Start(ver string, svc ...kiwi.TSvc) {
 		))
 	}
 	// 排除打印的链路日志
-	core.ExcludeTrace(common.Gate,
-		codec.GateUpdateReq, codec.GateUpdateRes,
-	)
+	core.ExcludeTrace(common.Gate) //codec.GateUpdateReq, codec.GateUpdateRes,
+
 	// 排除打印的消息，用于当
-	core.ExcludeMsg(common.Gate,
-		codec.GateUpdateReq, codec.GateUpdateRes,
-	)
+	core.ExcludeMsg(common.Gate) //codec.GateUpdateReq, codec.GateUpdateRes,
 
 	service := make([]kiwi.IService, 0, len(svc))
 	hasGate := false
@@ -122,7 +119,7 @@ func Start(ver string, svc ...kiwi.TSvc) {
 		gateOptions := []core.GateOption{
 			core.GateIp(conf.Gate.Ip),
 			core.GateHttpPort(conf.Gate.Http),
-			core.GateRoles(common.MsgRole),
+			core.GateRoles(gate.MsgRole),
 			core.GateInitHead(gate.InitHead),
 			core.GateHttpStatic(gate.StaticHandler),
 			core.GateSocketReceiver(gate.SocketReceiver),
@@ -143,6 +140,7 @@ func Start(ver string, svc ...kiwi.TSvc) {
 			core.GateHttpReceiver(gate.HttpReceiver),
 			core.GateHttpHeadCache(&gate.HttpHeadCache{}),
 			core.GateHttpDisconnected(gate.HttpDisconnected),
+			core.GateHttpExpireMins(1),
 		}
 		opts = append(opts, core.SetGate(gateOptions...))
 	}

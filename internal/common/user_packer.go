@@ -63,10 +63,10 @@ func UnpackUserOk(bytes []byte) (svc kiwi.TSvc, code kiwi.TMethod, msg util.IMsg
 	return
 }
 
-func PackUserFail(failMsgCode kiwi.TSvcMethod, resSvcCode kiwi.TSvcMethod, errCode uint16) ([]byte, *util.Err) {
+func PackUserFail(failMsgCode kiwi.TSvcMethod, resSvcCode kiwi.TSvcMethod, errCode util.TErrCode) ([]byte, *util.Err) {
 	bytes, err := util.JsonMarshal(&pb.GateErrPus{
 		MsgCode: int32(resSvcCode),
-		ErrCode: int32(errCode),
+		ErrCode: errCode,
 	})
 	if err != nil {
 		return nil, err
@@ -83,7 +83,7 @@ func PusUser(sender kiwi.IService, tid int64, userId string, msg util.IMsg) {
 	bytes, _ := kiwi.Codec().PbMarshal(msg)
 	payload, _ := PackUserPus(svc, mtd, bytes)
 	sender.Req(tid, util.M{
-		HdUserId: userId,
+		HdId: userId,
 	}, &pb.GateSendToIdReq{
 		Id:      userId,
 		Payload: payload,

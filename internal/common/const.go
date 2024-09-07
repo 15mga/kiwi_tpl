@@ -7,9 +7,9 @@ const (
 	HdSvc       = "svc"  //当前请求服务 uint16
 	HdMtd       = "cod"  //当前请求方法 uint16
 	HdSignInCh  = "ch"   //登录方式
-	HdSignIn    = "in"   //是否登录
 	HdAccountId = "aid"  //账号id
-	HdUserId    = "id"   //user id string
+	HdUserId    = "uid"  //user id string
+	HdId        = "id"   //id string 可能是HdGateAddr,HdAccountId,HdUserId
 )
 
 const (

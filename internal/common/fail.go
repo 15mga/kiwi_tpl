@@ -22,7 +22,7 @@ const (
 	EcPasswordWrong = 2001
 	//手机号已存在
 	EcMobileExist = 2002
-	//手机号已存在
+	//昵称已存在
 	EcNickExist = 2003
 	//手机验证码错误
 	EcSmsWrong = 2004

@@ -2,10 +2,6 @@
 
 package common
 
-import (
-	"github.com/15mga/kiwi"
-)
-
 func RoleToStr(role int64) string {
 	switch role {
 	case RGuest:
@@ -30,22 +26,4 @@ func StrToRole(role string) int64 {
 	default:
 		return 0
 	}
-}
-
-var MsgRole = map[kiwi.TSvcMethod][]int64{
-	1000: {RGuest, RPlayer, ROps},
-	2000: {RGuest},
-	2002: {RGuest},
-	2004: {RGuest},
-	2006: {RGuest},
-	2008: {RGuest},
-	2010: {RGuest},
-	2012: {RGuest},
-	2014: {RGuest},
-	2016: {RGuest},
-	2018: {RPlayer},
-	2020: {RPlayer},
-	2022: {RPlayer},
-	2024: {RPlayer},
-	3000: {RPlayer},
 }

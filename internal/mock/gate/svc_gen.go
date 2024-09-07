@@ -48,6 +48,8 @@ func InitClient(client *mock.Client) {
 	s.client.BindNetMsg(&pb.GateRemoveRes{}, s.onGateRemoveRes)
 	s.client.BindPointMsg("gate", "GateGet", s.inGateGetReq)
 	s.client.BindNetMsg(&pb.GateGetRes{}, s.onGateGetRes)
+	s.client.BindPointMsg("gate", "GateUpdateRoles", s.inGateUpdateRolesReq)
+	s.client.BindNetMsg(&pb.GateUpdateRolesRes{}, s.onGateUpdateRolesRes)
 }
 
 func (s *svc) Dispose() {
@@ -199,4 +201,15 @@ func (s *svc) onGateGetRes(msg util.IMsg) (point string, data any) {
 	sc := kiwi.MergeSvcCode(kiwi.Codec().MsgToSvcMethod(msg))
 	s.client.Graph().Data().Set(strconv.Itoa(int(sc)), msg)
 	return "GateGet", nil
+}
+
+func (s *svc) inGateUpdateRolesReq(msg graph.IMsg) *util.Err {
+	req := s.client.GetRequest(common.Gate, codec.GateUpdateRolesReq)
+	return s.AsyncReq(req)
+}
+
+func (s *svc) onGateUpdateRolesRes(msg util.IMsg) (point string, data any) {
+	sc := kiwi.MergeSvcCode(kiwi.Codec().MsgToSvcMethod(msg))
+	s.client.Graph().Data().Set(strconv.Itoa(int(sc)), msg)
+	return "GateUpdateRoles", nil
 }

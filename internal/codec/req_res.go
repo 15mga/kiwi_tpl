@@ -20,6 +20,7 @@ func BindReqToRes() {
 	kiwi.Codec().BindReqToRes(common.Gate, GateUpdateReq, GateUpdateRes)
 	kiwi.Codec().BindReqToRes(common.Gate, GateRemoveReq, GateRemoveRes)
 	kiwi.Codec().BindReqToRes(common.Gate, GateGetReq, GateGetRes)
+	kiwi.Codec().BindReqToRes(common.Gate, GateUpdateRolesReq, GateUpdateRolesRes)
 	kiwi.Codec().BindReqToRes(common.User, UserSignUpWithMobileReq, UserSignUpWithMobileRes)
 	kiwi.Codec().BindReqToRes(common.User, UserSignInWithMobileReq, UserSignInWithMobileRes)
 	kiwi.Codec().BindReqToRes(common.User, UserResetPasswordWithMobileReq, UserResetPasswordWithMobileRes)

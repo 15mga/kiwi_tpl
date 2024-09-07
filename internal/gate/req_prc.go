@@ -107,4 +107,12 @@ func registerReq() {
 		req.SetReceiver(_svc)
 		core.SelfPrcReq[*pb.GateGetReq](req, _svc.OnGateGet)
 	})
+	kiwi.Router().BindReq(common.Gate, codec.GateUpdateRolesReq, func(req kiwi.IRcvRequest) {
+		if _svc.IsShutdown() {
+			return
+		}
+		_svc.Wait()
+		req.SetReceiver(_svc)
+		core.SelfPrcReq[*pb.GateUpdateRolesReq](req, _svc.OnGateUpdateRoles)
+	})
 }

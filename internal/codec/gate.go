@@ -34,4 +34,6 @@ const (
 	GateRemoveRes          kiwi.TMethod = 521
 	GateGetReq             kiwi.TMethod = 524
 	GateGetRes             kiwi.TMethod = 525
+	GateUpdateRolesReq     kiwi.TMethod = 526
+	GateUpdateRolesRes     kiwi.TMethod = 527
 )

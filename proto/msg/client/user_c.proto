@@ -144,7 +144,6 @@ message UserNewReq {
 
 message UserNewRes {
   option (kiwi.method) = 19;
-  string token = 1;
 }
 
 message UserSignInReq {

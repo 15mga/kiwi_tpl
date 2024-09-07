@@ -3,13 +3,13 @@ log:
   std:
     enable: true
     log:
-#      - debug
+      - debug
       - info
       - warn
       - error
       - fatal
     trace:
-#      - debug
+      - debug
       - info
       - warn
       - error

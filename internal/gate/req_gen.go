@@ -55,3 +55,7 @@ func (s *svc) OnGateRemove(pkt kiwi.IRcvRequest, req *pb.GateRemoveReq, res *pb.
 func (s *svc) OnGateGet(pkt kiwi.IRcvRequest, req *pb.GateGetReq, res *pb.GateGetRes) {
 	pkt.Err2(util.EcNotImplement, util.M{"req": req})
 }
+
+func (s *svc) OnGateUpdateRoles(pkt kiwi.IRcvRequest, req *pb.GateUpdateRolesReq, res *pb.GateUpdateRolesRes) {
+	pkt.Err2(util.EcNotImplement, util.M{"req": req})
+}

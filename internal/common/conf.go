@@ -78,8 +78,14 @@ type UserConf struct {
 }
 
 type UserSmsConf struct {
-	Debug bool
-	Code  string
+	Enable          bool
+	Debug           bool
+	Code            string
+	AccessKeyId     string
+	AccessKeySecret string
+	SignName        string
+	TplCode         string
+	AdminCode       string
 }
 
 type SmtpConf struct {

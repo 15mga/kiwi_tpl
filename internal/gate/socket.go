@@ -28,11 +28,16 @@ func Disconnected(agent kiwi.IAgent, err *util.Err) {
 		err.AddParam("addr", agent.Addr())
 		kiwi.Error(err)
 	}
+
 	head := util.M{}
 	agent.CopyHead(head)
-	id, _ := util.MGet[string](head, common.HdUserId)
+	userId, ok := util.MGet[string](head, common.HdUserId)
+	if !ok {
+		return
+	}
+
 	_svc.AsyncReq(0, head, &pb.UserDisconnectReq{
-		UserId: id,
+		UserId: userId,
 	}, nil, nil)
 }
 
@@ -106,7 +111,7 @@ func (r *request) OnOk(payload []byte) {
 	kiwi.Gate().AddrSend(0, r.addr, pkt, nil)
 }
 
-func (r *request) OnErr(errCode uint16) {
+func (r *request) OnErr(errCode util.TErrCode) {
 	defer _requestPool.Put(r)
 	resCode, _ := kiwi.Codec().ReqToResMethod(r.svc, r.code)
 	pkt, e := common.PackUserFail(kiwi.MergeSvcMethod(common.Gate, codec.GateErrPus), kiwi.MergeSvcMethod(r.svc, resCode), errCode)

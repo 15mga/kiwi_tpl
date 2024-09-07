@@ -1023,6 +1023,91 @@ func (x *GateGetRes) GetHead() []byte {
 	return nil
 }
 
+type GateUpdateRolesReq struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Roles map[uint32]int64 `protobuf:"bytes,1,rep,name=roles,proto3" json:"roles,omitempty" protobuf_key:"varint,1,opt,name=key,proto3" protobuf_val:"varint,2,opt,name=value,proto3" bson:"roles"` //SvcMethod:role mask
+}
+
+func (x *GateUpdateRolesReq) Reset() {
+	*x = GateUpdateRolesReq{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_service_gate_s_proto_msgTypes[22]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GateUpdateRolesReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GateUpdateRolesReq) ProtoMessage() {}
+
+func (x *GateUpdateRolesReq) ProtoReflect() protoreflect.Message {
+	mi := &file_service_gate_s_proto_msgTypes[22]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GateUpdateRolesReq.ProtoReflect.Descriptor instead.
+func (*GateUpdateRolesReq) Descriptor() ([]byte, []int) {
+	return file_service_gate_s_proto_rawDescGZIP(), []int{22}
+}
+
+func (x *GateUpdateRolesReq) GetRoles() map[uint32]int64 {
+	if x != nil {
+		return x.Roles
+	}
+	return nil
+}
+
+type GateUpdateRolesRes struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+}
+
+func (x *GateUpdateRolesRes) Reset() {
+	*x = GateUpdateRolesRes{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_service_gate_s_proto_msgTypes[23]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GateUpdateRolesRes) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GateUpdateRolesRes) ProtoMessage() {}
+
+func (x *GateUpdateRolesRes) ProtoReflect() protoreflect.Message {
+	mi := &file_service_gate_s_proto_msgTypes[23]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GateUpdateRolesRes.ProtoReflect.Descriptor instead.
+func (*GateUpdateRolesRes) Descriptor() ([]byte, []int) {
+	return file_service_gate_s_proto_rawDescGZIP(), []int{23}
+}
+
 var File_service_gate_s_proto protoreflect.FileDescriptor
 
 var file_service_gate_s_proto_rawDesc = []byte{
@@ -1103,10 +1188,21 @@ var file_service_gate_s_proto_rawDesc = []byte{
 	0x18, 0x02, 0x20, 0x01, 0x28, 0x08, 0x52, 0x05, 0x63, 0x6c, 0x6f, 0x73, 0x65, 0x3a, 0x05, 0xe0,
 	0xe3, 0x49, 0x8c, 0x04, 0x22, 0x27, 0x0a, 0x0a, 0x47, 0x61, 0x74, 0x65, 0x47, 0x65, 0x74, 0x52,
 	0x65, 0x73, 0x12, 0x12, 0x0a, 0x04, 0x68, 0x65, 0x61, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0c,
-	0x52, 0x04, 0x68, 0x65, 0x61, 0x64, 0x3a, 0x05, 0xe0, 0xe3, 0x49, 0x8d, 0x04, 0x42, 0x22, 0xca,
-	0xdd, 0x49, 0x14, 0x08, 0x01, 0x12, 0x04, 0x67, 0x61, 0x74, 0x65, 0x1a, 0x0a, 0x08, 0x04, 0x10,
-	0x01, 0x1a, 0x04, 0x61, 0x64, 0x64, 0x72, 0x5a, 0x03, 0x2f, 0x70, 0x62, 0xaa, 0x02, 0x02, 0x50,
-	0x62, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x52, 0x04, 0x68, 0x65, 0x61, 0x64, 0x3a, 0x05, 0xe0, 0xe3, 0x49, 0x8d, 0x04, 0x22, 0x8e, 0x01,
+	0x0a, 0x12, 0x47, 0x61, 0x74, 0x65, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x52, 0x6f, 0x6c, 0x65,
+	0x73, 0x52, 0x65, 0x71, 0x12, 0x37, 0x0a, 0x05, 0x72, 0x6f, 0x6c, 0x65, 0x73, 0x18, 0x01, 0x20,
+	0x03, 0x28, 0x0b, 0x32, 0x21, 0x2e, 0x70, 0x62, 0x2e, 0x47, 0x61, 0x74, 0x65, 0x55, 0x70, 0x64,
+	0x61, 0x74, 0x65, 0x52, 0x6f, 0x6c, 0x65, 0x73, 0x52, 0x65, 0x71, 0x2e, 0x52, 0x6f, 0x6c, 0x65,
+	0x73, 0x45, 0x6e, 0x74, 0x72, 0x79, 0x52, 0x05, 0x72, 0x6f, 0x6c, 0x65, 0x73, 0x1a, 0x38, 0x0a,
+	0x0a, 0x52, 0x6f, 0x6c, 0x65, 0x73, 0x45, 0x6e, 0x74, 0x72, 0x79, 0x12, 0x10, 0x0a, 0x03, 0x6b,
+	0x65, 0x79, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0d, 0x52, 0x03, 0x6b, 0x65, 0x79, 0x12, 0x14, 0x0a,
+	0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x03, 0x52, 0x05, 0x76, 0x61,
+	0x6c, 0x75, 0x65, 0x3a, 0x02, 0x38, 0x01, 0x3a, 0x05, 0xe0, 0xe3, 0x49, 0x8e, 0x04, 0x22, 0x1b,
+	0x0a, 0x12, 0x47, 0x61, 0x74, 0x65, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x52, 0x6f, 0x6c, 0x65,
+	0x73, 0x52, 0x65, 0x73, 0x3a, 0x05, 0xe0, 0xe3, 0x49, 0x8f, 0x04, 0x42, 0x22, 0xca, 0xdd, 0x49,
+	0x14, 0x08, 0x01, 0x12, 0x04, 0x67, 0x61, 0x74, 0x65, 0x1a, 0x0a, 0x08, 0x04, 0x10, 0x01, 0x1a,
+	0x04, 0x61, 0x64, 0x64, 0x72, 0x5a, 0x03, 0x2f, 0x70, 0x62, 0xaa, 0x02, 0x02, 0x50, 0x62, 0x62,
+	0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -1121,7 +1217,7 @@ func file_service_gate_s_proto_rawDescGZIP() []byte {
 	return file_service_gate_s_proto_rawDescData
 }
 
-var file_service_gate_s_proto_msgTypes = make([]protoimpl.MessageInfo, 24)
+var file_service_gate_s_proto_msgTypes = make([]protoimpl.MessageInfo, 27)
 var file_service_gate_s_proto_goTypes = []interface{}{
 	(*GateBanAddrReq)(nil),         // 0: pb.GateBanAddrReq
 	(*GateBanAddrRes)(nil),         // 1: pb.GateBanAddrRes
@@ -1145,17 +1241,21 @@ var file_service_gate_s_proto_goTypes = []interface{}{
 	(*GateRemoveRes)(nil),          // 19: pb.GateRemoveRes
 	(*GateGetReq)(nil),             // 20: pb.GateGetReq
 	(*GateGetRes)(nil),             // 21: pb.GateGetRes
-	nil,                            // 22: pb.GateSendToMultiIdRes.ResultEntry
-	nil,                            // 23: pb.GateSendToMultiAddrRes.ResultEntry
+	(*GateUpdateRolesReq)(nil),     // 22: pb.GateUpdateRolesReq
+	(*GateUpdateRolesRes)(nil),     // 23: pb.GateUpdateRolesRes
+	nil,                            // 24: pb.GateSendToMultiIdRes.ResultEntry
+	nil,                            // 25: pb.GateSendToMultiAddrRes.ResultEntry
+	nil,                            // 26: pb.GateUpdateRolesReq.RolesEntry
 }
 var file_service_gate_s_proto_depIdxs = []int32{
-	22, // 0: pb.GateSendToMultiIdRes.result:type_name -> pb.GateSendToMultiIdRes.ResultEntry
-	23, // 1: pb.GateSendToMultiAddrRes.result:type_name -> pb.GateSendToMultiAddrRes.ResultEntry
-	2,  // [2:2] is the sub-list for method output_type
-	2,  // [2:2] is the sub-list for method input_type
-	2,  // [2:2] is the sub-list for extension type_name
-	2,  // [2:2] is the sub-list for extension extendee
-	0,  // [0:2] is the sub-list for field type_name
+	24, // 0: pb.GateSendToMultiIdRes.result:type_name -> pb.GateSendToMultiIdRes.ResultEntry
+	25, // 1: pb.GateSendToMultiAddrRes.result:type_name -> pb.GateSendToMultiAddrRes.ResultEntry
+	26, // 2: pb.GateUpdateRolesReq.roles:type_name -> pb.GateUpdateRolesReq.RolesEntry
+	3,  // [3:3] is the sub-list for method output_type
+	3,  // [3:3] is the sub-list for method input_type
+	3,  // [3:3] is the sub-list for extension type_name
+	3,  // [3:3] is the sub-list for extension extendee
+	0,  // [0:3] is the sub-list for field type_name
 }
 
 func init() { file_service_gate_s_proto_init() }
@@ -1428,6 +1528,30 @@ func file_service_gate_s_proto_init() {
 				return nil
 			}
 		}
+		file_service_gate_s_proto_msgTypes[22].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GateUpdateRolesReq); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_service_gate_s_proto_msgTypes[23].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GateUpdateRolesRes); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -1435,7 +1559,7 @@ func file_service_gate_s_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_service_gate_s_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   24,
+			NumMessages:   27,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

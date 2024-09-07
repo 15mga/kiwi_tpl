@@ -124,23 +124,23 @@ func (s *Svc) OnGateUpdate(pkt kiwi.IRcvRequest, req *pb.GateUpdateReq, res *pb.
 		}
 		pkt.Ok(res)
 		s.updateHead(pkt, head)
+		kiwi.TD(pkt.Tid(), "update head", util.M{
+			"id":   req.Id,
+			"head": head,
+		})
 	})
 }
 
 func (s *Svc) updateHead(pkt kiwi.IRcvRequest, head util.M) {
-	_, ok := util.MGet[bool](head, common.HdSignIn)
+	_, ok := util.MGet[string](pkt.Head(), common.HdUserId)
 	if !ok {
 		return
 	}
-	uid, _ := util.MGet[string](head, common.HdUserId)
 	delete(head, common.HdGateAddr)
 	delete(head, common.HdSvc)
 	delete(head, common.HdMtd)
 	headBytes, _ := head.ToBytes()
-	s.AsyncReq(pkt.Tid(), util.M{
-		common.HdUserId: uid,
-	}, &pb.UserUpdateHeadReq{
-		Id:   uid,
+	s.AsyncReq(pkt.Tid(), pkt.Head().Copy(), &pb.UserUpdateHeadReq{
 		Head: headBytes,
 	}, nil, nil)
 }
@@ -168,4 +168,8 @@ func (s *Svc) OnGateGet(pkt kiwi.IRcvRequest, req *pb.GateGetReq, res *pb.GateGe
 	if req.Close {
 		kiwi.Gate().CloseWithId(pkt.Tid(), req.Id)
 	}
+}
+
+func (s *Svc) OnGateUpdateRoles(pkt kiwi.IRcvRequest, req *pb.GateUpdateRolesReq, res *pb.GateUpdateRolesRes) {
+	kiwi.Gate().up
 }

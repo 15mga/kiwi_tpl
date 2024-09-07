@@ -61,12 +61,13 @@ func (c *HttpHeadCache) InitHead(head util.M) {
 }
 
 func HttpDisconnected(head util.M) {
-	id, ok := util.MGet[string](head, common.HdUserId)
+	userId, ok := util.MGet[string](head, common.HdUserId)
 	if !ok {
 		return
 	}
+
 	_svc.AsyncReq(0, head, &pb.UserDisconnectReq{
-		UserId: id,
+		UserId: userId,
 	}, nil, nil)
 }
 
@@ -76,7 +77,7 @@ func RecordHttpErr(head util.M, r *http.Request, err *util.Err) {
 	kiwi.Error(err)
 }
 
-func httpResErr(w http.ResponseWriter, code uint16) {
+func httpResErr(w http.ResponseWriter, code util.TErrCode) {
 	resBytes, _ := util.JsonMarshal(Response{
 		Code: code,
 	})
@@ -137,9 +138,9 @@ func HttpReceiver(head util.M, w http.ResponseWriter, r *http.Request) {
 	}
 	_ = r.Body.Close()
 
-	failCh := make(chan uint16, 1)
+	failCh := make(chan util.TErrCode, 1)
 	okCh := make(chan []byte, 1)
-	_svc.AsyncReqBytes(0, svc, method, head, true, payload, func(code uint16) {
+	_svc.AsyncReqBytes(0, svc, method, head, true, payload, func(code util.TErrCode) {
 		failCh <- code
 	}, func(bytes []byte) {
 		okCh <- bytes
@@ -166,6 +167,6 @@ func HttpReceiver(head util.M, w http.ResponseWriter, r *http.Request) {
 }
 
 type Response struct {
-	Code uint16 `json:"code"`
-	Data any    `json:"data"`
+	Code util.TErrCode `json:"code"`
+	Data any           `json:"data"`
 }
