@@ -26,8 +26,6 @@ func InitClient(client *mock.Client) {
 	s.client.BindPointMsg("gate", "GateHeartbeat", s.inGateHeartbeatReq)
 	s.client.BindNetMsg(&pb.GateHeartbeatRes{}, s.onGateHeartbeatRes)
 	s.client.BindNetMsg(&pb.GateErrPus{}, s.onGateErrPus)
-	s.client.BindPointMsg("gate", "GateBanAddr", s.inGateBanAddrReq)
-	s.client.BindNetMsg(&pb.GateBanAddrRes{}, s.onGateBanAddrRes)
 	s.client.BindPointMsg("gate", "GateSendToId", s.inGateSendToIdReq)
 	s.client.BindNetMsg(&pb.GateSendToIdRes{}, s.onGateSendToIdRes)
 	s.client.BindPointMsg("gate", "GateSendToAddr", s.inGateSendToAddrReq)
@@ -80,17 +78,6 @@ func (s *svc) onGateErrPus(msg util.IMsg) (point string, data any) {
 	sc := kiwi.MergeSvcCode(kiwi.Codec().MsgToSvcMethod(msg))
 	s.client.Graph().Data().Set(strconv.Itoa(int(sc)), msg)
 	return "", nil
-}
-
-func (s *svc) inGateBanAddrReq(msg graph.IMsg) *util.Err {
-	req := s.client.GetRequest(common.Gate, codec.GateBanAddrReq)
-	return s.AsyncReq(req)
-}
-
-func (s *svc) onGateBanAddrRes(msg util.IMsg) (point string, data any) {
-	sc := kiwi.MergeSvcCode(kiwi.Codec().MsgToSvcMethod(msg))
-	s.client.Graph().Data().Set(strconv.Itoa(int(sc)), msg)
-	return "GateBanAddr", nil
 }
 
 func (s *svc) inGateSendToIdReq(msg graph.IMsg) *util.Err {

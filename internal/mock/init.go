@@ -4,7 +4,6 @@ package mock
 
 import (
 	"game/internal/mock/gate"
-	"game/internal/mock/group"
 	"game/internal/mock/user"
 	"github.com/15mga/kiwi/mock"
 )
@@ -12,5 +11,4 @@ import (
 func initClient(client *mock.Client) {
 	gate.InitClient(client)
 	user.InitClient(client)
-	group.InitClient(client)
 }

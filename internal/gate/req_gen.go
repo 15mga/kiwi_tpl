@@ -12,10 +12,6 @@ func (s *svc) OnGateHeartbeat(pkt kiwi.IRcvRequest, req *pb.GateHeartbeatReq, re
 	pkt.Err2(util.EcNotImplement, util.M{"req": req})
 }
 
-func (s *svc) OnGateBanAddr(pkt kiwi.IRcvRequest, req *pb.GateBanAddrReq, res *pb.GateBanAddrRes) {
-	pkt.Err2(util.EcNotImplement, util.M{"req": req})
-}
-
 func (s *svc) OnGateSendToId(pkt kiwi.IRcvRequest, req *pb.GateSendToIdReq, res *pb.GateSendToIdRes) {
 	pkt.Err2(util.EcNotImplement, util.M{"req": req})
 }

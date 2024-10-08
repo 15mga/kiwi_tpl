@@ -19,14 +19,6 @@ func registerReq() {
 		req.SetReceiver(_svc)
 		core.SelfPrcReq[*pb.GateHeartbeatReq](req, _svc.OnGateHeartbeat)
 	})
-	kiwi.Router().BindReq(common.Gate, codec.GateBanAddrReq, func(req kiwi.IRcvRequest) {
-		if _svc.IsShutdown() {
-			return
-		}
-		_svc.Wait()
-		req.SetReceiver(_svc)
-		core.SelfPrcReq[*pb.GateBanAddrReq](req, _svc.OnGateBanAddr)
-	})
 	kiwi.Router().BindReq(common.Gate, codec.GateSendToIdReq, func(req kiwi.IRcvRequest) {
 		if _svc.IsShutdown() {
 			return

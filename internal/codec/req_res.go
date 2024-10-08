@@ -9,7 +9,6 @@ import (
 
 func BindReqToRes() {
 	kiwi.Codec().BindReqToRes(common.Gate, GateHeartbeatReq, GateHeartbeatRes)
-	kiwi.Codec().BindReqToRes(common.Gate, GateBanAddrReq, GateBanAddrRes)
 	kiwi.Codec().BindReqToRes(common.Gate, GateSendToIdReq, GateSendToIdRes)
 	kiwi.Codec().BindReqToRes(common.Gate, GateSendToAddrReq, GateSendToAddrRes)
 	kiwi.Codec().BindReqToRes(common.Gate, GateSendToMultiIdReq, GateSendToMultiIdRes)
@@ -36,5 +35,4 @@ func BindReqToRes() {
 	kiwi.Codec().BindReqToRes(common.User, UserReconnectReq, UserReconnectRes)
 	kiwi.Codec().BindReqToRes(common.User, UserDisconnectReq, UserDisconnectRes)
 	kiwi.Codec().BindReqToRes(common.User, UserUpdateHeadReq, UserUpdateHeadRes)
-	kiwi.Codec().BindReqToRes(common.Group, GroupNewReq, GroupNewRes)
 }

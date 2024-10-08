@@ -7,25 +7,21 @@ import (
 )
 
 const (
-	Gate  kiwi.TSvc = 1
-	User  kiwi.TSvc = 2
-	Group kiwi.TSvc = 3
+	Gate kiwi.TSvc = 1
+	User kiwi.TSvc = 2
 )
 
 const (
-	SGate  = "gate"
-	SUser  = "user"
-	SGroup = "group"
+	SGate = "gate"
+	SUser = "user"
 )
 
 var SvcToName = map[kiwi.TSvc]string{
-	Gate:  SGate,
-	User:  SUser,
-	Group: SGroup,
+	Gate: SGate,
+	User: SUser,
 }
 
 var NameToSvc = map[string]kiwi.TSvc{
-	SGate:  Gate,
-	SUser:  User,
-	SGroup: Group,
+	SGate: Gate,
+	SUser: User,
 }

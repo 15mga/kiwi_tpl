@@ -19,12 +19,6 @@ func BindPool() {
 	kiwi.Codec().BindPool(common.Gate, GateErrPus, func() util.IMsg {
 		return &pb.GateErrPus{}
 	})
-	kiwi.Codec().BindPool(common.Gate, GateBanAddrReq, func() util.IMsg {
-		return &pb.GateBanAddrReq{}
-	})
-	kiwi.Codec().BindPool(common.Gate, GateBanAddrRes, func() util.IMsg {
-		return &pb.GateBanAddrRes{}
-	})
 	kiwi.Codec().BindPool(common.Gate, GateSendToIdReq, func() util.IMsg {
 		return &pb.GateSendToIdReq{}
 	})
@@ -189,11 +183,5 @@ func BindPool() {
 	})
 	kiwi.Codec().BindPool(common.User, UserUpdateHeadRes, func() util.IMsg {
 		return &pb.UserUpdateHeadRes{}
-	})
-	kiwi.Codec().BindPool(common.Group, GroupNewReq, func() util.IMsg {
-		return &pb.GroupNewReq{}
-	})
-	kiwi.Codec().BindPool(common.Group, GroupNewRes, func() util.IMsg {
-		return &pb.GroupNewRes{}
 	})
 }

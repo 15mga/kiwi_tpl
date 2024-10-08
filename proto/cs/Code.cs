@@ -26,7 +26,6 @@ namespace Pb
 			{typeof(UserSignOutReq), 2022},
 			{typeof(UserReconnectReq), 2024},
 			{typeof(UserRepeatSignInPus), 2026},
-			{typeof(GroupNewReq), 3000},
 		};
 
 		public static readonly Dictionary<ushort, Func<byte[], IMessage>> CodeToMsg = new()
@@ -47,7 +46,6 @@ namespace Pb
 			{2023, UserSignOutRes.Parser.ParseFrom},
 			{2025, UserReconnectRes.Parser.ParseFrom},
 			{2026, UserRepeatSignInPus.Parser.ParseFrom},
-			{3001, GroupNewRes.Parser.ParseFrom},
 		};
 
 		public static readonly Dictionary<ushort, ushort> ReqToRes = new()
@@ -66,7 +64,6 @@ namespace Pb
 			{2020, 2021},
 			{2022, 2023},
 			{2024, 2025},
-			{3000, 3001},
 		};
 	}
 }

@@ -171,5 +171,6 @@ func (s *Svc) OnGateGet(pkt kiwi.IRcvRequest, req *pb.GateGetReq, res *pb.GateGe
 }
 
 func (s *Svc) OnGateUpdateRoles(pkt kiwi.IRcvRequest, req *pb.GateUpdateRolesReq, res *pb.GateUpdateRolesRes) {
-	kiwi.Gate().up
+	kiwi.Gate().UpdateRoles(req.Roles)
+	pkt.Ok(res)
 }
